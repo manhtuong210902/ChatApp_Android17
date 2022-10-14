@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:textSize="25dp"
-        android:fontFamily="@font/publicSans_Regular"
+        android:fontFamily="@font/public_sans_regular"
         android:textColor="@color/primaryColor"
         />
 

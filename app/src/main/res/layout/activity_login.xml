@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/logo"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chatvia17"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:textColor="#495057"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/public_sans_semi_bold"
+        android:text="Sign In"
+        android:textSize="20dp"
+        android:textColor="#495057"
+        android:layout_marginBottom="8dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/public_sans_regular"
+        android:text="Sign in to continue to Chatvia17"
+        android:textSize="15dp"
+        android:textColor="#7a7f9a"
+        android:layout_marginBottom="24dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="40dp"
+        android:layout_marginBottom="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Username"
+            android:fontFamily="@font/public_sans_medium"
+            android:textSize="15dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="admin@gmail.com"
+            android:textSize="15dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Password"
+            android:fontFamily="@font/public_sans_medium"
+            android:textSize="15dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="123456"
+            android:textSize="15dp"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:fontFamily="@font/public_sans_medium"
+            android:textColor="#495057"
+            android:textSize="15dp"
+            android:padding="0dp"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign in"
+            android:background="@color/primaryColor"
+            android:fontFamily="@font/public_sans_medium"
+            android:textSize="15dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't you have an account? "
+            android:textSize="15dp"
+            android:fontFamily="@font/public_sans_regular"
+            android:textColor="#495057"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:fontFamily="@font/public_sans_regular"
+            android:text="Signup now"
+            android:textColor="@color/primaryColor"/>
+    </LinearLayout>
+
+</LinearLayout>
