@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="40dp"
+        android:padding="32dp"
         android:layout_marginBottom="24dp">
         <TextView
             android:layout_width="wrap_content"
@@ -64,8 +64,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="admin@gmail.com"
+            android:inputType="textEmailAddress"
             android:textSize="15dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:drawableLeft="@drawable/ic_baseline_person_outline_24"
+            android:drawablePadding="10dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -81,7 +85,9 @@
             android:text="123456"
             android:textSize="15dp"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:drawableLeft="@drawable/ic_lock"
+            android:drawablePadding="10dp"/>
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -97,9 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign in"
-            android:background="@color/primaryColor"
+            android:background="@drawable/custom_button"
             android:fontFamily="@font/public_sans_medium"
             android:textSize="15dp"
+            android:textAllCaps="false"
+            android:textColor="#fff"
             />
     </LinearLayout>
 
