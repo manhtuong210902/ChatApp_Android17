@@ -1,11 +1,10 @@
 package com.example.chatapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,5 +14,7 @@ public class MainActivity extends AppCompatActivity {
         //Demo login form UI
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+
+
     }
 }

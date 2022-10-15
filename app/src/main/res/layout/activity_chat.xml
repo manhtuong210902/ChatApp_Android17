@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity"
+    android:background="@color/primary_background"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/c_tvChats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chats"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/c_svSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/c_tvChats"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/chat_bg_border_radius_8dp"
+        app:defaultQueryHint="Search messages or users"
+        app:iconifiedByDefault="false"
+        app:submitBackground="@android:color/transparent"
+        app:queryBackground="@android:color/transparent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/c_rcvOnlineUser"
+        android:layout_marginStart="-6dp"
+        android:layout_marginEnd="-6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/c_svSearch"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    <TextView
+        android:id="@+id/c_tvRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent"
+        android:textColor="@color/primary_text"
+        android:layout_below="@id/c_rcvOnlineUser"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="16dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/c_rcvChatUser"
+        android:layout_marginBottom="-14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/c_tvRecent"
+        android:layout_marginTop="6dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+</RelativeLayout>

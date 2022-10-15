@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_ItemOnlineUser"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:orientation="vertical"
+    tools:ignore="Deprecated">
+    <TextView
+        android:id="@+id/tvOnlineUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:paddingTop="26dp"
+        android:background="@drawable/chat_bg_border_radius_8dp"
+        android:width="80dp"
+        android:height="60dp"
+        android:lineHeight="14dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="2dp"
+        android:paddingLeft="2dp"
+        android:layout_y="24dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="Name"
+        tools:ignore="RtlCompat" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/civImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_x="15dp"
+        android:src="@drawable/cute1"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@color/green_circle"
+        android:layout_x="52dp"
+        android:layout_y="39dp"
+        android:id="@+id/civOnlineCircle"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/white"/>
+</AbsoluteLayout>
