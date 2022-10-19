@@ -49,13 +49,14 @@
         android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:textSize="16dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/c_rcvChatUser"
-        android:layout_marginBottom="-14dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/c_tvRecent"
         android:layout_marginTop="6dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_marginBottom="-14dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </RelativeLayout>
