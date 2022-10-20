@@ -26,8 +26,8 @@
         android:background="@drawable/chat_bg_border_radius_8dp"
         app:defaultQueryHint="Search messages or users"
         app:iconifiedByDefault="false"
-        app:submitBackground="@android:color/transparent"
-        app:queryBackground="@android:color/transparent"/>
+        app:queryBackground="@android:color/transparent"
+        app:submitBackground="@android:color/transparent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/c_rcvOnlineUser"
