@@ -90,12 +90,12 @@
         android:gravity="center"
         >
 
-        <Spinner android:id="@+id/spn_prf_1"
+        <Spinner
+            android:id="@+id/spn_prf_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
-            android:spinnerMode="dropdown"
-            />
+            android:spinnerMode="dropdown" />
 
     </LinearLayout>
 

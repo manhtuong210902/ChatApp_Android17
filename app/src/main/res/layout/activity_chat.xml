@@ -59,29 +59,14 @@
         android:layout_height="wrap_content"
         android:text="Recent"
         android:textColor="@color/primary_text"
-<<<<<<< HEAD
-        android:layout_below="@id/c_rcvOnlineUser"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:textSize="16dp"/>
-=======
         android:fontFamily="@font/public_sans_semi_bold"
         android:paddingHorizontal="24dp"
         android:layout_marginBottom="16dp"
         android:textSize="16sp"/>
->>>>>>> 079099c15d4261f4fb5c1bf4f4066f4457014a68
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/c_rcvChatUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:layout_below="@id/c_tvRecent"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="-14dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-=======
         android:paddingHorizontal="8dp" />
->>>>>>> 079099c15d4261f4fb5c1bf4f4066f4457014a68
-
 </LinearLayout>
