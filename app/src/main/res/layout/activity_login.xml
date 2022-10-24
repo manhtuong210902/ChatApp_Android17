@@ -7,7 +7,7 @@
     tools:context=".LoginActivity"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@color/backgroundColor"
+    android:background="@color/primary_background"
     android:gravity="center">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,8 +25,8 @@
             android:layout_height="wrap_content"
             android:text="Chatvia17"
             android:textStyle="bold"
-            android:textSize="25dp"
-            android:textColor="#495057"
+            android:textSize="25sp"
+            android:textColor="@color/primary_text"
             />
     </LinearLayout>
     <TextView
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/public_sans_semi_bold"
         android:text="Sign In"
-        android:textSize="20dp"
-        android:textColor="#495057"
+        android:textSize="20sp"
+        android:textColor="@color/primary_text"
         android:layout_marginBottom="8dp"
         />
     <TextView
@@ -43,8 +43,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/public_sans_regular"
         android:text="Sign in to continue to Chatvia17"
-        android:textSize="15dp"
-        android:textColor="#7a7f9a"
+        android:textSize="15sp"
+        android:textColor="@color/secondary_text"
         android:layout_marginBottom="24dp"
         />
     <LinearLayout
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:text="Username"
             android:fontFamily="@font/public_sans_medium"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
         <EditText
@@ -66,9 +66,9 @@
             android:layout_height="wrap_content"
             android:hint="admin@gmail.com"
             android:inputType="textEmailAddress"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginBottom="16dp"
-            android:drawableLeft="@drawable/ic_baseline_person_outline_24"
+            android:drawableLeft="@drawable/ic_user_2_line"
             android:drawablePadding="10dp"
             />
 
@@ -77,17 +77,17 @@
             android:layout_height="match_parent"
             android:text="Password"
             android:fontFamily="@font/public_sans_medium"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="123456"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:inputType="textPassword"
             android:layout_marginBottom="16dp"
-            android:drawableLeft="@drawable/ic_lock"
+            android:drawableLeft="@drawable/ic_lock_2_line"
             android:drawablePadding="10dp"/>
 
         <CheckBox
@@ -95,8 +95,8 @@
             android:layout_height="wrap_content"
             android:text="Remember me"
             android:fontFamily="@font/public_sans_medium"
-            android:textColor="#495057"
-            android:textSize="15dp"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp"
             android:padding="0dp"
             android:layout_marginBottom="24dp"/>
 
@@ -109,7 +109,7 @@
             android:fontFamily="@font/public_sans_medium"
             android:textSize="15dp"
             android:textAllCaps="false"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 
@@ -124,14 +124,14 @@
             android:text="Don't you have an account? "
             android:textSize="15dp"
             android:fontFamily="@font/public_sans_regular"
-            android:textColor="#495057"/>
+            android:textColor="@color/primary_text"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:fontFamily="@font/public_sans_regular"
             android:text="Signup now"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/primary_color"
             android:id="@+id/btnSignup"/>
     </LinearLayout>
 
