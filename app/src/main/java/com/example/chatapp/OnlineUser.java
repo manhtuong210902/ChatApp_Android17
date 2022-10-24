@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
-public class OnlineUser {
+public class
+OnlineUser {
     private String name;
     private int image;
 
