@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Demo login form UI
-        Intent intent = new Intent(MainActivity.this, CallHistoryActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
         startActivity(intent);
     }
 }
