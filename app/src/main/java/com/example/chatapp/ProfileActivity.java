@@ -18,6 +18,7 @@ import java.util.List;
 public class ProfileActivity extends Activity  {
     Spinner prf1Spinner;
     TextView tvItem;
+
     String[] prf1Items={"Available","Busy"};
 
     ExpandableListView expandableListView;
