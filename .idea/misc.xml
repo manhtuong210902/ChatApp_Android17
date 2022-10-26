@@ -3,15 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/chat_bg_border_radius_8dp.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/chat_nummess_border_red.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_background_bottom_nav.xml" value="0.1695" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_button.xml" value="0.1345" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1345" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml" value="0.166" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.21" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_baseline_security_24.xml" value="0.1345" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_group_line.xml" value="0.195" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_lock.xml" value="0.1345" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_lock_2_line.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_mail_line.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_message_3_line.xml" value="0.195" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_phone_fill.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_phone_line.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_user_2_line.xml" value="0.1695" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_callhistory.xml" value="0.25" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_chat.xml" value="0.13269927536231885" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_register.xml" value="0.16197916666666667" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_callhistory.xml" value="0.25" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/menu/bottom_nav_menu.xml" value="0.24895833333333334" />
         <entry key="..\:/_AndroidStudio-App/ChatApp_Android17/app/src/main/res/drawable/chat_bg_border_radius_8dp.xml" value="0.213" />
         <entry key="..\:/_AndroidStudio-App/ChatApp_Android17/app/src/main/res/drawable/chat_nummess_border_red.xml" value="0.213" />
         <entry key="..\:/_AndroidStudio-App/ChatApp_Android17/app/src/main/res/drawable/ic_group_line.xml" value="0.213" />
