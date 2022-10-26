@@ -3,8 +3,6 @@ package com.example.chatapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -15,7 +13,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Demo login form UI
-        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
         startActivity(intent);
     }
 }
