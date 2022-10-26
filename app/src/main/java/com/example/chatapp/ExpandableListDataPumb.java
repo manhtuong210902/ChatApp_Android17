@@ -32,7 +32,6 @@ public class ExpandableListDataPumb {
         expandableListDetail.put("Privacy", privacy);
         expandableListDetail.put("Personal Info", personal);
         expandableListDetail.put("Help", help);
-
         expandableListDetail.put("Security",security);
         return expandableListDetail;
     }
