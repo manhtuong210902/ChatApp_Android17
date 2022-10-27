@@ -28,6 +28,7 @@ public class MainActivity extends FragmentActivity {
                     replaceFragment(new ProfileFragment());
                     break;
                 case (R.id.groups):
+                    replaceFragment(new GroupFragment());
                     break;
                 case (R.id.calls):
                     replaceFragment(new CallHistoryFragment());

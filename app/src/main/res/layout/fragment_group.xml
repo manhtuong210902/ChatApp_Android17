@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GroupActivity"
+    tools:context=".GroupFragment"
     android:background="@color/primary_background"
+    android:id="@+id/llGroups"
     >
 
     <LinearLayout
