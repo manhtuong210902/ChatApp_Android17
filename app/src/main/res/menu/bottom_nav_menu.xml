@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/ic_message_3_line" android:id="@+id/chats" android:title=""/>
+    <item android:icon="@drawable/ic_user_2_line" android:id="@+id/profile" android:title=""/>
+    <item android:icon="@drawable/ic_group_line" android:id="@+id/groups" android:title=""/>
+    <item android:icon="@drawable/ic_phone_line" android:id="@+id/calls" android:title=""/>
+</menu>

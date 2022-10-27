@@ -4,7 +4,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +16,13 @@ public class GroupActivity extends Activity {
     private RecyclerView recyclerView_GroupList;
     private List<GroupData> GroupsData = new ArrayList<>();
     private GroupsAdapter groupsAdapter;
+    private ImageView imageView_btnGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+        imageView_btnGroup= findViewById(R.id.imageView_btnGroup);
 
 //        recyclerView_GroupList = findViewById(R.id.recyclerView_GroupList);
         GroupsData.add( new GroupData("1","#General1",R.drawable.cute1,"20+"));
@@ -37,6 +42,14 @@ public class GroupActivity extends Activity {
         recyclerView_GroupList.setLayoutManager(new GridLayoutManager(GroupActivity.this,1));
         groupsAdapter = new GroupsAdapter(GroupActivity.this, GroupsData);
         recyclerView_GroupList.setAdapter(groupsAdapter);
+
+        imageView_btnGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupActivity.this, AddGroupActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
