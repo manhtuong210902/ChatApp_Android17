@@ -1,71 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddGroupActivity"
-    android:padding="24dp"
     android:orientation="vertical"
     >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create new group"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        />
 
-    <View
-        android:id="@+id/view"
+    <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="60dp"
         android:background="@color/primary_background"
-        android:layout_marginBottom="10dp"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/scrollView_groupInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="20dp"
+        >
+        <ImageView
+            android:id="@+id/btn_close"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_btn_close"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/textView_Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New group"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                />
+            <TextView
+                android:id="@+id/textView_numSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selected: 0"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
 
-    <TextView
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Group name"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        />
-    <EditText
-        android:id="@+id/editText_groupName"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="Enter group name"
-        android:background="@drawable/input_boder"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        />
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:iconifiedByDefault="false"
-        android:theme="@style/AppSearchView"
-        app:searchIcon="@drawable/ic_search_line"
-        android:background="@drawable/chat_bg_border_radius_8dp"
-        app:submitBackground="@android:color/transparent"
-        app:queryBackground="@android:color/transparent"
-        android:id="@+id/searchView_SearchGroupMember"
-        app:queryHint="Search name or phone..."
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Group members"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:id="@+id/scrollView_groupInfo"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_listFriend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        >
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Group name"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText_groupName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_boder"
+                android:hint="Set group name"
+                android:padding="10dp"
+                android:textSize="17sp"
+                />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView_SearchGroupMember"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chat_bg_border_radius_8dp"
+                android:theme="@style/AppSearchView"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search name or phone..."
+                app:searchIcon="@drawable/ic_search_line"
+                app:submitBackground="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Group members"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_listFriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/primary_background"
+        android:gravity="center"
+        android:id="@+id/layout_selectedMember"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/recyclerView_listSelected"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+        <ImageView
+            android:id="@+id/imageView_btnGroup"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@drawable/ic_baseline_next_group"
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_cycle"
+            android:layout_marginRight="10dp"
+            />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
