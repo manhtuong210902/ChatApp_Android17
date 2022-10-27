@@ -1,32 +1,35 @@
 package com.example.chatapp;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CallHistoryActivity extends Activity {
+public class CallHistoryFragment extends Fragment {
+    private LinearLayout llCallHistory;
     private RecyclerView recyclerViewCallHistory;
     private ArrayList<CallHistory> listCallHistory;
     private CallHistoryAdapter callHistoryAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_callhistory);
-
-        recyclerViewCallHistory = (RecyclerView) findViewById(R.id.rcv_CallHistory);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        llCallHistory = (LinearLayout) inflater.inflate(R.layout.fragment_callhistory, container, false);
+        recyclerViewCallHistory = (RecyclerView) llCallHistory.findViewById(R.id.rcv_CallHistory);
 
         listCallHistory = new ArrayList<>();
         Data();
 
-        callHistoryAdapter = new CallHistoryAdapter(listCallHistory,this);
-        recyclerViewCallHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        callHistoryAdapter = new CallHistoryAdapter(listCallHistory,getContext());
+        recyclerViewCallHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewCallHistory.setAdapter(callHistoryAdapter);
+        return llCallHistory;
     }
 
     private void Data() {

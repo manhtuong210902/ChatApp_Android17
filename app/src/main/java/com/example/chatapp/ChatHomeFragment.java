@@ -1,45 +1,48 @@
 package com.example.chatapp;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends Activity {
+public class ChatHomeFragment extends Fragment {
+    private LinearLayout llHomeChats;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
-    private OnlineUser onlineUser;
-    private ChatUser chatUser;
     private ArrayList<OnlineUser> listOnlineUser;
     private ArrayList<ChatUser> listChatUser;
     private OnlineUsersAdapter onlineUsersAdapter;
     private ChatUsersAdapter chatUsersAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
 
-        recyclerViewOnlineUser = (RecyclerView) findViewById(R.id.c_rcvOnlineUser);
-        recyclerViewChatUser = (RecyclerView) findViewById(R.id.c_rcvChatUser);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        llHomeChats = (LinearLayout) inflater.inflate(R.layout.fragment_home_chat, container, false);
+        recyclerViewOnlineUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvOnlineUser);
+        recyclerViewChatUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvChatUser);
 
         listOnlineUser = new ArrayList<>();
         dataOS();
         Log.d(this.getClass().getSimpleName(), listOnlineUser.toString());
-        onlineUsersAdapter = new OnlineUsersAdapter(listOnlineUser,this);
-        recyclerViewOnlineUser.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        onlineUsersAdapter = new OnlineUsersAdapter(listOnlineUser, getContext());
+        recyclerViewOnlineUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewOnlineUser.setAdapter(onlineUsersAdapter);
 
         listChatUser = new ArrayList<>();
         dataCS();
-        chatUsersAdapter = new ChatUsersAdapter(listChatUser, this);
-        recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        chatUsersAdapter = new ChatUsersAdapter(listChatUser, getContext());
+        recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewChatUser.setAdapter(chatUsersAdapter);
 
+        return llHomeChats;
     }
 
     private void dataOS(){
