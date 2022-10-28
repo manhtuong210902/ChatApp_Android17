@@ -35,12 +35,6 @@ public class SelectedGroupAdapter extends RecyclerView.Adapter<SelectedGroupsVie
     @Override
     public void onBindViewHolder(@NonNull SelectedGroupsViewHolder holder, int position) {
         Picasso.get().load(list.get(position).getImage()).into(holder.imageView_avatar);
-        holder.imageView_removeItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onSelectedClicked(holder.getAdapterPosition());
-            }
-        });
     }
 
     @Override

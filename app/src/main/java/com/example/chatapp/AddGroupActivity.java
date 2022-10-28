@@ -48,7 +48,7 @@ public class AddGroupActivity extends Activity {
 
         recyclerView_listFriend.setHasFixedSize(true);
         recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
+        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener, removeSelectedListener);
         recyclerView_listFriend.setAdapter(addGroupAdapter);
 
         layout_selectedMember.setVisibility(View.INVISIBLE);
@@ -94,11 +94,6 @@ public class AddGroupActivity extends Activity {
             recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
             selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
             recyclerView_listSelected.setAdapter(selectedGroupAdapter);
-
-            recyclerView_listFriend.setHasFixedSize(true);
-            recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-            addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
-            recyclerView_listFriend.setAdapter(addGroupAdapter);
         }
     };
 
@@ -114,11 +109,6 @@ public class AddGroupActivity extends Activity {
             recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
             selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
             recyclerView_listSelected.setAdapter(selectedGroupAdapter);
-
-            recyclerView_listFriend.setHasFixedSize(true);
-            recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-            addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
-            recyclerView_listFriend.setAdapter(addGroupAdapter);
         }
     };
 }

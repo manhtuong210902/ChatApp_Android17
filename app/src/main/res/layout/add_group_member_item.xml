@@ -3,30 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="15dp"
+    android:paddingVertical="10dp"
     android:gravity="center_vertical"
     >
-    <CheckBox
-        android:id="@+id/checkBox_Select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-         />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_avatar"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/cute1"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        />
 
     <TextView
         android:id="@+id/textView_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:fontFamily="@font/public_sans_semi_bold"
         android:textColor="@color/secondary_text"
         android:text="Your Name"
         />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkBox_Select"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:button="@drawable/custom_check_box" />
 </LinearLayout>
