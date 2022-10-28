@@ -36,9 +36,9 @@
                 android:id="@+id/textView_Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create New Group"
-                android:fontFamily="@font/public_sans_semi_bold"
-                android:textSize="18sp"
+                android:text="New group"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:layout_marginBottom="4dp"
                 />
             <TextView
@@ -46,8 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Selected: 0"
-                android:fontFamily="@font/public_sans_regular"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 />
         </LinearLayout>
 
@@ -73,50 +72,48 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Group name"
-                android:textSize="15sp"
-                android:fontFamily="@font/public_sans_semi_bold" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText_groupName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/input_boder"
-                android:hint="Enter group name"
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="14sp"
-                android:fontFamily="@font/public_sans_regular"
+                android:hint="Set group name"
+                android:padding="10dp"
+                android:textSize="17sp"
                 />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView_SearchGroupMember"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chat_bg_border_radius_8dp"
+                android:theme="@style/AppSearchView"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search name or phone..."
+                app:searchIcon="@drawable/ic_search_line"
+                app:submitBackground="@android:color/transparent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="8dp"
-                android:text="Group members"
-                android:textSize="15sp"
-                android:fontFamily="@font/public_sans_semi_bold"/>
-
-            <EditText
-                android:id="@+id/searchView_SearchGroupMember"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/input_boder"
-                android:hint="Search name or phone..."
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="14sp"
-                android:fontFamily="@font/public_sans_regular"
-                />
+                android:text="Group members"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_listFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 
