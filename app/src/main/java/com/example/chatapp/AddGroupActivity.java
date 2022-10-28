@@ -31,7 +31,6 @@ public class AddGroupActivity extends Activity {
     LinearLayout layout_selectedMember, linearLayout;
     ImageView btn_close;
     TextView textView_Title, textView_numSelected;
-    ScrollView scrollView_groupInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +43,12 @@ public class AddGroupActivity extends Activity {
         linearLayout = findViewById(R.id.linearLayout);
         textView_numSelected = findViewById(R.id.textView_numSelected);
         textView_Title = findViewById(R.id.textView_Title);
-        scrollView_groupInfo = findViewById(R.id.scrollView_groupInfo);
         Data();
         selectedList = new ArrayList<>();
 
         recyclerView_listFriend.setHasFixedSize(true);
         recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
+        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener, removeSelectedListener);
         recyclerView_listFriend.setAdapter(addGroupAdapter);
 
         layout_selectedMember.setVisibility(View.INVISIBLE);
@@ -59,20 +57,6 @@ public class AddGroupActivity extends Activity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-            }
-        });
-
-        scrollView_groupInfo.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                if(i1>50)
-                {
-                    if(editText_groupName.getText().toString().isEmpty()){
-                        textView_Title.setText("Unnamed group");
-                    }
-                    else textView_Title.setText(editText_groupName.getText().toString());
-                }
-                else textView_Title.setText("New group");
             }
         });
     }
@@ -102,7 +86,6 @@ public class AddGroupActivity extends Activity {
         @Override
         public void onMemberClicked(int pos) {
             selectedList.add(listFriend.get(pos));
-            listFriend.remove(pos);
             if (selectedList.size() != 0 ){
                 layout_selectedMember.setVisibility(View.VISIBLE);
             }
@@ -111,18 +94,12 @@ public class AddGroupActivity extends Activity {
             recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
             selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
             recyclerView_listSelected.setAdapter(selectedGroupAdapter);
-
-            recyclerView_listFriend.setHasFixedSize(true);
-            recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-            addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
-            recyclerView_listFriend.setAdapter(addGroupAdapter);
         }
     };
 
     private final RemoveSelectedListener removeSelectedListener = new RemoveSelectedListener() {
         @Override
         public void onSelectedClicked(int pos) {
-            listFriend.add(selectedList.get(pos));
             selectedList.remove(pos);
             if (selectedList.size() == 0 ){
                 layout_selectedMember.setVisibility(View.INVISIBLE);
@@ -132,11 +109,6 @@ public class AddGroupActivity extends Activity {
             recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
             selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
             recyclerView_listSelected.setAdapter(selectedGroupAdapter);
-
-            recyclerView_listFriend.setHasFixedSize(true);
-            recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-            addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
-            recyclerView_listFriend.setAdapter(addGroupAdapter);
         }
     };
 }
