@@ -88,14 +88,20 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ExpandableListView
+        android:id="@+id/expandablePersonalListView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp" />
 
     <ExpandableListView
         android:id="@+id/expandableListView"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:childDivider="@color/transparent"
-        android:divider="@color/transparent"
-        android:dividerHeight="8dp"
-        />
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp" />
 
 </LinearLayout>
