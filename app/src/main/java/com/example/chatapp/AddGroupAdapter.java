@@ -42,8 +42,10 @@ public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
         Picasso.get().load(list.get(position).getImage()).into(holder.image_avatar);
         holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                listener.onMemberClicked(holder.getAdapterPosition());
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(compoundButton.isChecked()){
+
+                }
             }
         });
     }
