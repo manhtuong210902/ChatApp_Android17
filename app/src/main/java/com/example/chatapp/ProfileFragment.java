@@ -24,10 +24,21 @@ public class ProfileFragment extends Fragment {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    ExpandableListView personalListView;
+    ExpandableListAdapter personalListAdapter;
+    List<String> personalListTitle;
+    HashMap<String,HashMap<String,String>> personalListDetail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         llProfile = (LinearLayout) inflater.inflate(R.layout.fragment_profile, container, false);
 
+        personalListView=(ExpandableListView) llProfile.findViewById(R.id.expandablePersonalListView);
+        personalListDetail=ExpPersonalListData.getData();
+        personalListTitle=new ArrayList<String>(personalListDetail.keySet());
+        personalListAdapter=new CustomExpPersonalListAdapter(getContext(),personalListTitle,personalListDetail);
+        personalListView.setAdapter(personalListAdapter);
 
         expandableListView = (ExpandableListView) llProfile.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPumb.getData();
