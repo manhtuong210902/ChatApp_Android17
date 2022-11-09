@@ -1,8 +1,5 @@
 package com.example.chatapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,14 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +19,20 @@ import java.util.List;
 public class AddGroupActivity extends Activity {
     private EditText editText_groupName;
     private RecyclerView recyclerView_listFriend, recyclerView_listSelected;
-    private List<CallHistory> listFriend, selectedList;
+    private List<AddGroupUser> listFriend, listSelected;
     private AddGroupAdapter addGroupAdapter;
     private SelectedGroupAdapter selectedGroupAdapter;
     LinearLayout layout_selectedMember, linearLayout;
     ImageView btn_close;
     TextView textView_Title, textView_numSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
         listFriend = new ArrayList<>();
+        listSelected = new ArrayList<>();
+
         editText_groupName = findViewById(R.id.editText_groupName);
         recyclerView_listFriend = findViewById(R.id.recyclerView_listFriend);
         recyclerView_listSelected = findViewById(R.id.recyclerView_listSelected);
@@ -44,12 +41,14 @@ public class AddGroupActivity extends Activity {
         textView_numSelected = findViewById(R.id.textView_numSelected);
         textView_Title = findViewById(R.id.textView_Title);
         Data();
-        selectedList = new ArrayList<>();
 
-        recyclerView_listFriend.setHasFixedSize(true);
-        recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this,1));
-        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener, removeSelectedListener);
+        recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this, 1));
+        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
         recyclerView_listFriend.setAdapter(addGroupAdapter);
+
+        recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, listSelected, removeSelectedListener);
+        recyclerView_listSelected.setAdapter(selectedGroupAdapter);
 
         layout_selectedMember.setVisibility(View.INVISIBLE);
         btn_close = findViewById(R.id.btn_close);
@@ -61,54 +60,67 @@ public class AddGroupActivity extends Activity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
     private void Data() {
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute1, false, false, true, "22:20"));
-        listFriend.add(new CallHistory("Mew2", R.drawable.cute2, true, false, true, "22:21"));
-        listFriend.add(new CallHistory("Mew3", R.drawable.cute3, false, true, true, "22:22"));
-        listFriend.add(new CallHistory("Mew4", R.drawable.cute1, false, false, true, "22:23"));
-        listFriend.add(new CallHistory("Mew5", R.drawable.cute2, true, true, true, "22:24"));
-        listFriend.add(new CallHistory("Mew6", R.drawable.cute3, false, true, true, "22:25"));
-        listFriend.add(new CallHistory("Mew7", R.drawable.cute1, false, false, true, "22:26"));
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute2, true, true, true, "22:27"));
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute3, false, false, true, "22:28"));
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute1, true, true, true, "22:29"));
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute2, true, false, true, "22:30"));
-        listFriend.add(new CallHistory("Mew1", R.drawable.cute3, false, true, true, "22:31"));
-
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", R.drawable.cute1, false,   "22:20"), false));
+        listFriend.add(new  AddGroupUser(new User("2", "Mew2", R.drawable.cute2, true,   "22:21"), false));
+        listFriend.add(new  AddGroupUser(new User("3", "Mew3", R.drawable.cute3,   true, "22:22"), false));
+        listFriend.add(new  AddGroupUser(new User("4", "Mew1", R.drawable.cute1, false,   "22:20"), false));
+        listFriend.add(new  AddGroupUser(new User("5", "Mew2", R.drawable.cute2, true,   "22:21"), false));
+        listFriend.add(new  AddGroupUser(new User("6", "Mew3", R.drawable.cute3,   true, "22:22"), false));
+        listFriend.add(new  AddGroupUser(new User("7", "Mew1", R.drawable.cute1, false,   "22:20"), false));
+        listFriend.add(new  AddGroupUser(new User("8", "Mew2", R.drawable.cute2, true,   "22:21"), false));
+        listFriend.add(new  AddGroupUser(new User("9", "Mew3", R.drawable.cute3,   true, "22:22"), false));
+        listFriend.add(new  AddGroupUser(new User("10", "Mew1", R.drawable.cute1, false,   "22:20"), false));
+        listFriend.add(new  AddGroupUser(new User("11", "Mew2", R.drawable.cute2, true,   "22:21"), false));
+        listFriend.add(new  AddGroupUser(new User("12", "Mew3", R.drawable.cute3,   true, "22:22"), false));
     }
 
     private final AddSelectedListListener addSelectedListListener = new AddSelectedListListener() {
         @Override
-        public void onMemberClicked(int pos) {
-            selectedList.add(listFriend.get(pos));
-            if (selectedList.size() != 0 ){
-                layout_selectedMember.setVisibility(View.VISIBLE);
+        public void onMemberClicked(int pos, boolean isCheck) {
+            if(isCheck){
+                listFriend.get(pos).setChecked(true);
+                listSelected.add(listFriend.get(pos));
+                selectedGroupAdapter.notifyItemInserted(listSelected.size()-1);
             }
-            textView_numSelected.setText("Selected: "+ String.valueOf(selectedList.size()));
-            recyclerView_listSelected.setHasFixedSize(true);
-            recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
-            selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
-            recyclerView_listSelected.setAdapter(selectedGroupAdapter);
+            else {
+                listFriend.get(pos).setChecked(false);
+                int i=0;
+                for(i=0;i<listSelected.size();i++){
+                    if(listFriend.get(pos).getInfo().getId()== listSelected.get(i).getInfo().getId()){
+                        break;
+                    }
+                }
+                listSelected.remove(i);
+                selectedGroupAdapter.notifyItemRemoved(i);
+            }
+
+            if(listSelected.size() !=0)
+                layout_selectedMember.setVisibility(View.VISIBLE);
+            else layout_selectedMember.setVisibility(View.INVISIBLE);
+        }
+
+    };
+
+    private final AddSelectedListListener removeSelectedListener = new AddSelectedListListener() {
+        @Override
+        public void onMemberClicked(int pos, boolean isCheck) {
+            for( int i = 0; i < listFriend.size(); i++)
+                if(listFriend.get(i).getInfo().getId() == listSelected.get(pos).getInfo().getId()){
+                    listFriend.get(i).setChecked(false);
+                    addGroupAdapter.notifyItemChanged(i);
+                    break;
+                }
+            listSelected.remove(pos);
+            selectedGroupAdapter.notifyItemRemoved(pos);
+
+            if (listSelected.size() == 0) {
+                layout_selectedMember.setVisibility(View.INVISIBLE);
+            }
+            textView_numSelected.setText("Selected: " + String.valueOf(listSelected.size()));
+
         }
     };
 
-    private final RemoveSelectedListener removeSelectedListener = new RemoveSelectedListener() {
-        @Override
-        public void onSelectedClicked(int pos) {
-            selectedList.remove(pos);
-            if (selectedList.size() == 0 ){
-                layout_selectedMember.setVisibility(View.INVISIBLE);
-            }
-            textView_numSelected.setText("Selected: "+ String.valueOf(selectedList.size()));
-            recyclerView_listSelected.setHasFixedSize(true);
-            recyclerView_listSelected.setLayoutManager(new LinearLayoutManager(AddGroupActivity.this, LinearLayoutManager.HORIZONTAL, false));
-            selectedGroupAdapter = new SelectedGroupAdapter(AddGroupActivity.this, selectedList, removeSelectedListener);
-            recyclerView_listSelected.setAdapter(selectedGroupAdapter);
-        }
-    };
+
 }

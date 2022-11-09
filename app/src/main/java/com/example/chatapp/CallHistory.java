@@ -7,14 +7,24 @@ public class CallHistory {
     private boolean isVideoCall;
     private boolean isOnline;
     private String time;
+    private int id;
 
-    public CallHistory(String name, int image, boolean isMissed, boolean isVideoCall, boolean isOnline, String time) {
+    public CallHistory(int id,String name, int image, boolean isMissed, boolean isVideoCall, boolean isOnline, String time) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.isMissed = isMissed;
         this.isVideoCall = isVideoCall;
         this.time = time;
         this.isOnline = isOnline;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isOnline() {

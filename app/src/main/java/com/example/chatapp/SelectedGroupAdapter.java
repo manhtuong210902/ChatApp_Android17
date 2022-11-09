@@ -17,10 +17,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SelectedGroupAdapter extends RecyclerView.Adapter<SelectedGroupsViewHolder>{
     Context context;
-    List<CallHistory> list;
-    RemoveSelectedListener listener;
+    List<AddGroupUser> list;
+    AddSelectedListListener listener;
 
-    public SelectedGroupAdapter(Context context, List<CallHistory> list, RemoveSelectedListener listener) {
+    public SelectedGroupAdapter(Context context, List<AddGroupUser> list, AddSelectedListListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
@@ -34,7 +34,13 @@ public class SelectedGroupAdapter extends RecyclerView.Adapter<SelectedGroupsVie
 
     @Override
     public void onBindViewHolder(@NonNull SelectedGroupsViewHolder holder, int position) {
-        Picasso.get().load(list.get(position).getImage()).into(holder.imageView_avatar);
+            Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.imageView_avatar);
+            holder.imageView_removeItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onMemberClicked(holder.getAdapterPosition(), false);
+                }
+            });
     }
 
     @Override

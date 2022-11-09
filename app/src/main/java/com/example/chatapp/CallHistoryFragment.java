@@ -33,18 +33,18 @@ public class CallHistoryFragment extends Fragment {
     }
 
     private void Data() {
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute1, false, false, true, "22:20"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute2, true, false, true, "22:21"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute3, false, true, true, "22:22"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute1, false, false, true, "22:23"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute2, true, true, true, "22:24"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute3, false, true, true, "22:25"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute1, false, false, true, "22:26"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute2, true, true, true, "22:27"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute3, false, false, true, "22:28"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute1, true, true, true, "22:29"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute2, true, false, true, "22:30"));
-        listCallHistory.add(new CallHistory("Mew1", R.drawable.cute3, false, true, true, "22:31"));
+        listCallHistory.add(new CallHistory(1,"Mew1", R.drawable.cute1, false, false, true, "22:20"));
+        listCallHistory.add(new CallHistory(2,"Mew1", R.drawable.cute2, true, false, true, "22:21"));
+        listCallHistory.add(new CallHistory(3,"Mew1", R.drawable.cute3, false, true, true, "22:22"));
+        listCallHistory.add(new CallHistory(4,"Mew1", R.drawable.cute1, false, false, true, "22:23"));
+        listCallHistory.add(new CallHistory(5,"Mew1", R.drawable.cute2, true, true, true, "22:24"));
+        listCallHistory.add(new CallHistory(6,"Mew1", R.drawable.cute3, false, true, true, "22:25"));
+        listCallHistory.add(new CallHistory(7,"Mew1", R.drawable.cute1, false, false, true, "22:26"));
+        listCallHistory.add(new CallHistory(8,"Mew1", R.drawable.cute2, true, true, true, "22:27"));
+        listCallHistory.add(new CallHistory(9,"Mew1", R.drawable.cute3, false, false, true, "22:28"));
+        listCallHistory.add(new CallHistory(10,"Mew1", R.drawable.cute1, true, true, true, "22:29"));
+        listCallHistory.add(new CallHistory(11,"Mew1", R.drawable.cute2, true, false, true, "22:30"));
+        listCallHistory.add(new CallHistory(12,"Mew1", R.drawable.cute3, false, true, true, "22:31"));
 
     }
 }

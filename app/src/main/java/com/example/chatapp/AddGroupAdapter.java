@@ -4,10 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
@@ -15,22 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
     Context context;
-    List<CallHistory> list;
-    AddSelectedListListener addListener;
-    RemoveSelectedListener removeLisner;
+    List<AddGroupUser> list;
+    AddSelectedListListener listener;
 
-    public AddGroupAdapter(Context context, List<CallHistory> list, AddSelectedListListener addListener, RemoveSelectedListener removeLisner) {
+    public AddGroupAdapter(Context context, List<AddGroupUser> list, AddSelectedListListener listener) {
         this.context = context;
         this.list = list;
-        this.addListener = addListener;
-        this.removeLisner = removeLisner;
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,19 +36,16 @@ public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AddGroupViewHolder holder, int position) {
-        holder.textView_name.setText(list.get(position).getName());
-        Picasso.get().load(list.get(position).getImage()).into(holder.image_avatar);
-//        holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if(isChecked){
-//                    addListener.onMemberClicked(holder.getAdapterPosition());
-//                }
-//                else{
-//                    removeLisner.onSelectedClicked(holder.getAdapterPosition());
-//                }
-//            }
-//        });
+        holder.textView_name.setText(list.get(position).getInfo().getName());
+        Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.image_avatar);
+        holder.checkBox_Select.setChecked(list.get(position).isChecked());
+        holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                listener.onMemberClicked(holder.getAdapterPosition(), isChecked);
+            }
+        });
+
     }
 
     @Override
