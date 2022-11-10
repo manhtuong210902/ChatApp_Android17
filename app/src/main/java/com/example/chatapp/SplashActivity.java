@@ -42,7 +42,8 @@ public class SplashActivity extends Activity {
         String email = sharedPreferences.getString("EmailLogin", "");
         String password = sharedPreferences.getString("PasswordLogin", "");
         if( email.isEmpty() || password.isEmpty()){
-            return;
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
         else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
