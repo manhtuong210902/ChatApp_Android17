@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,20 +106,20 @@ public class AddGroupActivity extends Activity {
     private final AddSelectedListListener removeSelectedListener = new AddSelectedListListener() {
         @Override
         public void onMemberClicked(int pos, boolean isCheck) {
-            for( int i = 0; i < listFriend.size(); i++)
-                if(listFriend.get(i).getInfo().getId() == listSelected.get(pos).getInfo().getId()){
+            for( int i = 0; i < listFriend.size(); i++) {
+                if (pos< listSelected.size() && listFriend.get(i).getInfo().getId() == listSelected.get(pos).getInfo().getId()) {
+                    listSelected.remove(pos);
+                    selectedGroupAdapter.notifyItemRemoved(pos);
                     listFriend.get(i).setChecked(false);
                     addGroupAdapter.notifyItemChanged(i);
                     break;
                 }
-            listSelected.remove(pos);
-            selectedGroupAdapter.notifyItemRemoved(pos);
+            }
 
             if (listSelected.size() == 0) {
                 layout_selectedMember.setVisibility(View.INVISIBLE);
             }
             textView_numSelected.setText("Selected: " + String.valueOf(listSelected.size()));
-
         }
     };
 
