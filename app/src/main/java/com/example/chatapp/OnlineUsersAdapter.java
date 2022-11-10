@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatapp.models.Group;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,10 +23,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OnlineUsersAdapter extends RecyclerView.Adapter<OnlineUsersAdapter.ViewHolder>{
 
-    private ArrayList<OnlineUser> listUsers;
+    private ArrayList<Group> listUsers;
     private Context context;
 
-    public OnlineUsersAdapter(ArrayList<OnlineUser> listUsers, Context context) {
+    public OnlineUsersAdapter(ArrayList<Group> listUsers, Context context) {
         this.listUsers = listUsers;
         this.context = context;
     }
@@ -37,15 +42,26 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<OnlineUsersAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OnlineUser user = listUsers.get(position);
+        Group user = listUsers.get(position);
         String name = user.getName();
-        Picasso.get().load(user.getImage()).into(holder.im_item);
-        holder.tv_name.setText(user.getName());
+        FirebaseStorage.getInstance().getReference().child("images/"+user.getImageId())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(holder.im_item);
+                        Log.i("uri", uri.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+        holder.tv_name.setText(name);
     }
 
     @Override
     public int getItemCount() {
-        Log.d("List size", Integer.toString(listUsers.size()));
         return listUsers.size();
     }
 

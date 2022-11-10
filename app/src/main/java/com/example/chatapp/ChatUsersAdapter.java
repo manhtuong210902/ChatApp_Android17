@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatapp.models.Group;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,10 +21,10 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.ViewHolder> {
-    private ArrayList<ChatUser> listUser;
+    private ArrayList<Group> listUser;
     private Context context;
 
-    public ChatUsersAdapter(ArrayList<ChatUser> listUser, Context context) {
+    public ChatUsersAdapter(ArrayList<Group> listUser, Context context) {
         this.listUser = listUser;
         this.context = context;
     }
@@ -35,10 +40,21 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ChatUser user = listUser.get(position);
+        Group user = listUser.get(position);
         String name = user.getName();
-        Picasso.get().load(user.getImage()).into(holder.im_item);
-        holder.tv_name.setText(user.getName());
+        FirebaseStorage.getInstance().getReference().child("images/"+user.getImageId())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(holder.im_item);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+        holder.tv_name.setText(name);
     }
 
     @Override
