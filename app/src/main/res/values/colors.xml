@@ -13,6 +13,7 @@
     <color name="green_circle">#06D6A0</color>
     <color name="yellow_circle">#FFD166</color>
     <color name="transparent">#00000000</color>
+    <color name="message">#F5F7FB</color>
 
 
 </resources>
