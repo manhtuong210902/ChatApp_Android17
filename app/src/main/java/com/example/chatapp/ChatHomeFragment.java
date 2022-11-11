@@ -1,5 +1,7 @@
 package com.example.chatapp;
 
+import static com.example.chatapp.db.DbReference.writeNewGroup;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -69,12 +71,12 @@ public class ChatHomeFragment extends Fragment {
 
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Group group = dataSnapshot.getValue(Group.class);
                     listChatUser.add(group);
-//                    Toast.makeText(getActivity(), group.toString(), Toast.LENGTH_SHORT).show();
                 }
                 chatUsersAdapter.notifyDataSetChanged();
                 onlineUsersAdapter.notifyDataSetChanged();
@@ -133,7 +135,7 @@ public class ChatHomeFragment extends Fragment {
     }
 
     private void writeGroupTEST(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
-        DbReference.writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
+        writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
     }
 
     @Override
@@ -185,38 +187,4 @@ public class ChatHomeFragment extends Fragment {
         return imageId;
     }
 
-//    private void dataOS(){
-//        listOnlineUser.add(new OnlineUser("OnlineUser1",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser2",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser3",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser4",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser5",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser6",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser7",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser8",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser9",R.drawable.cute3));
-//        listOnlineUser.add(new OnlineUser("OnlineUser10",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser11",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser12",R.drawable.cute3));
-//        listOnlineUser.add(new OnlineUser("OnlineUser13",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser14",R.drawable.cute2));
-//    }
-
-//    private void dataCS(){
-//
-//        listChatUser.add(new ChatUser("OnlineUser1",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser2",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser3",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser4",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser5",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser6",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser7",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser8",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser9",R.drawable.cute3, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser10",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser11",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser12",R.drawable.cute3, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser13",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser14",R.drawable.cute2, "message123", "22:22", "3"));
-//    }
 }

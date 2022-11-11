@@ -11,7 +11,6 @@ public class Group {
     private String imageId;
     private boolean isOnline;
     private String lastMessage;
-
     public Group() {
     }
 
@@ -70,6 +69,8 @@ public class Group {
     public void setListUidMember(ArrayList<String> listUidMember) {
         this.listUidMember = listUidMember;
     }
+
+
 
     public String getImageId() {
         return imageId;

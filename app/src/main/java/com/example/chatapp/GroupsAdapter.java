@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import com.example.chatapp.models.Group;
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsViewHolder>{
     Context context;
-    List<GroupData> list;
+    List<Group> list;
 
-    public GroupsAdapter(Context context, List<GroupData> list) {
+    public GroupsAdapter(Context context, List<Group> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,10 +39,23 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull GroupsViewHolder holder, int position) {
+        Group group=list.get(position);
+
+        FirebaseStorage.getInstance().getReference().child("images/"+group.getImageId())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(holder.image_GroupAvatar);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
         holder.textView_GroupName.setText(list.get(position).getName());
         holder.textView_GroupName.setSelected(true);
-        holder.textView_GroupStatus.setText(list.get(position).getStatus());
-        Picasso.get().load(list.get(position).getImage()).into(holder.image_GroupAvatar);
+        holder.textView_GroupStatus.setText(list.get(position).getLastMessage());
     }
 
     @Override
