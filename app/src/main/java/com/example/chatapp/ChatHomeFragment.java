@@ -1,5 +1,7 @@
 package com.example.chatapp;
 
+import static com.example.chatapp.db.DbReference.writeNewGroup;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -39,7 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class ChatHomeFragment extends Fragment{
+public class ChatHomeFragment extends Fragment {
     private LinearLayout llHomeChats;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
@@ -69,13 +71,13 @@ public class ChatHomeFragment extends Fragment{
 
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listChatUser.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Group group = dataSnapshot.getValue(Group.class);
                     listChatUser.add(group);
-//                    Toast.makeText(getActivity(), group.toString(), Toast.LENGTH_SHORT).show();
                 }
                 chatUsersAdapter.notifyDataSetChanged();
                 onlineUsersAdapter.notifyDataSetChanged();
@@ -127,7 +129,7 @@ public class ChatHomeFragment extends Fragment{
         mAuth.signInWithEmailAndPassword(email, password);
         String uid = mAuth.getCurrentUser().getUid();
         Toast.makeText(getActivity(), uid, Toast.LENGTH_LONG).show();
-        if(image == null || image == "") {
+        if (image == null || image == "") {
             image = "avtdefault.jpg";
         }
         DbReference.writeNewUser(uid, name, image, isOnline);
@@ -135,13 +137,13 @@ public class ChatHomeFragment extends Fragment{
     }
 
     private void writeGroupTEST(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
-        DbReference.writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
+        writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 200 && data != null ) {
+        if (requestCode == 200 && data != null) {
             imageUri = data.getData();
 
             Bitmap bmp = null;
@@ -161,8 +163,8 @@ public class ChatHomeFragment extends Fragment{
     }
 
     private String uploadImageToFirebase(byte[] fileInBytes) {
-        final String imageId = UUID.randomUUID().toString()+".jpg";
-        StorageReference imgRef = mStorage.child("images/"+imageId);
+        final String imageId = UUID.randomUUID().toString() + ".jpg";
+        StorageReference imgRef = mStorage.child("images/" + imageId);
         UploadTask uploadTask = imgRef.putBytes(fileInBytes);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -187,53 +189,19 @@ public class ChatHomeFragment extends Fragment{
         return imageId;
     }
 
-   private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
-       @Override
-       public void onItemClick(int position) {
-           Toast.makeText(getContext(), "ItemClick", Toast.LENGTH_SHORT).show();
 
-           Intent intent = new Intent(getContext(), ChatMessageActivity.class);
-           Bundle bundleSent = new Bundle();
-           bundleSent.putString("idGroup", listChatUser.get(position).getGid());
+    private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
+        @Override
+        public void onItemClick(int position) {
+            Toast.makeText(getContext(), "ItemClick", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getContext(), ChatMessageActivity.class);
+            Bundle bundleSent = new Bundle();
+            bundleSent.putString("idGroup", listChatUser.get(position).getGid());
 //           bundleSent.putString("username", listChatUser.get(position).getName());
 //           bundleSent.putString("avatar", listChatUser.get(position).getImageId());
-           intent.putExtras(bundleSent);
-           startActivity(intent);
-       }
-   };
-
-//    private void dataOS(){
-//        listOnlineUser.add(new OnlineUser("OnlineUser1",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser2",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser3",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser4",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser5",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser6",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser7",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser8",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser9",R.drawable.cute3));
-//        listOnlineUser.add(new OnlineUser("OnlineUser10",R.drawable.cute2));
-//        listOnlineUser.add(new OnlineUser("OnlineUser11",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser12",R.drawable.cute3));
-//        listOnlineUser.add(new OnlineUser("OnlineUser13",R.drawable.cute1));
-//        listOnlineUser.add(new OnlineUser("OnlineUser14",R.drawable.cute2));
-//    }
-
-//    private void dataCS(){
-//
-//        listChatUser.add(new ChatUser("OnlineUser1",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser2",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser3",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser4",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser5",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser6",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser7",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser8",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser9",R.drawable.cute3, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser10",R.drawable.cute2, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser11",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser12",R.drawable.cute3, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser13",R.drawable.cute1, "message123", "22:22", "3"));
-//        listChatUser.add(new ChatUser("OnlineUser14",R.drawable.cute2, "message123", "22:22", "3"));
-//    }
+            intent.putExtras(bundleSent);
+            startActivity(intent);
+        }
+    };
 }
