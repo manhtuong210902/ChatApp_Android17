@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class ChatHomeFragment extends Fragment {
+public class ChatHomeFragment extends Fragment{
     private LinearLayout llHomeChats;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
@@ -71,6 +71,7 @@ public class ChatHomeFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listChatUser.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Group group = dataSnapshot.getValue(Group.class);
                     listChatUser.add(group);
@@ -91,7 +92,8 @@ public class ChatHomeFragment extends Fragment {
         recyclerViewOnlineUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewOnlineUser.setAdapter(onlineUsersAdapter);
 
-        chatUsersAdapter = new ChatUsersAdapter(listChatUser, getContext());
+
+        chatUsersAdapter = new ChatUsersAdapter(listChatUser, getContext(), recyclerViewInterface);
         recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewChatUser.setAdapter(chatUsersAdapter);
 
@@ -184,6 +186,21 @@ public class ChatHomeFragment extends Fragment {
         });
         return imageId;
     }
+
+   private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
+       @Override
+       public void onItemClick(int position) {
+           Toast.makeText(getContext(), "ItemClick", Toast.LENGTH_SHORT).show();
+
+           Intent intent = new Intent(getContext(), ChatMessageActivity.class);
+           Bundle bundleSent = new Bundle();
+           bundleSent.putString("idGroup", listChatUser.get(position).getGid());
+//           bundleSent.putString("username", listChatUser.get(position).getName());
+//           bundleSent.putString("avatar", listChatUser.get(position).getImageId());
+           intent.putExtras(bundleSent);
+           startActivity(intent);
+       }
+   };
 
 //    private void dataOS(){
 //        listOnlineUser.add(new OnlineUser("OnlineUser1",R.drawable.cute1));

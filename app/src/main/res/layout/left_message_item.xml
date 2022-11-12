@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="300dp"
@@ -11,7 +12,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileImageMessage"
+            android:id="@+id/civShowAvatar"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginRight="12dp"
@@ -37,6 +38,7 @@
                     android:fontFamily="@font/public_sans_regular"
                     android:text="Hello xin chao tat ca moi nguòi"
                     android:textColor="@color/white"
+                    android:id="@+id/tvShowMessage"
                     android:textSize="15sp" />
 
                 <TextView
@@ -48,13 +50,15 @@
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/gray_border"
                     android:text="2:05"
+                    android:id="@+id/tvShowTimeMessage"
                     android:textColor="@color/gray_border"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Doris Brown"
+                android:id="@+id/tvShowUsername"
                 android:layout_marginTop="4dp"
                 android:textSize="12sp"
                 android:fontFamily="@font/public_sans_medium"/>

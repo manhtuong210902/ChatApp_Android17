@@ -3,96 +3,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".ChatMessageActivity"
-    android:background="@color/primary_background">
-    <RelativeLayout
-        android:layout_width="wrap_content"
+   >
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:id="@+id/llShowProfile"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/secondary_background"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="24dp"
-            android:gravity="center_vertical"
-            >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_left_s_line"
-                android:layout_marginRight="16dp"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/cute1"
-                android:layout_marginRight="16dp"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Designer"
-                android:textSize="16sp"
-                android:fontFamily="@font/public_sans_semi_bold"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search_line"
-                android:layout_marginLeft="16dp"/>
-        </LinearLayout>
-    </RelativeLayout>
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_arrow_left_s_line" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/cute1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/public_sans_semi_bold"
+            android:text="Designer"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_search_line" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/llShowProfile"
+        android:background="@color/secondary_background"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvListChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="100dp"/>
-    <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="58dp"
+        android:paddingHorizontal="16dp" />
+
+
+    <LinearLayout
+        android:id="@+id/llOptionsSent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <EditText
+            android:id="@+id/etInputMessage"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/primary_background"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="24dp"
-            android:gravity="center_vertical"
-            >
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:hint="Enter Message ..."
-                android:textSize="14sp"
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="16dp"
-                android:background="@drawable/chat_bg_border_radius_8dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_emotion_happy_line"
-                android:padding="8dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_attachment_line"
-                android:padding="8dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_image_fill"
-                android:padding="8dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_send_plane_2_fill"
-                android:background="@drawable/custom_button"
-                android:padding="8dp"
-                android:layout_marginLeft="8dp"/>
-        </LinearLayout>
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:background="@drawable/chat_bg_border_radius_8dp"
+            android:hint="Enter Message ..."
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/btnSentFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_emotion_happy_line" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_attachment_line" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_image_fill" />
+
+        <ImageView
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/custom_button"
+            android:padding="8dp"
+            android:src="@drawable/ic_send_plane_2_fill" />
+    </LinearLayout>
+
 </RelativeLayout>

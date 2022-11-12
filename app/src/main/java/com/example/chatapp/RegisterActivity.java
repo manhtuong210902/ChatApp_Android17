@@ -58,7 +58,7 @@ public class RegisterActivity extends Activity {
                 String username = editText_userNameRegister.getText().toString();
                 String password = editText_passwordRegister.getText().toString();
                 boolean check = true;
-                if(password.isEmpty() && password.length() <6){
+                if(password.isEmpty() && password.length() < 6){
                     editText_passwordRegister.setError("Invalid password");
                     check = false;
                 }
