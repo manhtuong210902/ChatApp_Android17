@@ -90,11 +90,11 @@
 
     <ExpandableListView
         android:id="@+id/expandablePersonalListView"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:layout_height="wrap_content"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" />
+        android:dividerHeight="0.5dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
     <ExpandableListView
         android:id="@+id/expandableListView"
@@ -102,6 +102,14 @@
         android:layout_width="match_parent"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" />
+        android:dividerHeight="0.5dp" >
+    </ExpandableListView>
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:padding="10dp"
+        />
 
 </LinearLayout>

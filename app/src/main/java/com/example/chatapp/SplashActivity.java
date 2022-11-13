@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SplashActivity extends Activity {
     Handler handler=new Handler();
     private FirebaseAuth mAuth;
-    SharedPreferences sharedPreferences,sharedPreferencesLogin;
+    SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private void initPreferences() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

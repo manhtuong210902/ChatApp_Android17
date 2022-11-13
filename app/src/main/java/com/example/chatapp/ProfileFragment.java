@@ -1,16 +1,23 @@
 package com.example.chatapp;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 
 
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +36,10 @@ public class ProfileFragment extends Fragment {
     ExpandableListAdapter personalListAdapter;
     List<String> personalListTitle;
     HashMap<String,HashMap<String,String>> personalListDetail;
-
+    Button btn_logout;
+    private FirebaseAuth mAuth;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         llProfile = (LinearLayout) inflater.inflate(R.layout.fragment_profile, container, false);
@@ -45,6 +55,21 @@ public class ProfileFragment extends Fragment {
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(getContext(),expandableListTitle,expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = sharedPreferences.edit();
+        mAuth = FirebaseAuth.getInstance();
+        btn_logout = llProfile.findViewById(R.id.btn_logout);
+        Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.putString("EmailLogin", "");
+                editor.putString("PasswordLogin", "");
+                editor.commit();
+                mAuth.signOut();
+                startActivity(intent);
+            }
+        });
         return llProfile;
     }
 }
