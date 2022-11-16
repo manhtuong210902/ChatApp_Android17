@@ -37,7 +37,8 @@ public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AddGroupViewHolder holder, int position) {
         holder.textView_name.setText(list.get(position).getInfo().getName());
-        Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.image_avatar);
+//        Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.image_avatar);
+        holder.image_avatar.setImageResource(R.drawable.cute1);
         holder.checkBox_Select.setChecked(list.get(position).isChecked());
         holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

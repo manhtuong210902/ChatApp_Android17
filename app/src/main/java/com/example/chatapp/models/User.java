@@ -11,6 +11,10 @@ public class User {
     private String image;
     private boolean isOnline;
 
+    public User(){
+
+    }
+
     public User(String uid, String name, String image, boolean isOnline) {
         this.uid = uid;
         this.name = name;

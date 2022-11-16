@@ -1,5 +1,7 @@
 package com.example.chatapp;
 
+import com.example.chatapp.models.User;
+
 public class AddGroupUser {
     private User info;
     private boolean isChecked;
