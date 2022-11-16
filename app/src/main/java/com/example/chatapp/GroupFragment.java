@@ -21,6 +21,7 @@ import com.example.chatapp.models.Group;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,11 +62,15 @@ public class GroupFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
                     Group group = dataSnapshot.getValue(Group.class);
-                    if(group.getListUidMember().size()>=2) {
+                    Toast.makeText(getActivity(), user.getUid(), Toast.LENGTH_SHORT).show();
+
+                    if(group.getListUidMember().size()>=2  && group.getListUidMember().toString().contains(user.getUid()) ){
                         groupsData.add(group);
                     }
                 }
+
                 groupsAdapter.notifyDataSetChanged();
             }
             @Override

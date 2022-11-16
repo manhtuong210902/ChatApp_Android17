@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
     CheckBox checkbox_login;
     Button btnSignin;
     private FirebaseAuth mAuth;
-    SharedPreferences sharedPreferences,sharedPreferencesLogin;
+    SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private void initPreferences() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -49,7 +49,6 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         initPreferences();
         mAuth = FirebaseAuth.getInstance();
-//        AutoLogin();
         editText_emailLogin = findViewById(R.id.editText_emailLogin);
         editText_passwordLogin = findViewById(R.id.editText_passwordLogin);
         checkbox_login = findViewById(R.id.checkbox_login);
@@ -59,6 +58,10 @@ public class LoginActivity extends Activity {
         if(!savedData.isEmpty()){
             editText_emailLogin.setText(savedData);
             checkbox_login.setChecked(true);
+        }
+        else {
+            editText_emailLogin.setText("");
+            checkbox_login.setChecked(false);
         }
 
         //auto login
@@ -97,6 +100,10 @@ public class LoginActivity extends Activity {
         String password = editText_passwordLogin.getText().toString();
         if(checkbox_login.isChecked()){
             editor.putString("Email", email);
+            editor.commit();
+        }
+        else {
+            editor.putString("Email", "");
             editor.commit();
         }
         mAuth.signInWithEmailAndPassword(email, password)

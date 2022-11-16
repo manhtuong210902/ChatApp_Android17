@@ -19,6 +19,7 @@ public class ExpandableListDataPumb {
 
         List<String>security = new ArrayList<String>();
         security.add("Show security notification");
+        security.add("Logout");
 
         List<String> help=new ArrayList<String>();
         help.add("FAQs");
