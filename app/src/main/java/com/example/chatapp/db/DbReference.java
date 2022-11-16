@@ -3,6 +3,7 @@ package com.example.chatapp.db;
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.Message;
 import com.example.chatapp.models.User;
+import com.example.chatapp.models.UserGroups;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,7 +39,7 @@ public class DbReference {
         mDatabase.child("Users").child(uid).child("image").setValue(imageId);
     }
 
-    static public void writeNewGroup(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
+    static public String writeNewGroup(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
         String gid = mDatabase.child("Groups").push().getKey(); //groupId
 
         Group group = new Group(gid, name, listUidMember, imageId, isOnline, lastMessage);
@@ -50,7 +51,25 @@ public class DbReference {
         groupUpdates.put("/Groups/" + gid, groupValues);
 
         mDatabase.updateChildren(groupUpdates);
+        return gid;
+    }
 
+    //a user have many groups.
+    static public void writeNewUserGroups(String uid, ArrayList<String> listGid) {
+        UserGroups group = new UserGroups(uid, listGid);
+
+        Map<String, Object> userGroupsValues = group.toMap();
+
+        Map<String, Object> userGroupsUpdates = new HashMap<>();
+
+        userGroupsUpdates.put("/UserGroups/" + uid, userGroupsValues);
+
+        mDatabase.updateChildren(userGroupsUpdates);
+
+    }
+
+    static public void updateListGroupForUserGroups(String uid, ArrayList<String> listGid) {
+        FirebaseDatabase.getInstance().getReference("UserGroups").child(uid).child("listGid").setValue(listGid);
     }
 
     static public void writeNewMessage(String uid, String gid, ArrayList<String> listMemberSeen, boolean isImage, String imageId) {

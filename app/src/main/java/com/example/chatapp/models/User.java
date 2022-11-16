@@ -1,7 +1,5 @@
 package com.example.chatapp.models;
 
-import com.google.firebase.database.ServerValue;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +22,6 @@ public class User {
         result.put("name", name);
         result.put("image", image);
         result.put("isOnline", isOnline);
-        result.put("signInTime", ServerValue.TIMESTAMP);
         return result;
     }
 

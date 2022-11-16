@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -30,7 +29,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash_screen);
         initPreferences();
         mAuth = FirebaseAuth.getInstance();
-        AutoLogin();
+//        AutoLogin();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

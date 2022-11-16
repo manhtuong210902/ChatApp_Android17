@@ -77,7 +77,9 @@ public class ChatHomeFragment extends Fragment {
                 listChatUser.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Group group = dataSnapshot.getValue(Group.class);
-                    listChatUser.add(group);
+                    if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid()) == true) {
+                        listChatUser.add(group);
+                    }
                 }
                 chatUsersAdapter.notifyDataSetChanged();
                 onlineUsersAdapter.notifyDataSetChanged();
@@ -117,12 +119,40 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        mAuth.signInWithEmailAndPassword("test2@gmail.com", "123456");
-//        ArrayList<String> listUidMember = new ArrayList<>();
-//        listUidMember.add(mAuth.getCurrentUser().getUid());
-//        listUidMember.add("ddVfY1n6kEN2UK0sdX8wBKFn0Mg1");
-//        writeGroupTEST("TRUONGG", listUidMember, "f2.jpeg", true, "Khum co");
 
+            //TEST HERE :D
+        // please call one times and comment function below :3
+    //     TEST();
+    }
+
+    private void TEST() {
+        ArrayList<String> listUidMember2 = new ArrayList<>();
+        listUidMember2.add(mAuth.getCurrentUser().getUid());
+        listUidMember2.add("Gy0Q3TqGRSTKWJmlvlfAbhiiVWx1");
+        String gid2 = DbReference.writeNewGroup("Nguyễn Mạnh Tường", listUidMember2, "c1.jpg", true, "Khum co1");
+
+        ArrayList<String> listUidMember3 = new ArrayList<>();
+        listUidMember3.add(mAuth.getCurrentUser().getUid());
+        listUidMember3.add("tSeDuvDRozXGtXgYsjEE7tIoIG13");
+        String gid3 =DbReference.writeNewGroup("Nguyễn Thanh Tùng", listUidMember3, "chumo.jpg", true, "Khum co2");
+
+        ArrayList<String> listUidMember4 = new ArrayList<>();
+        listUidMember4.add(mAuth.getCurrentUser().getUid());
+        listUidMember4.add("pGBznA03v1Z86ebrqCOvemO4rCN2");
+        String gid4 =DbReference.writeNewGroup("Nguyễn Lam Trường", listUidMember4, "e3.jpg", true, "Khum co3");
+
+        ArrayList<String> listUidMember5 = new ArrayList<>();
+        listUidMember5.add(mAuth.getCurrentUser().getUid());
+        listUidMember5.add("ddVfY1n6kEN2UK0sdX8wBKFn0Mg1");
+        String gid5 = DbReference.writeNewGroup("Phan Yến Nhi", listUidMember5, "f2.jpg", true, "Khum co4");
+
+        String uid = mAuth.getCurrentUser().getUid();
+        ArrayList<String> listGid = new ArrayList<>();
+        listGid.add(gid2);
+        listGid.add(gid3);
+        listGid.add(gid4);
+        listGid.add(gid5);
+        DbReference.writeNewUserGroups(uid, listGid);
     }
 
     private void loginAndWriteUserTEST(String email, String password, String name, String image, boolean isOnline) {
