@@ -1,12 +1,6 @@
 package com.example.chatapp;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.Group;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupFragment extends Fragment {
     private LinearLayout llGroups;
@@ -64,7 +59,7 @@ public class GroupFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Group group = dataSnapshot.getValue(Group.class);
-                    Toast.makeText(getActivity(), user.getUid(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), user.getUid(), Toast.LENGTH_SHORT).show();
 
                     if(group.getListUidMember().size()>=2  && group.getListUidMember().toString().contains(user.getUid()) ){
                         groupsData.add(group);
