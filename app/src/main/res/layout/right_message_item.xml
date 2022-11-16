@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="252dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,6 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hello xin chao tat ca moi nguòi"
+                android:id="@+id/tvShowMessage"
                 android:textSize="15sp"
                 android:fontFamily="@font/public_sans_regular"
                 android:textColor="@color/primary_text"
@@ -28,12 +31,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textColor="@color/secondary_text"
                 android:drawableLeft="@drawable/ic_time_line"
                 android:drawablePadding="10dp"
+                android:id="@+id/tvShowTimeMessage"
                 android:drawableTint="@color/secondary_text"
                 android:text="2:05"/>
         </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civShowAvatar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/tvShowUsername"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

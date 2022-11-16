@@ -62,6 +62,7 @@
             android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
         <EditText
+            android:id="@+id/editText_emailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="admin@gmail.com"
@@ -81,9 +82,10 @@
             android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
         <EditText
+            android:id="@+id/editText_passwordLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123456"
+            android:hint="*********"
             android:textSize="15sp"
             android:inputType="textPassword"
             android:layout_marginBottom="16dp"
@@ -91,6 +93,7 @@
             android:drawablePadding="10dp"/>
 
         <CheckBox
+            android:id="@+id/checkbox_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember me"
