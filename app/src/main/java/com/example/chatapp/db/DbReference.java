@@ -86,6 +86,4 @@ public class DbReference {
         mDatabase.updateChildren(messageUpdates);
 
     }
-
-
 }

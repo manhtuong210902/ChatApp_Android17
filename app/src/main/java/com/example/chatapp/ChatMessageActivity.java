@@ -7,12 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.example.chatapp.models.Group;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +33,14 @@ import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChatMessageActivity extends Activity {
     private ImageView btnSend;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
+    private CircleImageView civGroupImage;
+    private TextView tvGroupName;
 
     private ArrayList<ChatMessage> listChat;
     private ChatMessageAdapter adapter;
@@ -45,6 +55,8 @@ public class ChatMessageActivity extends Activity {
         btnSend = (ImageView) findViewById(R.id.btnSend);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
+        civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
+        tvGroupName = (TextView) findViewById(R.id.tvGroupName);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
@@ -52,6 +64,7 @@ public class ChatMessageActivity extends Activity {
 
         Bundle bundleRev = getIntent().getExtras();
         String idGroup = bundleRev.getString("idGroup");
+        mAuth = FirebaseAuth.getInstance();
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +73,8 @@ public class ChatMessageActivity extends Activity {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
 
-                ChatMessage chat = new ChatMessage(currentTime.toString(), message, "ddVfY1n6kEN2UK0sdX8wBKFn0Mg1", true);
-                sendMessage(chat , idGroup);
+                ChatMessage chat = new ChatMessage(currentTime.toString(), message, mAuth.getCurrentUser().getUid(), "text");
+                sendMessage(chat, idGroup);
                 etInputMessage.setText("");
             }
         });
@@ -72,6 +85,20 @@ public class ChatMessageActivity extends Activity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Group group = snapshot.getValue(Group.class);
+                tvGroupName.setText(group.getName());
+                FirebaseStorage.getInstance().getReference().child("images/"+ group.getImageId())
+                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Picasso.get().load(uri).into(civGroupImage);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
                 readMessage(idGroup);
             }
 
