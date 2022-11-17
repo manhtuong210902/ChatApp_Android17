@@ -88,28 +88,34 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ExpandableListView
-        android:id="@+id/expandablePersonalListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" >
-    </ExpandableListView>
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:padding="10dp"
-        />
+        <ExpandableListView
+            android:id="@+id/expandablePersonalListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:divider="@color/white"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:divider="@color/white"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/public_sans_semi_bold"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button"
+            android:padding="10dp"
+            />
+
 
 </LinearLayout>

@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingHorizontal="?android:attr/expandableListPreferredChildPaddingLeft"
+    android:paddingVertical="8dp">
     <TextView
         android:id="@+id/expandedListItemTitle"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="a"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:paddingTop="10dp"
-        android:background="@color/white"
-        android:paddingBottom="10dp" />
+        android:text="Email"
+        android:textSize="15sp"
+        android:fontFamily="@font/public_sans_regular"
+        android:textColor="@color/secondary_text"
+        android:layout_marginBottom="4dp"
+        />
     <TextView
         android:id="@+id/expandedListItemContent"
-        android:layout_width="fill_parent"
-        android:text="b"
+        android:layout_width="wrap_content"
+        android:text="Mạnh Tường"
+        android:textSize="14sp"
+        android:textColor="@color/primary_text"
+        android:fontFamily="@font/public_sans_semi_bold"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingBottom="10dp" />
+        android:layout_marginBottom="8dp"
+       />
 </LinearLayout>

@@ -50,10 +50,8 @@ public class SplashActivity extends Activity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
-
                     } else {
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(intent);

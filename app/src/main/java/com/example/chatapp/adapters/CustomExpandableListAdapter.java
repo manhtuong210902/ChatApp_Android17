@@ -44,30 +44,17 @@ public class CustomExpandableListAdapter  extends BaseExpandableListAdapter {
         final String expandedListText = (String) getChild(listPosition, expandedListPosition);
 
 
-        String listTitle = (String) getGroup(listPosition);
-        String listDetail=(String) getChild(listPosition,expandedListPosition) ;
-        if (listTitle=="Security" || listDetail=="Last seen" || listDetail== "Read receipts") {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_switch_btn_item, null);
-        }
-        else if (listDetail=="Profile photo" || listDetail== "Status" || listDetail== "Groups") {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_spinner_item, null);
-            Spinner spinner=(Spinner) convertView.findViewById(R.id.spn);
-            String[] list={"Everyone","none"};
-            spinner.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, list));
+//        String listTitle = (String) getGroup(listPosition);
+//        String listDetail=(String) getChild(listPosition,expandedListPosition) ;
+//        convertView = layoutInflater.inflate(R.layout.list_spinner_item, null);
+//        Spinner spinner=(Spinner) convertView.findViewById(R.id.spn);
+//        String[] list={"Everyone","none"};
+//        spinner.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, list));
 
-        }
-        else {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
-        }
-
-        TextView expandedListTextView = (TextView) convertView
-                .findViewById(R.id.expandedListItem);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.list_switch_btn_item, null);
+        TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
         return convertView;
     }

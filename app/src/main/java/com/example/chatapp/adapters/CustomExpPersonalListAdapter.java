@@ -45,8 +45,6 @@ public class CustomExpPersonalListAdapter  extends BaseExpandableListAdapter {
         List<String> personal = new ArrayList<>();
         personal.add("Name");
         personal.add("Email");
-        personal.add("Time");
-        personal.add("Location");
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
