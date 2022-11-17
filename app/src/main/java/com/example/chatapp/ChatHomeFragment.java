@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +45,7 @@ import java.util.UUID;
 
 public class ChatHomeFragment extends Fragment {
     private LinearLayout llHomeChats;
+    private SearchView svSearchUser;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
     private ArrayList<Group> listChatUser;
@@ -68,6 +71,16 @@ public class ChatHomeFragment extends Fragment {
         llHomeChats = (LinearLayout) inflater.inflate(R.layout.fragment_home_chat, container, false);
         recyclerViewOnlineUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvOnlineUser);
         recyclerViewChatUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvChatUser);
+        svSearchUser = (SearchView) llHomeChats.findViewById(R.id.c_svSearch);
+        svSearchUser.setFocusable(true);
+
+        svSearchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SearchUsersActivity.class);
+                startActivity(intent);
+            }
+        });
 
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
@@ -230,8 +243,6 @@ public class ChatHomeFragment extends Fragment {
             Intent intent = new Intent(getContext(), ChatMessageActivity.class);
             Bundle bundleSent = new Bundle();
             bundleSent.putString("idGroup", listChatUser.get(position).getGid());
-//           bundleSent.putString("username", listChatUser.get(position).getName());
-//           bundleSent.putString("avatar", listChatUser.get(position).getImageId());
             intent.putExtras(bundleSent);
             startActivity(intent);
         }

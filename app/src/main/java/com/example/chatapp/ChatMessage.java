@@ -6,8 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatMessage {
-    private String messageTime, message, sendBy;
-    private boolean typeMessage;
+    private String messageTime, message, sendBy, typeMessage;
+
+    public ChatMessage(String messageTime, String message, String sendBy, String typeMessage) {
+        this.messageTime = messageTime;
+        this.message = message;
+        this.sendBy = sendBy;
+        this.typeMessage = typeMessage;
+    }
 
     public String getMessageTime() {
         return messageTime;
@@ -33,18 +39,11 @@ public class ChatMessage {
         this.sendBy = sendBy;
     }
 
-    public boolean isTypeMessage() {
+    public String getTypeMessage() {
         return typeMessage;
     }
 
-    public void setTypeMessage(boolean typeMessage) {
-        this.typeMessage = typeMessage;
-    }
-
-    public ChatMessage(String messageTime, String message, String sendBy, boolean typeMessage) {
-        this.messageTime = messageTime;
-        this.message = message;
-        this.sendBy = sendBy;
+    public void setTypeMessage(String typeMessage) {
         this.typeMessage = typeMessage;
     }
 

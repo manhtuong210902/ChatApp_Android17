@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chatapp.models.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,18 +64,12 @@ public class AddGroupActivity extends Activity {
     }
 
     private void Data() {
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", R.drawable.cute1, false,   "22:20"), false));
-        listFriend.add(new  AddGroupUser(new User("2", "Mew2", R.drawable.cute2, true,   "22:21"), false));
-        listFriend.add(new  AddGroupUser(new User("3", "Mew3", R.drawable.cute3,   true, "22:22"), false));
-        listFriend.add(new  AddGroupUser(new User("4", "Mew1", R.drawable.cute1, false,   "22:20"), false));
-        listFriend.add(new  AddGroupUser(new User("5", "Mew2", R.drawable.cute2, true,   "22:21"), false));
-        listFriend.add(new  AddGroupUser(new User("6", "Mew3", R.drawable.cute3,   true, "22:22"), false));
-        listFriend.add(new  AddGroupUser(new User("7", "Mew1", R.drawable.cute1, false,   "22:20"), false));
-        listFriend.add(new  AddGroupUser(new User("8", "Mew2", R.drawable.cute2, true,   "22:21"), false));
-        listFriend.add(new  AddGroupUser(new User("9", "Mew3", R.drawable.cute3,   true, "22:22"), false));
-        listFriend.add(new  AddGroupUser(new User("10", "Mew1", R.drawable.cute1, false,   "22:20"), false));
-        listFriend.add(new  AddGroupUser(new User("11", "Mew2", R.drawable.cute2, true,   "22:21"), false));
-        listFriend.add(new  AddGroupUser(new User("12", "Mew3", R.drawable.cute3,   true, "22:22"), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
     }
 
     private final AddSelectedListListener addSelectedListListener = new AddSelectedListListener() {
@@ -88,7 +84,7 @@ public class AddGroupActivity extends Activity {
                 listFriend.get(pos).setChecked(false);
                 int i=0;
                 for(i=0;i<listSelected.size();i++){
-                    if(listFriend.get(pos).getInfo().getId()== listSelected.get(i).getInfo().getId()){
+                    if(listFriend.get(pos).getInfo().getUid()== listSelected.get(i).getInfo().getUid()){
                         break;
                     }
                 }
@@ -107,7 +103,7 @@ public class AddGroupActivity extends Activity {
         @Override
         public void onMemberClicked(int pos, boolean isCheck) {
             for( int i = 0; i < listFriend.size(); i++) {
-                if (pos< listSelected.size() && listFriend.get(i).getInfo().getId() == listSelected.get(pos).getInfo().getId()) {
+                if (pos< listSelected.size() && listFriend.get(i).getInfo().getUid() == listSelected.get(pos).getInfo().getUid()) {
                     listSelected.remove(pos);
                     selectedGroupAdapter.notifyItemRemoved(pos);
                     listFriend.get(i).setChecked(false);

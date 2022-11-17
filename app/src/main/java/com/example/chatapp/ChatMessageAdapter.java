@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     public static final int MSG_TYPE_RIGHT = 1;
     private Context context;
     private ArrayList<ChatMessage> listMessage;
+    private FirebaseAuth mAuth;
 
     public ChatMessageAdapter(Context context, ArrayList<ChatMessage> listMessage) {
         this.context = context;
@@ -46,7 +48,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         ChatMessage chatItem = listMessage.get(position);
         holder.tvShowMessage.setText(chatItem.getMessage());
         holder.civShowAvatar.setImageResource(R.drawable.cute1);
-        holder.tvShowUsername.setText("Mạnh Tường");
+        holder.tvShowUsername.setText("mạnh tường");
         holder.tvShowTimeMessage.setText(chatItem.getMessageTime());
     }
 
@@ -69,7 +71,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        if(listMessage.get(position).isTypeMessage() == true){
+        mAuth = FirebaseAuth.getInstance();
+        if(listMessage.get(position).getSendBy().equals(mAuth.getCurrentUser().getUid())){
             return MSG_TYPE_RIGHT;
         }
         else{
