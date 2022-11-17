@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatHomeFragment"
+    tools:context=".fragments.ChatHomeFragment"
     android:background="@color/primary_background"
     android:orientation="vertical"
     android:id="@+id/llHomeChats"

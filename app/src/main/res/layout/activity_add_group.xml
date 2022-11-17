@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/primary_background"
     android:layout_height="match_parent"
-    tools:context=".AddGroupActivity">
+    tools:context=".activities.AddGroupActivity">
 
     <LinearLayout
         android:id="@+id/toolbar"
