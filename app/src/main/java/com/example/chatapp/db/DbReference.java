@@ -72,6 +72,7 @@ public class DbReference {
         FirebaseDatabase.getInstance().getReference("UserGroups").child(uid).child("listGid").setValue(listGid);
     }
 
+
     static public void writeNewMessage(String uid, String gid, ArrayList<String> listMemberSeen, boolean isImage, String imageId) {
         String mid = mDatabase.child("Messages").push().getKey(); //messageId
 

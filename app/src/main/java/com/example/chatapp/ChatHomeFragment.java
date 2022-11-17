@@ -119,10 +119,12 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
             //TEST HERE :D
         // please call one times and comment function below :3
     //     TEST();
+        ArrayList<String> listGid = new ArrayList<>();
+        listGid.add("newGid");
+        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
     }
 
     private void TEST() {
