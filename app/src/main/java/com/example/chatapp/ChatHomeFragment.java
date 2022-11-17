@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.Group;
+import com.example.chatapp.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +49,8 @@ public class ChatHomeFragment extends Fragment {
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
     private ArrayList<Group> listChatUser;
+    private ArrayList<User> listUser;
+    private String userAnother;
     private OnlineUsersAdapter onlineUsersAdapter;
     private ChatUsersAdapter chatUsersAdapter;
 
@@ -90,10 +92,40 @@ public class ChatHomeFragment extends Fragment {
                 listChatUser.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Group group = dataSnapshot.getValue(Group.class);
-                    if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid()) == true) {
+
+                    //get uid of user other than the current user
+                    if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid())) {
+                        if(group.getListUidMember().get(0).equals(mAuth.getCurrentUser().getUid())) {
+                            userAnother = group.getListUidMember().get(1);
+                        } else {
+                            userAnother = group.getListUidMember().get(0);
+                        }
+
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(userAnother)
+                                .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                User user = snapshot.getValue(User.class);
+                                Log.i("user ", user.getName());
+                                Log.i("user ", user.getImage());
+                                group.setName(user.getName());
+                                group.setImageId(user.getImage());
+
+                                chatUsersAdapter.notifyDataSetChanged();
+                                onlineUsersAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         listChatUser.add(group);
                     }
                 }
+
                 chatUsersAdapter.notifyDataSetChanged();
                 onlineUsersAdapter.notifyDataSetChanged();
             }
@@ -103,6 +135,9 @@ public class ChatHomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Get groups failed!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        //change name & img ^^!
 
 
         onlineUsersAdapter = new OnlineUsersAdapter(listChatUser, getContext());
@@ -129,37 +164,72 @@ public class ChatHomeFragment extends Fragment {
         return llHomeChats;
     }
 
+    private void getListUser(ArrayList<Group> listChatUser1) {
+        listUser = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listUser.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    for(int i=0; i<listChatUser.size(); i++) {
+                        if(listChatUser.get(i).getListUidMember().contains(user.getUid()) && !user.getUid().equals(mAuth.getCurrentUser().getUid())) {
+                            listUser.add(user);
+                        }
+                    }
+                }
+                chatUsersAdapter.notifyDataSetChanged();
+                onlineUsersAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        Log.i("size list user", Integer.toString(listUser.size()));
+//        for(int i=0; i<listChatUser.size(); i++) {
+//            for(int j=0; j<listUser.size(); j++) {
+//                if(listChatUser.get(i).getListUidMember().contains(listUser.get(j).getUid())) {
+//                    listChatUser.get(i).setName(listUser.get(j).getName());
+//                    listChatUser.get(i).setImageId(listUser.get(j).getImage());
+//                }
+//            }
+//        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
             //TEST HERE :D
         // please call one times and comment function below :3
-    //     TEST();
-        ArrayList<String> listGid = new ArrayList<>();
-        listGid.add("newGid");
-        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
+//         TEST();
+//        ArrayList<String> listGid = new ArrayList<>();
+//        listGid.add("newGid");
+//        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
     }
 
     private void TEST() {
         ArrayList<String> listUidMember2 = new ArrayList<>();
         listUidMember2.add(mAuth.getCurrentUser().getUid());
         listUidMember2.add("Gy0Q3TqGRSTKWJmlvlfAbhiiVWx1");
-        String gid2 = DbReference.writeNewGroup("Nguyễn Mạnh Tường", listUidMember2, "c1.jpg", true, "Khum co1");
+        String gid2 = DbReference.writeNewGroup("Nguyễn Mạnh Tường(Gr)", listUidMember2, "avtdefault.jpg", true, "Khum co1");
 
         ArrayList<String> listUidMember3 = new ArrayList<>();
         listUidMember3.add(mAuth.getCurrentUser().getUid());
         listUidMember3.add("tSeDuvDRozXGtXgYsjEE7tIoIG13");
-        String gid3 =DbReference.writeNewGroup("Nguyễn Thanh Tùng", listUidMember3, "chumo.jpg", true, "Khum co2");
+        String gid3 =DbReference.writeNewGroup("Nguyễn Thanh Tùng(Gr)", listUidMember3, "avtdefault.jpg", true, "Khum co2");
 
         ArrayList<String> listUidMember4 = new ArrayList<>();
         listUidMember4.add(mAuth.getCurrentUser().getUid());
         listUidMember4.add("pGBznA03v1Z86ebrqCOvemO4rCN2");
-        String gid4 =DbReference.writeNewGroup("Nguyễn Lam Trường", listUidMember4, "e3.jpg", true, "Khum co3");
+        String gid4 =DbReference.writeNewGroup("Nguyễn Lam Trường(Gr)", listUidMember4, "avtdefault.jpg", true, "Khum co3");
 
         ArrayList<String> listUidMember5 = new ArrayList<>();
         listUidMember5.add(mAuth.getCurrentUser().getUid());
-        listUidMember5.add("ddVfY1n6kEN2UK0sdX8wBKFn0Mg1");
-        String gid5 = DbReference.writeNewGroup("Phan Yến Nhi", listUidMember5, "f2.jpg", true, "Khum co4");
+        listUidMember5.add("32D6AxicV8NRsq0z9cKQ9hWNZpv2");
+        String gid5 = DbReference.writeNewGroup("Nguyễn Anh(Gr)", listUidMember5, "avtdefault.jpg", true, "Khum co4");
 
         String uid = mAuth.getCurrentUser().getUid();
         ArrayList<String> listGid = new ArrayList<>();
