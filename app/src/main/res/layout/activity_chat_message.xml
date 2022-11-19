@@ -21,9 +21,10 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_arrow_left_s_line" />
+            android:src="@drawable/ic_arrow_left_s_line"
+            android:id="@+id/btnBackMain"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="36dp"
@@ -58,10 +59,10 @@
         android:id="@+id/rcvListChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="55dp"
-        android:layout_marginBottom="58dp"
-        android:paddingHorizontal="16dp" />
+        android:layout_marginBottom="60dp"
+        android:paddingHorizontal="16dp"
+        app:layoutManager="LinearLayoutManager"/>
 
 
     <LinearLayout

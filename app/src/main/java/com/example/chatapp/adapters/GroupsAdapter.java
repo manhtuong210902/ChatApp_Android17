@@ -54,7 +54,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsViewHolder>{
                 });
         holder.textView_GroupName.setText(list.get(position).getName());
         holder.textView_GroupName.setSelected(true);
-        holder.textView_GroupStatus.setText(list.get(position).getLastMessage());
+        holder.textView_GroupStatus.setText("news");
     }
 
     @Override

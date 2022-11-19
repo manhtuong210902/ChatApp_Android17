@@ -1,6 +1,8 @@
 package com.example.chatapp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatapp.R;
 import com.example.chatapp.interfaces.RecyclerViewInterface;
 import com.example.chatapp.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 ////////import com.squareup.picasso.Picasso;*////
 
 import java.util.ArrayList;
@@ -43,7 +49,19 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
         User user = listUser.get(position);
         String name = user.getName();
         holder.tvName.setText(name);
-        holder.civAvatar.setImageResource(R.drawable.cute1);
+        FirebaseStorage.getInstance().getReference().child("images/"+user.getImage())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(holder.civAvatar);
+                        Log.i("uri", uri.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
     }
 
     @Override

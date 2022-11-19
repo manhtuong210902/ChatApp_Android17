@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ import java.util.Date;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend;
+    private ImageView btnSend, btnBackMain;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImage;
@@ -52,6 +53,7 @@ public class ChatMessageActivity extends Activity {
         setContentView(R.layout.activity_chat_message);
 
         btnSend = (ImageView) findViewById(R.id.btnSend);
+        btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
         civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
@@ -111,6 +113,14 @@ public class ChatMessageActivity extends Activity {
         });
         adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
         rcvListChat.setAdapter(adapter);
+
+        btnBackMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatMessageActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void sendMessage(ChatMessage chat, String idGroup){

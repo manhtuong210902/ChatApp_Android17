@@ -34,7 +34,7 @@
                 android:textSize="10sp"
                 android:textColor="@color/secondary_text"
                 android:drawableLeft="@drawable/ic_time_line"
-                android:drawablePadding="10dp"
+                android:drawablePadding="4dp"
                 android:id="@+id/tvShowTimeMessage"
                 android:drawableTint="@color/secondary_text"
                 android:text="2:05"/>

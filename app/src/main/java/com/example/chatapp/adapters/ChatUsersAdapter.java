@@ -15,6 +15,7 @@ import com.example.chatapp.interfaces.RecyclerViewInterface;
 import com.example.chatapp.models.Group;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 ////////import com.squareup.picasso.Picasso;*////
@@ -27,6 +28,7 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
     private ArrayList<Group> listUser;
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
+//    private DatabaseReference databaseReference;
 
     public ChatUsersAdapter(ArrayList<Group> listUser, Context context, RecyclerViewInterface recyclerViewInterface) {
         this.listUser = listUser;
@@ -60,6 +62,7 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
             }
         });
         holder.tv_name.setText(name);
+        holder.tv_message.setText(listUser.get(position).getLastMessage());
     }
 
     @Override
@@ -70,10 +73,12 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView im_item;
         TextView tv_name;
+        TextView tv_message;
         public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             im_item = (CircleImageView)itemView.findViewById(R.id.civImage);
             tv_name = (TextView) itemView.findViewById(R.id.tvName);
+            tv_message = (TextView) itemView.findViewById(R.id.tvMessage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

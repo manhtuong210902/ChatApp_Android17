@@ -47,7 +47,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="4dp"
                     android:drawableLeft="@drawable/ic_time_line"
-                    android:drawablePadding="10dp"
+                    android:drawablePadding="4dp"
                     android:drawableTint="@color/gray_border"
                     android:text="2:05"
                     android:id="@+id/tvShowTimeMessage"

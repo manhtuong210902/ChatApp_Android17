@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -71,7 +72,6 @@ public class SearchUsersActivity extends Activity {
     private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(SearchUsersActivity.this, "Show", Toast.LENGTH_SHORT).show();
             User user = listUser.get(position);
             ArrayList<String> listUidMember = new ArrayList<>();
             listUidMember.add(mAuth.getCurrentUser().getUid());
@@ -80,14 +80,31 @@ public class SearchUsersActivity extends Activity {
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean check = false;
+                    String idGroup = "";
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Group group = dataSnapshot.getValue(Group.class);
                         if(group.getListUidMember().equals(listUidMember)) {
-                            return;
+                            check = true;
+                            idGroup = group.getGid();
+                            break;
                         }
-                        else{
-                            DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "Khum co");
-                        }
+                    }
+                    Intent intent = new Intent(SearchUsersActivity.this, ChatMessageActivity.class);
+                    Bundle bundleSent = new Bundle();
+                    if(check){
+                        bundleSent.putString("idGroup", idGroup);
+                        bundleSent.putString("nameGroup", user.getName());
+                        bundleSent.putString("imageGroup", user.getImage());
+                        intent.putExtras(bundleSent);
+                        startActivity(intent);
+                    }else{
+                        String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "welcome to chat app");
+                        bundleSent.putString("idGroup", gid);
+                        bundleSent.putString("nameGroup", user.getName());
+                        bundleSent.putString("imageGroup", user.getImage());
+                        intent.putExtras(bundleSent);
+                        startActivity(intent);
                     }
                 }
 
