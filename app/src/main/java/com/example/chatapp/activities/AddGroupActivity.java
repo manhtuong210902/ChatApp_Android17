@@ -68,12 +68,12 @@ public class AddGroupActivity extends Activity {
     }
 
     private void Data() {
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
-        listFriend.add(new  AddGroupUser(new User("1", "Mew1", "image", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew 1", "c1.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("2", "Mew 2", "avtdefault.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("3", "Mew 3", "f2.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("4", "Mew 4", "c1.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("5", "Mew 5", "avtdefault.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("6", "Mew 6", "c1.jpg", true), false));
     }
 
     private final AddSelectedListListener addSelectedListListener = new AddSelectedListListener() {
@@ -99,6 +99,7 @@ public class AddGroupActivity extends Activity {
             if(listSelected.size() !=0)
                 layout_selectedMember.setVisibility(View.VISIBLE);
             else layout_selectedMember.setVisibility(View.INVISIBLE);
+            textView_numSelected.setText("Selected: " + String.valueOf(listSelected.size()));
         }
 
     };
@@ -122,6 +123,4 @@ public class AddGroupActivity extends Activity {
             textView_numSelected.setText("Selected: " + String.valueOf(listSelected.size()));
         }
     };
-
-
 }

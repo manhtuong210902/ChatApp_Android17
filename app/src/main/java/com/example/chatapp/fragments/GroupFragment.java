@@ -67,7 +67,7 @@ public class GroupFragment extends Fragment {
                     Group group = dataSnapshot.getValue(Group.class);
 //                    Toast.makeText(getActivity(), user.getUid(), Toast.LENGTH_SHORT).show();
 
-                    if(group.getListUidMember().size()>=2  && group.getListUidMember().toString().contains(user.getUid()) ){
+                    if(group.getListUidMember().size() > 2  && group.getListUidMember().toString().contains(user.getUid()) ){
                         groupsData.add(group);
                     }
                 }

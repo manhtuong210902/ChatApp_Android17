@@ -101,35 +101,37 @@ public class ChatHomeFragment extends Fragment {
 
                     //get uid of user other than the current user
                     if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid())) {
-                        if(group.getListUidMember().get(0).equals(mAuth.getCurrentUser().getUid())) {
-                            userAnother = group.getListUidMember().get(1);
-                        } else {
-                            userAnother = group.getListUidMember().get(0);
+                        if(group.getListUidMember().size() == 2){
+                            if(group.getListUidMember().get(0).equals(mAuth.getCurrentUser().getUid())) {
+                                userAnother = group.getListUidMember().get(1);
+                            } else {
+                                userAnother = group.getListUidMember().get(0);
+                            }
+
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(userAnother)
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            User user = snapshot.getValue(User.class);
+                                            Log.i("user ", user.getName());
+                                            Log.i("user ", user.getImage());
+                                            group.setName(user.getName());
+                                            group.setImageId(user.getImage());
+
+                                            chatUsersAdapter.notifyDataSetChanged();
+                                            onlineUsersAdapter.notifyDataSetChanged();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                         }
-
-                        FirebaseDatabase.getInstance().getReference("Users")
-                                .child(userAnother)
-                                .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                User user = snapshot.getValue(User.class);
-                                Log.i("user ", user.getName());
-                                Log.i("user ", user.getImage());
-                                group.setName(user.getName());
-                                group.setImageId(user.getImage());
-
-                                chatUsersAdapter.notifyDataSetChanged();
-                                onlineUsersAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
                         listChatUser.add(group);
                     }
+
                 }
 
                 chatUsersAdapter.notifyDataSetChanged();

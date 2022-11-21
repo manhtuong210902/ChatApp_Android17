@@ -1,6 +1,7 @@
 package com.example.chatapp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatapp.interfaces.AddSelectedListListener;
 import com.example.chatapp.R;
 import com.example.chatapp.models.AddGroupUser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,7 +41,20 @@ public class SelectedGroupAdapter extends RecyclerView.Adapter<SelectedGroupsVie
 
     @Override
     public void onBindViewHolder(@NonNull SelectedGroupsViewHolder holder, int position) {
-            Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.imageView_avatar);
+//            Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.imageView_avatar);
+        FirebaseStorage.getInstance().getReference().child("images/"+list.get(position).getInfo().getImage())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(holder.imageView_avatar);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+//            holder.imageView_avatar.setImageResource(R.drawable.cute1);
             holder.imageView_removeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

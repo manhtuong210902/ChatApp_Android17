@@ -1,6 +1,7 @@
 package com.example.chatapp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatapp.models.AddGroupUser;
 import com.example.chatapp.interfaces.AddSelectedListListener;
 import com.example.chatapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,8 +44,19 @@ public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AddGroupViewHolder holder, int position) {
         holder.textView_name.setText(list.get(position).getInfo().getName());
-//        Picasso.get().load(list.get(position).getInfo().getImage()).into(holder.image_avatar);
-        holder.image_avatar.setImageResource(R.drawable.cute1);
+        FirebaseStorage.getInstance().getReference().child("images/"+list.get(position).getInfo().getImage())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(holder.image_avatar);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+//        holder.image_avatar.setImageResource(R.drawable.cute1);
         holder.checkBox_Select.setChecked(list.get(position).isChecked());
         holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
