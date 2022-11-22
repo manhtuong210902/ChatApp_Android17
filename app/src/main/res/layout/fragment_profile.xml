@@ -58,7 +58,7 @@
             android:id="@+id/tvUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/patricia_mercssee"
+            android:text="Mạnh Tường"
             android:gravity="center"
             android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="16sp"

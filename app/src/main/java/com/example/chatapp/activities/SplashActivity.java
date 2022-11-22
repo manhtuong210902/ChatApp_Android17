@@ -44,6 +44,7 @@ public class SplashActivity extends Activity {
         if( email.isEmpty() || password.isEmpty()){
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
         else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -52,9 +53,11 @@ public class SplashActivity extends Activity {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

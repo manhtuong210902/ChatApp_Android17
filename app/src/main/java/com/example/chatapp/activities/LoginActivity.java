@@ -62,6 +62,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -108,6 +109,7 @@ public class LoginActivity extends Activity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                         Toast.makeText(LoginActivity.this, "Login seccessful.", Toast.LENGTH_SHORT).show();
 
                     } else {
