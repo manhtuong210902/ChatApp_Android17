@@ -20,13 +20,6 @@ public class User {
         this.isOnline = isOnline;
     }
 
-    public void createUser(User A){
-        this.uid = A.uid;
-        this.name = A.name;
-        this.image = A.image;
-        this.isOnline = A.isOnline;
-    }
-
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
