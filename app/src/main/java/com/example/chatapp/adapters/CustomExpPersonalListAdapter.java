@@ -1,6 +1,7 @@
 package com.example.chatapp.adapters;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,10 @@ public class CustomExpPersonalListAdapter  extends BaseExpandableListAdapter {
         return expandedListPosition;
     }
 
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        super.registerDataSetObserver(observer);
+    }
 
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
