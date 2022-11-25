@@ -157,17 +157,17 @@ public class ChatHomeFragment extends Fragment {
         recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewChatUser.setAdapter(chatUsersAdapter);
 
-        tvChats = (TextView) llHomeChats.findViewById(R.id.c_tvChats);
-        tvChats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
-                startActivityForResult(galleryIntent, 200);
-            }
-        });
+//        tvChats = (TextView) llHomeChats.findViewById(R.id.c_tvChats);
+//        tvChats.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent galleryIntent = new Intent();
+//                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//                galleryIntent.setType("image/*");
+//                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
+//                startActivityForResult(galleryIntent, 200);
+//            }
+//        });
 
         return llHomeChats;
     }
