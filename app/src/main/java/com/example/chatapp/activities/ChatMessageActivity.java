@@ -6,13 +6,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.ChatMessage;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ChatMessageAdapter;
@@ -25,18 +31,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain;
+    private ImageView btnSend, btnBackMain, btnSentImage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImage;
@@ -47,6 +60,11 @@ public class ChatMessageActivity extends Activity {
     private FirebaseAuth mAuth;
     DatabaseReference databaseReference;
 
+    private StorageTask uploadTask;
+    private Uri fileUri;
+    private StorageReference mStorage;
+    private String idGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +72,7 @@ public class ChatMessageActivity extends Activity {
 
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
+        btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
         civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
@@ -64,7 +83,7 @@ public class ChatMessageActivity extends Activity {
         rcvListChat.setLayoutManager(linearLayoutManager);
 
         Bundle bundleRev = getIntent().getExtras();
-        String idGroup = bundleRev.getString("idGroup");
+        idGroup = bundleRev.getString("idGroup");
         String nameGroup = bundleRev.getString("nameGroup");
         String imageGroup = bundleRev.getString("imageGroup");
         FirebaseStorage.getInstance().getReference().child("images/"+ imageGroup)
@@ -83,6 +102,17 @@ public class ChatMessageActivity extends Activity {
         tvGroupName.setText(nameGroup);
 
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference();
+
+        btnSentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, 200);
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +153,55 @@ public class ChatMessageActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 200 && resultCode == RESULT_OK && data!=null){
+            fileUri = data.getData();
+            Bitmap bmp = null;
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            //here you can choose quality factor in third parameter(ex. i choosen 25)
+            bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+            byte[] fileInBytes = baos.toByteArray();
+            uploadImageToFirebase(fileInBytes);
+        }
+    }
+
+    private String uploadImageToFirebase(byte[] fileInBytes) {
+        final String imageId = UUID.randomUUID().toString() + ".jpg";
+        StorageReference imgRef = mStorage.child("images/" + imageId);
+        UploadTask uploadTask = imgRef.putBytes(fileInBytes);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(ChatMessageActivity.this, "Upload image failed!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(ChatMessageActivity.this, "Upload image successes!", Toast.LENGTH_SHORT).show();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                String currentTime = sdf.format(new Date());
+                ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image");
+                sendMessage(chat, idGroup);
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d("TAG", "Upload is " + progress + "% done");
+            }
+        });
+        return imageId;
+    }
+
     private void sendMessage(ChatMessage chat, String idGroup){
         //path: ChatMessage
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -137,7 +216,13 @@ public class ChatMessageActivity extends Activity {
         ref.updateChildren(messUpdates);
 
         DatabaseReference refGroups = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup).child("lastMessage");
-        refGroups.setValue(chat.getMessage());
+        if(chat.getTypeMessage().equals("image")){
+            refGroups.setValue("image");
+        }
+        else{
+            refGroups.setValue(chat.getMessage());
+        }
+
     }
 
     private void readMessage(String idGroup){
