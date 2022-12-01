@@ -23,22 +23,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.activities.ChatMessageActivity;
+import com.example.chatapp.activities.MainActivity;
 import com.example.chatapp.adapters.ChatUsersAdapter;
 import com.example.chatapp.adapters.OnlineUsersAdapter;
 import com.example.chatapp.R;
+import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.interfaces.RecyclerViewInterface;
 import com.example.chatapp.activities.SearchUsersActivity;
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -91,6 +96,23 @@ public class ChatHomeFragment extends Fragment {
         });
 
         DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), true);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(token);
+                        // Log and toast
+                        Log.i("TokenDevice", token);
+//                        Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
@@ -163,11 +185,14 @@ public class ChatHomeFragment extends Fragment {
 //        tvChats.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent galleryIntent = new Intent();
-//                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//                galleryIntent.setType("image/*");
-//                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
-//                startActivityForResult(galleryIntent, 200);
+////                Intent galleryIntent = new Intent();
+////                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+////                galleryIntent.setType("image/*");
+////                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
+////                startActivityForResult(galleryIntent, 200);
+//
+//                String token = "dvd44vRuQPGWsA5lZkKcHt:APA91bG7NySuQaSobUNJNpiReHjw7PW7QFg24RyCiZ73sLgJL5kNkCjqSt740MBhPDObIAvJOeNzW1VdSNLxPMm8qceUj878kR2sqO7ECANVE0w1FQrfEuCmDh11wuAxAPuwy72BK8-q";
+//                FCMSend.pushNotification(getContext(), token, "titlee", "bodyy");
 //            }
 //        });
 
@@ -266,7 +291,7 @@ public class ChatHomeFragment extends Fragment {
         if (image == null || image == "") {
             image = "avtdefault.jpg";
         }
-        DbReference.writeNewUser(uid, name, image, isOnline);
+        DbReference.writeNewUser(uid, name, image, isOnline, "");
         mAuth.signOut();
     }
 
@@ -334,6 +359,9 @@ public class ChatHomeFragment extends Fragment {
             bundleSent.putString("idGroup", listChatUser.get(position).getGid());
             bundleSent.putString("nameGroup", listChatUser.get(position).getName());
             bundleSent.putString("imageGroup", listChatUser.get(position).getImageId());
+            String uidChat = mAuth.getCurrentUser().getUid().equals(listChatUser.get(position).getListUidMember().get(0))
+                    ? listChatUser.get(position).getListUidMember().get(1) : listChatUser.get(position).getListUidMember().get(0);
+            bundleSent.putString("uidChat", uidChat);
             intent.putExtras(bundleSent);
             startActivity(intent);
         }

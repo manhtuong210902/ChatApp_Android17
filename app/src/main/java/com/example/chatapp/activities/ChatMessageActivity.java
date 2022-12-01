@@ -19,9 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatapp.db.DbReference;
+import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.models.ChatMessage;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ChatMessageAdapter;
+import com.example.chatapp.models.Group;
+import com.example.chatapp.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +67,8 @@ public class ChatMessageActivity extends Activity {
     private Uri fileUri;
     private StorageReference mStorage;
     private String idGroup;
+    private String uidChat;
+    private String didUserChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,22 @@ public class ChatMessageActivity extends Activity {
         idGroup = bundleRev.getString("idGroup");
         String nameGroup = bundleRev.getString("nameGroup");
         String imageGroup = bundleRev.getString("imageGroup");
+        uidChat = bundleRev.getString("uidChat");
+
+        FirebaseDatabase.getInstance().getReference("Users").child(uidChat)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        didUserChat = user.getDid();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         FirebaseStorage.getInstance().getReference().child("images/"+ imageGroup)
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -190,6 +211,7 @@ public class ChatMessageActivity extends Activity {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
                 ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image");
+
                 sendMessage(chat, idGroup);
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -215,12 +237,43 @@ public class ChatMessageActivity extends Activity {
         messUpdates.put("/ChatMessage/" + idGroup + "/" + messageId, messValues);
         ref.updateChildren(messUpdates);
 
+
         DatabaseReference refGroups = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup).child("lastMessage");
         if(chat.getTypeMessage().equals("image")){
             refGroups.setValue("image");
+
+            // :(
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "Đã gửi hình ảnh");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
         }
         else{
             refGroups.setValue(chat.getMessage());
+
+            // :(
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), chat.getMessage());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
         }
 
     }

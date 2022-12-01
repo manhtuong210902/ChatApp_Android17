@@ -8,16 +8,18 @@ public class User {
     private String name;
     private String image;
     public boolean isOnline;
+    private String did;
 
     public User(){
 
     }
 
-    public User(String uid, String name, String image, boolean isOnline) {
+    public User(String uid, String name, String image, boolean isOnline, String did) {
         this.uid = uid;
         this.name = name;
         this.image = image;
         this.isOnline = isOnline;
+        this.did = did;
     }
 
     public Map<String, Object> toMap() {
@@ -26,7 +28,16 @@ public class User {
         result.put("name", name);
         result.put("image", image);
         result.put("isOnline", isOnline);
+        result.put("did", did);
         return result;
+    }
+
+    public String getDid() {
+        return did;
+    }
+
+    public void setDid(String did) {
+        this.did = did;
     }
 
     public String getUid() {

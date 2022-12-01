@@ -89,7 +89,7 @@ public class RegisterActivity extends Activity {
                         FirebaseUser user = mAuth.getCurrentUser();
 
 //                        Toast.makeText(RegisterActivity.this, "uid: " + mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
-                        DbReference.writeNewUser(mAuth.getCurrentUser().getUid(), editText_userNameRegister.getText().toString(), "avtdefault.jpg", true);
+                        DbReference.writeNewUser(mAuth.getCurrentUser().getUid(), editText_userNameRegister.getText().toString(), "avtdefault.jpg", true, "");
                         Toast.makeText(RegisterActivity.this, "Register successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);

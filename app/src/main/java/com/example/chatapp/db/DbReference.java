@@ -31,8 +31,8 @@ public class DbReference {
         return mDatabase;
     }
 
-    static public void writeNewUser(String uid, String name, String image, boolean isOnline) {
-        User user = new User(uid, name, image, isOnline);
+    static public void writeNewUser(String uid, String name, String image, boolean isOnline, String did) {
+        User user = new User(uid, name, image, isOnline, did);
 
         Map<String, Object> userValues = user.toMap();
 
