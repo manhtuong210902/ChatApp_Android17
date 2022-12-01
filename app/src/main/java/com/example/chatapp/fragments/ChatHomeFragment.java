@@ -90,6 +90,8 @@ public class ChatHomeFragment extends Fragment {
             }
         });
 
+        DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), true);
+
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
 
@@ -114,10 +116,10 @@ public class ChatHomeFragment extends Fragment {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             User user = snapshot.getValue(User.class);
-                                            Log.i("user ", user.getName());
-                                            Log.i("user ", user.getImage());
+                                            Log.i("user ", "a" + user.getIsOnline());
                                             group.setName(user.getName());
                                             group.setImageId(user.getImage());
+                                            group.setOnline(user.getIsOnline());
 
                                             chatUsersAdapter.notifyDataSetChanged();
                                             onlineUsersAdapter.notifyDataSetChanged();
@@ -210,12 +212,21 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
             //TEST HERE :D
         // please call one times and comment function below :3
 //         TEST();
 //        ArrayList<String> listGid = new ArrayList<>();
 //        listGid.add("newGid");
 //        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        String uid = mAuth.getCurrentUser().getUid();
+        DbReference.writeIsOnlineUserAndGroup(uid, false);
     }
 
     private void TEST() {

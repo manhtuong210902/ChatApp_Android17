@@ -1,11 +1,20 @@
 package com.example.chatapp.db;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.Message;
 import com.example.chatapp.models.User;
 import com.example.chatapp.models.UserGroups;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +46,28 @@ public class DbReference {
 
     static public void writeImageUser(String uid, String imageId) {
         mDatabase.child("Users").child(uid).child("image").setValue(imageId);
+    }
+
+    static public void writeIsOnlineUserAndGroup(String uid, boolean isOnline) {
+        mDatabase.child("Users").child(uid).child("isOnline").setValue(isOnline);
+
+        FirebaseDatabase.getInstance().getReference("Groups").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Group group = dataSnapshot.getValue(Group.class);
+                    //get uid of user other than the current user
+
+                    if(group.getListUidMember().contains(uid)) {
+                        mDatabase.child("Groups").child(group.getGid()).child("isOnline").setValue(isOnline);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     static public String writeNewGroup(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {

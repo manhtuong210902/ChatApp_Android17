@@ -7,7 +7,7 @@ public class User {
     private String uid;
     private String name;
     private String image;
-    private boolean isOnline;
+    public boolean isOnline;
 
     public User(){
 
@@ -54,10 +54,28 @@ public class User {
     }
 
     public boolean isOnline() {
-        return isOnline;
+        return this.isOnline;
+    }
+
+    public boolean getIsOnline() {
+        return this.isOnline;
+    }
+
+    public void setIsOnline(boolean online) {
+        isOnline = online;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", isOnline=" + isOnline +
+                '}';
     }
 }
