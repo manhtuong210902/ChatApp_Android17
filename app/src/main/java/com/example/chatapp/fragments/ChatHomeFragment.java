@@ -249,9 +249,9 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        String uid = mAuth.getCurrentUser().getUid();
-        DbReference.writeIsOnlineUserAndGroup(uid, false);
+//
+//        String uid = mAuth.getCurrentUser().getUid();
+//        DbReference.writeIsOnlineUserAndGroup(uid, false);
     }
 
     private void TEST() {

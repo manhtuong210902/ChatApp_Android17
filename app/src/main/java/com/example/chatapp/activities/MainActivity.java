@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.chatapp.db.DbReference;
 import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.fragments.ProfileFragment;
 import com.example.chatapp.R;
@@ -67,6 +68,30 @@ public class MainActivity extends FragmentActivity {
             }
             return true;
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DbReference.writeIsOnlineUserAndGroup(uid, true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DbReference.writeIsOnlineUserAndGroup(uid, false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DbReference.writeIsOnlineUserAndGroup(uid, false);
     }
 
     private void replaceFragment(Fragment fragment){
