@@ -55,8 +55,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ChatHomeFragment extends Fragment {
-    private LinearLayout llHomeChats;
-    private SearchView svSearchUser;
+    private LinearLayout llHomeChats, searchBtn;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
     private ArrayList<Group> listChatUser;
@@ -84,10 +83,9 @@ public class ChatHomeFragment extends Fragment {
         llHomeChats = (LinearLayout) inflater.inflate(R.layout.fragment_home_chat, container, false);
         recyclerViewOnlineUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvOnlineUser);
         recyclerViewChatUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvChatUser);
-        svSearchUser = (SearchView) llHomeChats.findViewById(R.id.c_svSearch);
-        svSearchUser.setFocusable(true);
+        searchBtn = (LinearLayout) llHomeChats.findViewById(R.id.searchBtn);
 
-        svSearchUser.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SearchUsersActivity.class);
@@ -249,54 +247,6 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//
-//        String uid = mAuth.getCurrentUser().getUid();
-//        DbReference.writeIsOnlineUserAndGroup(uid, false);
-    }
-
-    private void TEST() {
-        ArrayList<String> listUidMember2 = new ArrayList<>();
-        listUidMember2.add(mAuth.getCurrentUser().getUid());
-        listUidMember2.add("Gy0Q3TqGRSTKWJmlvlfAbhiiVWx1");
-        String gid2 = DbReference.writeNewGroup("Nguyễn Mạnh Tường(Gr)", listUidMember2, "avtdefault.jpg", true, "Khum co1");
-
-        ArrayList<String> listUidMember3 = new ArrayList<>();
-        listUidMember3.add(mAuth.getCurrentUser().getUid());
-        listUidMember3.add("tSeDuvDRozXGtXgYsjEE7tIoIG13");
-        String gid3 =DbReference.writeNewGroup("Nguyễn Thanh Tùng(Gr)", listUidMember3, "avtdefault.jpg", true, "Khum co2");
-
-        ArrayList<String> listUidMember4 = new ArrayList<>();
-        listUidMember4.add(mAuth.getCurrentUser().getUid());
-        listUidMember4.add("pGBznA03v1Z86ebrqCOvemO4rCN2");
-        String gid4 =DbReference.writeNewGroup("Nguyễn Lam Trường(Gr)", listUidMember4, "avtdefault.jpg", true, "Khum co3");
-
-        ArrayList<String> listUidMember5 = new ArrayList<>();
-        listUidMember5.add(mAuth.getCurrentUser().getUid());
-        listUidMember5.add("32D6AxicV8NRsq0z9cKQ9hWNZpv2");
-        String gid5 = DbReference.writeNewGroup("Nguyễn Anh(Gr)", listUidMember5, "avtdefault.jpg", true, "Khum co4");
-
-        String uid = mAuth.getCurrentUser().getUid();
-        ArrayList<String> listGid = new ArrayList<>();
-        listGid.add(gid2);
-        listGid.add(gid3);
-        listGid.add(gid4);
-        listGid.add(gid5);
-        DbReference.writeNewUserGroups(uid, listGid);
-    }
-
-    private void loginAndWriteUserTEST(String email, String password, String name, String image, boolean isOnline) {
-        mAuth.signInWithEmailAndPassword(email, password);
-        String uid = mAuth.getCurrentUser().getUid();
-        Toast.makeText(getActivity(), uid, Toast.LENGTH_LONG).show();
-        if (image == null || image == "") {
-            image = "avtdefault.jpg";
-        }
-        DbReference.writeNewUser(uid, name, image, isOnline, "");
-        mAuth.signOut();
-    }
-
-    private void writeGroupTEST(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
-        writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
     }
 
     @Override

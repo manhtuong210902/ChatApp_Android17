@@ -20,7 +20,8 @@
         <ImageView
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="10dp"
             android:gravity="center"
             android:src="@drawable/ic_arrow_left_s_line" />
 
@@ -31,7 +32,6 @@
                 android:id="@+id/etSearchUser"
                 android:fontFamily="@font/public_sans_regular"
                 android:textSize="14dp"
-                android:layout_marginLeft="10dp"
                 android:paddingVertical="8dp"
                 android:textColor="@color/primary_text"
                 android:hint="Search user ..."
