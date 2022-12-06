@@ -20,7 +20,7 @@ import com.example.chatapp.activities.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import io.grpc.internal.SharedResourceHolder;
+//import io.grpc.internal.SharedResourceHolder;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override

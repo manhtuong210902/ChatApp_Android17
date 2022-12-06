@@ -1,6 +1,7 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.EmojiCompatConfigurationView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,10 +9,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,6 +42,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiTextView;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,8 +58,10 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain, btnSentImage;
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImage;
@@ -78,6 +87,7 @@ public class ChatMessageActivity extends Activity {
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
+        btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
         civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
@@ -93,6 +103,7 @@ public class ChatMessageActivity extends Activity {
         String imageGroup = bundleRev.getString("imageGroup");
         uidChat = bundleRev.getString("uidChat");
 
+        //render UI cho thanh tool barr
         FirebaseDatabase.getInstance().getReference("Users").child(uidChat)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -125,6 +136,7 @@ public class ChatMessageActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
 
+        //handle sent image
         btnSentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,9 +147,29 @@ public class ChatMessageActivity extends Activity {
             }
         });
 
+        //handle sent icon
+        EmojiManager.install(new GoogleEmojiProvider());
+        EmojiPopup popup = EmojiPopup.Builder.fromRootView(findViewById(R.id.rlChatLayout)).build(etInputMessage);
+
+        btnSentEmoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!popup.isShowing()){
+                    btnSentEmoji.setImageResource(R.drawable.ic_text);
+                }else{
+                    btnSentEmoji.setImageResource(R.drawable.ic_emotion_happy_line);
+                }
+                popup.toggle();
+            }
+        });
+
+        //handle sent message
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                EmojiTextView emojiTextView = (EmojiTextView) LayoutInflater
+//                        .from(view.getContext())
+//                        .inflate(R.layout.emoji_text_view, linerLayout, false);
                 String message = etInputMessage.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
@@ -150,21 +182,10 @@ public class ChatMessageActivity extends Activity {
 
         listChat = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                readMessage(idGroup);
-            }
+        //read message to db
+        readMessage(idGroup);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
-        rcvListChat.setAdapter(adapter);
-
+        //handle when click back
         btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,7 +309,8 @@ public class ChatMessageActivity extends Activity {
                     ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
                     listChat.add(chat);
                 }
-                adapter.notifyDataSetChanged();
+                adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
+                rcvListChat.setAdapter(adapter);
             }
 
             @Override

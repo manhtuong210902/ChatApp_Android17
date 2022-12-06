@@ -42,7 +42,7 @@ public class SearchUsersActivity extends Activity {
         setContentView(R.layout.activity_search_users);
 
         etSearchUser = (EditText) findViewById(R.id.etSearchUser);
-        etSearchUser.requestFocus();
+//        etSearchUser.requestFocus();
 
         rcvSearchUser = (RecyclerView) findViewById(R.id.rcvSearchUser);
         listUser = new ArrayList<>();

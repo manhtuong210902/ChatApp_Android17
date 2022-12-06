@@ -18,7 +18,6 @@ import com.example.chatapp.fragments.GroupFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.checkerframework.checker.units.qual.C;
 
 public class MainActivity extends FragmentActivity {
     FragmentTransaction ft;

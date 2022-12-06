@@ -62,6 +62,7 @@ public class GroupFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupsData.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Group group = dataSnapshot.getValue(Group.class);
