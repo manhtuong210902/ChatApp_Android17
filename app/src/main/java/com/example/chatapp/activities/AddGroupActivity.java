@@ -81,11 +81,13 @@ public class AddGroupActivity extends Activity {
         public void onMemberClicked(int pos, boolean isCheck) {
             if(isCheck){
                 listFriend.get(pos).setChecked(true);
+                addGroupAdapter.notifyDataSetChanged();
                 listSelected.add(listFriend.get(pos));
                 selectedGroupAdapter.notifyItemInserted(listSelected.size()-1);
             }
             else {
                 listFriend.get(pos).setChecked(false);
+                addGroupAdapter.notifyDataSetChanged();
                 int i=0;
                 for(i=0;i<listSelected.size();i++){
                     if(listFriend.get(pos).getInfo().getUid()== listSelected.get(i).getInfo().getUid()){
@@ -110,9 +112,9 @@ public class AddGroupActivity extends Activity {
             for( int i = 0; i < listFriend.size(); i++) {
                 if (pos< listSelected.size() && listFriend.get(i).getInfo().getUid() == listSelected.get(pos).getInfo().getUid()) {
                     listSelected.remove(pos);
-                    selectedGroupAdapter.notifyItemRemoved(pos);
+                    selectedGroupAdapter.notifyDataSetChanged();
                     listFriend.get(i).setChecked(false);
-                    addGroupAdapter.notifyItemChanged(i);
+                    addGroupAdapter.notifyDataSetChanged();
                     break;
                 }
             }
