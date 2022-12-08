@@ -58,10 +58,18 @@ public class AddGroupAdapter extends RecyclerView.Adapter<AddGroupViewHolder> {
                 });
 //        holder.image_avatar.setImageResource(R.drawable.cute1);
         holder.checkBox_Select.setChecked(list.get(position).isChecked());
-        holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        holder.checkBox_Select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                listener.onMemberClicked(holder.getAdapterPosition(), isChecked);
+//
+//            }
+//        });
+
+        holder.checkBox_Select.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                listener.onMemberClicked(holder.getAdapterPosition(), isChecked);
+            public void onClick(View view) {
+                listener.onMemberClicked(holder.getAdapterPosition(), !list.get(holder.getAdapterPosition()).isChecked());
             }
         });
 

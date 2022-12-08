@@ -1,7 +1,5 @@
 package com.example.chatapp.models;
 
-import com.example.chatapp.models.User;
-
 public class AddGroupUser {
     private User info;
     private boolean isChecked;
@@ -20,10 +18,10 @@ public class AddGroupUser {
     }
 
     public boolean isChecked() {
-        return isChecked;
+        return this.isChecked;
     }
 
     public void setChecked(boolean checked) {
-        isChecked = checked;
+        this.isChecked = checked;
     }
 }
