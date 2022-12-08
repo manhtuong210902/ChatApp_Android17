@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    android:background="@color/primary_background">
 
     <FrameLayout
         android:id="@+id/flTabContent"
@@ -19,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/nav_background"
+        android:backgroundTint="@color/transparent"
         app:itemBackground="@drawable/custom_background_bottom_nav"
         app:itemIconTint="@color/custom_color_bottom_nav"
         app:labelVisibilityMode="unlabeled"

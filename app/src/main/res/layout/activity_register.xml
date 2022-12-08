@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center_vertical">
         <ImageView
             android:layout_width="40dp"
@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chatvia17"
-            android:textStyle="bold"
+            android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="25sp"
-            android:textColor="#495057"
+            android:textColor="@color/primary_text"
             />
     </LinearLayout>
     <TextView
@@ -66,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Email"
+            android:fontFamily="@font/public_sans_regular"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
             android:layout_marginBottom="16dp"
@@ -86,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Username"
+            android:fontFamily="@font/public_sans_regular"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
             android:layout_marginBottom="16dp"
@@ -107,6 +109,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter Password"
             android:textSize="15sp"
+            android:fontFamily="@font/public_sans_regular"
             android:inputType="textPassword"
             android:layout_marginBottom="24dp"
             android:drawableLeft="@drawable/ic_lock_2_line"

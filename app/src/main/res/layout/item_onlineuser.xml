@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="71dp"
-        android:layout_height="51dp"
+        android:layout_height="55dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/chat_bg_border_radius_8dp"
         android:orientation="vertical"
@@ -21,14 +21,14 @@
             android:id="@+id/tvOnlineUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
             android:fontFamily="@font/public_sans_semi_bold"
-            android:text="Name"
+            android:text="Nguyễn"
+            android:textAlignment="center"
             android:textSize="13sp"
-            tools:ignore="RtlCompat"
-            android:layout_gravity="center"
-            android:textAlignment="center"/>
+            tools:ignore="RtlCompat" />
     </LinearLayout>
 
     <RelativeLayout

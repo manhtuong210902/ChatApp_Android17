@@ -30,10 +30,12 @@ public class MainActivity extends FragmentActivity {
 
     Fragment selected = chatHomeFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         createFragment(chatHomeFragment);
         createFragment(profileFragment);
         createFragment(groupFragment);

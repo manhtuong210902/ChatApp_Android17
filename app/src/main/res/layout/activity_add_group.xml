@@ -11,11 +11,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white"
         android:layout_alignParentTop="true"
+        android:background="@color/nav_background"
         android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        >
+        android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/btn_close"
@@ -118,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:background="@color/nav_background"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="4dp"

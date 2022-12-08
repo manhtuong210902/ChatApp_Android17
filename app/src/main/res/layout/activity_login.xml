@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center_vertical">
         <ImageView
             android:layout_width="40dp"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chatvia17"
-            android:textStyle="bold"
+            android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="25sp"
             android:textColor="@color/primary_text"
             />
@@ -56,7 +56,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Username"
+            android:text="Email"
             android:fontFamily="@font/public_sans_medium"
             android:textSize="15sp"
             android:layout_marginBottom="8dp"

@@ -2,14 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary_background">#F7F7FF</color>
-    <color name="secondary_background">#E6EBF5</color>
-    <color name="nav_background">#FFF</color>
-    <color name="nav_item_active">#F7F7FF</color>
-    <color name="gray_border">#f0eff5</color>
-    <color name="primary_text">#495057</color>
-    <color name="secondary_text">#7A7F9A</color>
-    <color name="chat_background">#FFF</color>
+    <color name="primary_background">#303841</color>
+    <color name="secondary_background">#36404a</color>
+    <color name="nav_background">#36404a</color>
+    <color name="nav_item_active">#3e4a56</color>
+    <color name="gray_border">#36404a</color>
+    <color name="primary_text">#e1e9f1</color>
+    <color name="secondary_text">#9aa1b9</color>
+    <color name="chat_background">#303841</color>
     <color name="red_text">#EF476F</color>
     <color name="red_background">#2EEF476F</color>
     <color name="primary_color">#7269EF</color>

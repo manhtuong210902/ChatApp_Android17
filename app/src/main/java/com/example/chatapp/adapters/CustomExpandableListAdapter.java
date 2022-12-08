@@ -1,24 +1,34 @@
 package com.example.chatapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.view.ActionProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.chatapp.R;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class CustomExpandableListAdapter  extends BaseExpandableListAdapter {
+public class CustomExpandableListAdapter  extends BaseExpandableListAdapter{
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
+//    SharedPreferences sharedPreferences;
+//    SharedPreferences.Editor editor;
+//    boolean nightMODE;
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
                                        HashMap<String, List<String>> expandableListDetail) {
@@ -39,23 +49,14 @@ public class CustomExpandableListAdapter  extends BaseExpandableListAdapter {
     }
 
 
-    public View getChildView(int listPosition, final int expandedListPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String expandedListText = (String) getChild(listPosition, expandedListPosition);
-
-
-//        String listTitle = (String) getGroup(listPosition);
-//        String listDetail=(String) getChild(listPosition,expandedListPosition) ;
-//        convertView = layoutInflater.inflate(R.layout.list_spinner_item, null);
-//        Spinner spinner=(Spinner) convertView.findViewById(R.id.spn);
-//        String[] list={"Everyone","none"};
-//        spinner.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, list));
-
-        LayoutInflater layoutInflater = (LayoutInflater) this.context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(R.layout.list_switch_btn_item, null);
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+        Switch switchBtn = (Switch) convertView.findViewById(R.id.switch1);
+
         return convertView;
     }
 
@@ -81,13 +82,10 @@ public class CustomExpandableListAdapter  extends BaseExpandableListAdapter {
     }
 
 
-    public View getGroupView(int listPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
-
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
