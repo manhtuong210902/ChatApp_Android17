@@ -68,12 +68,12 @@ public class AddGroupActivity extends Activity {
     }
 
     private void Data() {
-        listFriend.add(new  AddGroupUser(new User("1", "Mew 1", "c1.jpg", true), false));
-        listFriend.add(new  AddGroupUser(new User("2", "Mew 2", "avtdefault.jpg", true), false));
-        listFriend.add(new  AddGroupUser(new User("3", "Mew 3", "f2.jpg", true), false));
-        listFriend.add(new  AddGroupUser(new User("4", "Mew 4", "c1.jpg", true), false));
-        listFriend.add(new  AddGroupUser(new User("5", "Mew 5", "avtdefault.jpg", true), false));
-        listFriend.add(new  AddGroupUser(new User("6", "Mew 6", "c1.jpg", true), false));
+        listFriend.add(new  AddGroupUser(new User("1", "Mew 1", "c1.jpg", true, ""), false));
+        listFriend.add(new  AddGroupUser(new User("2", "Mew 2", "avtdefault.jpg", true, ""), false));
+        listFriend.add(new  AddGroupUser(new User("3", "Mew 3", "f2.jpg", true, ""), false));
+        listFriend.add(new  AddGroupUser(new User("4", "Mew 4", "c1.jpg", true, ""), false));
+        listFriend.add(new  AddGroupUser(new User("5", "Mew 5", "avtdefault.jpg", true, ""), false));
+        listFriend.add(new  AddGroupUser(new User("6", "Mew 6", "c1.jpg", true, ""), false));
     }
 
     private final AddSelectedListListener addSelectedListListener = new AddSelectedListListener() {

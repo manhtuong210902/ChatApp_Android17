@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,7 +60,29 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     @Override
     public void onBindViewHolder(@NonNull ChatMessageAdapter.ViewHolder holder, int position) {
         ChatMessage chatItem = listMessage.get(position);
-        holder.tvShowMessage.setText(chatItem.getMessage());
+
+        if(chatItem.getTypeMessage().equals("text")){
+            holder.tvShowMessage.setVisibility(View.VISIBLE);
+            holder.ivShowMessage.setVisibility(View.GONE);
+            holder.tvShowMessage.setText(chatItem.getMessage());
+        }
+        else{
+            holder.ivShowMessage.setVisibility(View.VISIBLE);
+            holder.tvShowMessage.setVisibility(View.GONE);
+            FirebaseStorage.getInstance().getReference().child("images/" + chatItem.getMessage())
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).into(holder.ivShowMessage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
+        }
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(chatItem.getSendBy());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,10 +121,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView civShowAvatar;
         public TextView tvShowMessage, tvShowTimeMessage, tvShowUsername;
+        public ImageView ivShowMessage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             civShowAvatar = (CircleImageView) itemView.findViewById(R.id.civShowAvatar);
             tvShowMessage = (TextView) itemView.findViewById(R.id.tvShowMessage);
+            ivShowMessage = (ImageView) itemView.findViewById(R.id.ivShowMessage);
             tvShowTimeMessage = (TextView) itemView.findViewById(R.id.tvShowTimeMessage);
             tvShowUsername = (TextView) itemView.findViewById(R.id.tvShowUsername);
         }

@@ -23,22 +23,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.activities.ChatMessageActivity;
+import com.example.chatapp.activities.MainActivity;
 import com.example.chatapp.adapters.ChatUsersAdapter;
 import com.example.chatapp.adapters.OnlineUsersAdapter;
 import com.example.chatapp.R;
+import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.interfaces.RecyclerViewInterface;
 import com.example.chatapp.activities.SearchUsersActivity;
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -50,8 +55,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ChatHomeFragment extends Fragment {
-    private LinearLayout llHomeChats;
-    private SearchView svSearchUser;
+    private LinearLayout llHomeChats, searchBtn;
     private RecyclerView recyclerViewOnlineUser;
     private RecyclerView recyclerViewChatUser;
     private ArrayList<Group> listChatUser;
@@ -79,16 +83,34 @@ public class ChatHomeFragment extends Fragment {
         llHomeChats = (LinearLayout) inflater.inflate(R.layout.fragment_home_chat, container, false);
         recyclerViewOnlineUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvOnlineUser);
         recyclerViewChatUser = (RecyclerView) llHomeChats.findViewById(R.id.c_rcvChatUser);
-        svSearchUser = (SearchView) llHomeChats.findViewById(R.id.c_svSearch);
-        svSearchUser.setFocusable(true);
+        searchBtn = (LinearLayout) llHomeChats.findViewById(R.id.searchBtn);
 
-        svSearchUser.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SearchUsersActivity.class);
                 startActivity(intent);
             }
         });
+
+        DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), true);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(token);
+                        // Log and toast
+                        Log.i("TokenDevice", token);
+//                        Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         listChatUser = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
@@ -114,10 +136,10 @@ public class ChatHomeFragment extends Fragment {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             User user = snapshot.getValue(User.class);
-                                            Log.i("user ", user.getName());
-                                            Log.i("user ", user.getImage());
+                                            Log.i("user ", "a" + user.getIsOnline());
                                             group.setName(user.getName());
                                             group.setImageId(user.getImage());
+                                            group.setOnline(user.getIsOnline());
 
                                             chatUsersAdapter.notifyDataSetChanged();
                                             onlineUsersAdapter.notifyDataSetChanged();
@@ -157,17 +179,20 @@ public class ChatHomeFragment extends Fragment {
         recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewChatUser.setAdapter(chatUsersAdapter);
 
-        tvChats = (TextView) llHomeChats.findViewById(R.id.c_tvChats);
-        tvChats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
-                startActivityForResult(galleryIntent, 200);
-            }
-        });
+//        tvChats = (TextView) llHomeChats.findViewById(R.id.c_tvChats);
+//        tvChats.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Intent galleryIntent = new Intent();
+////                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+////                galleryIntent.setType("image/*");
+////                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
+////                startActivityForResult(galleryIntent, 200);
+//
+//                String token = "dvd44vRuQPGWsA5lZkKcHt:APA91bG7NySuQaSobUNJNpiReHjw7PW7QFg24RyCiZ73sLgJL5kNkCjqSt740MBhPDObIAvJOeNzW1VdSNLxPMm8qceUj878kR2sqO7ECANVE0w1FQrfEuCmDh11wuAxAPuwy72BK8-q";
+//                FCMSend.pushNotification(getContext(), token, "titlee", "bodyy");
+//            }
+//        });
 
         return llHomeChats;
     }
@@ -210,6 +235,7 @@ public class ChatHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
             //TEST HERE :D
         // please call one times and comment function below :3
 //         TEST();
@@ -218,49 +244,9 @@ public class ChatHomeFragment extends Fragment {
 //        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
     }
 
-    private void TEST() {
-        ArrayList<String> listUidMember2 = new ArrayList<>();
-        listUidMember2.add(mAuth.getCurrentUser().getUid());
-        listUidMember2.add("Gy0Q3TqGRSTKWJmlvlfAbhiiVWx1");
-        String gid2 = DbReference.writeNewGroup("Nguyễn Mạnh Tường(Gr)", listUidMember2, "avtdefault.jpg", true, "Khum co1");
-
-        ArrayList<String> listUidMember3 = new ArrayList<>();
-        listUidMember3.add(mAuth.getCurrentUser().getUid());
-        listUidMember3.add("tSeDuvDRozXGtXgYsjEE7tIoIG13");
-        String gid3 =DbReference.writeNewGroup("Nguyễn Thanh Tùng(Gr)", listUidMember3, "avtdefault.jpg", true, "Khum co2");
-
-        ArrayList<String> listUidMember4 = new ArrayList<>();
-        listUidMember4.add(mAuth.getCurrentUser().getUid());
-        listUidMember4.add("pGBznA03v1Z86ebrqCOvemO4rCN2");
-        String gid4 =DbReference.writeNewGroup("Nguyễn Lam Trường(Gr)", listUidMember4, "avtdefault.jpg", true, "Khum co3");
-
-        ArrayList<String> listUidMember5 = new ArrayList<>();
-        listUidMember5.add(mAuth.getCurrentUser().getUid());
-        listUidMember5.add("32D6AxicV8NRsq0z9cKQ9hWNZpv2");
-        String gid5 = DbReference.writeNewGroup("Nguyễn Anh(Gr)", listUidMember5, "avtdefault.jpg", true, "Khum co4");
-
-        String uid = mAuth.getCurrentUser().getUid();
-        ArrayList<String> listGid = new ArrayList<>();
-        listGid.add(gid2);
-        listGid.add(gid3);
-        listGid.add(gid4);
-        listGid.add(gid5);
-        DbReference.writeNewUserGroups(uid, listGid);
-    }
-
-    private void loginAndWriteUserTEST(String email, String password, String name, String image, boolean isOnline) {
-        mAuth.signInWithEmailAndPassword(email, password);
-        String uid = mAuth.getCurrentUser().getUid();
-        Toast.makeText(getActivity(), uid, Toast.LENGTH_LONG).show();
-        if (image == null || image == "") {
-            image = "avtdefault.jpg";
-        }
-        DbReference.writeNewUser(uid, name, image, isOnline);
-        mAuth.signOut();
-    }
-
-    private void writeGroupTEST(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
-        writeNewGroup(name, listUidMember, imageId, isOnline, lastMessage);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -323,6 +309,9 @@ public class ChatHomeFragment extends Fragment {
             bundleSent.putString("idGroup", listChatUser.get(position).getGid());
             bundleSent.putString("nameGroup", listChatUser.get(position).getName());
             bundleSent.putString("imageGroup", listChatUser.get(position).getImageId());
+            String uidChat = mAuth.getCurrentUser().getUid().equals(listChatUser.get(position).getListUidMember().get(0))
+                    ? listChatUser.get(position).getListUidMember().get(1) : listChatUser.get(position).getListUidMember().get(0);
+            bundleSent.putString("uidChat", uidChat);
             intent.putExtras(bundleSent);
             startActivity(intent);
         }

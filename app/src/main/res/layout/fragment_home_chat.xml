@@ -27,21 +27,30 @@
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/c_svSearch"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:id="@+id/searchBtn"
             android:background="@drawable/chat_bg_border_radius_8dp"
-            app:defaultQueryHint="Search messages or users"
-            app:iconifiedByDefault="false"
-            app:searchIcon="@drawable/ic_search_line"
-            android:theme="@style/AppSearchView"
-            app:queryBackground="@android:color/transparent"
-            app:submitBackground="@android:color/transparent"
             android:gravity="center_vertical"
-            />
-    </LinearLayout>
+            android:paddingHorizontal="16dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_line"
+                android:layout_marginRight="16dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/public_sans_regular"
+                android:textColor="@color/secondary_text"
+                android:text="Search users by name or email"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/c_rcvOnlineUser"

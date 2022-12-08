@@ -15,6 +15,10 @@ import com.example.chatapp.R;
 import com.example.chatapp.models.Group;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +63,12 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<OnlineUsersAdapter.
                     }
                 });
         holder.tv_name.setText(name);
+
+        if(!user.isOnline()) {
+            holder.im_online.setImageResource(R.color.yellow_circle);
+        } else {
+            holder.im_online.setImageResource(R.color.green_circle);
+        }
     }
 
     @Override
@@ -69,9 +79,11 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<OnlineUsersAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView im_item;
         TextView tv_name;
+        CircleImageView im_online;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             im_item = (CircleImageView)itemView.findViewById(R.id.civImage);
+            im_online = (CircleImageView) itemView.findViewById(R.id.civOnlineCircle);
             tv_name = (TextView) itemView.findViewById(R.id.tvOnlineUser);
         }
     }

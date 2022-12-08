@@ -27,6 +27,13 @@
                 android:textColor="@color/primary_text"
                  />
 
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/cute1"
+                android:id="@+id/ivShowMessage"
+                android:visibility="gone"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

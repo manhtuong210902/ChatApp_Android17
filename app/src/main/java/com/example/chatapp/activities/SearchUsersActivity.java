@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.chatapp.R;
@@ -31,6 +33,7 @@ import java.util.Locale;
 public class SearchUsersActivity extends Activity {
     private EditText etSearchUser;
     private RecyclerView rcvSearchUser;
+    private ImageView btnBack;
     private ArrayList<User> listUser;
     private SearchUserAdapter searchUserAdapter;
     DatabaseReference databaseReference;
@@ -45,11 +48,11 @@ public class SearchUsersActivity extends Activity {
         etSearchUser.requestFocus();
 
         rcvSearchUser = (RecyclerView) findViewById(R.id.rcvSearchUser);
+        btnBack = (ImageView) findViewById(R.id.btn_close);
         listUser = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
 
         searchFullUser();
-
         etSearchUser.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -75,6 +78,15 @@ public class SearchUsersActivity extends Activity {
         searchUserAdapter = new SearchUserAdapter(listUser, SearchUsersActivity.this, recyclerViewInterface);
         rcvSearchUser.setLayoutManager(new LinearLayoutManager(SearchUsersActivity.this, LinearLayoutManager.VERTICAL, false));
         rcvSearchUser.setAdapter(searchUserAdapter);
+
+        //
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchUsersActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
@@ -101,16 +113,20 @@ public class SearchUsersActivity extends Activity {
                     Intent intent = new Intent(SearchUsersActivity.this, ChatMessageActivity.class);
                     Bundle bundleSent = new Bundle();
                     if(check){
+                        Toast.makeText(SearchUsersActivity.this, "true", Toast.LENGTH_SHORT).show();
                         bundleSent.putString("idGroup", idGroup);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());
+                        bundleSent.putString("uidChat", user.getUid());
                         intent.putExtras(bundleSent);
                         startActivity(intent);
                     }else{
+                        Toast.makeText(SearchUsersActivity.this, "false", Toast.LENGTH_SHORT).show();
                         String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "welcome to chat app");
                         bundleSent.putString("idGroup", gid);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());
+                        bundleSent.putString("uidChat", user.getUid());
                         intent.putExtras(bundleSent);
                         startActivity(intent);
                     }
@@ -124,34 +140,18 @@ public class SearchUsersActivity extends Activity {
         }
     };
 
-    private ArrayList<String> readListUserGroups(){
-        databaseReference = FirebaseDatabase.getInstance().getReference("UserGroups").child(mAuth.getCurrentUser().getUid()).child("listGid");
-        ArrayList<String> listGroup = new ArrayList<>();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String idGroup = dataSnapshot.getValue(String.class);
-                    listGroup.add(idGroup);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return listGroup;
-    }
-
     private void searchUserByName(String textSearch){
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listUser.clear();
+                int i = 0;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    i++;
+                    if(i == 10){
+                        break;
+                    }
                     User user = dataSnapshot.getValue(User.class);
                     if(!mAuth.getCurrentUser().getUid().equals(user.getUid()) && user.getName().toLowerCase(Locale.ROOT).contains(textSearch)){
                         listUser.add(user);
@@ -173,7 +173,13 @@ public class SearchUsersActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listUser.clear();
+                int i = 0;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    i++;
+                    if(i == 10){
+                        break;
+                    }
+                    //
                     User user = dataSnapshot.getValue(User.class);
                     if(!mAuth.getCurrentUser().getUid().equals(user.getUid())){
                         listUser.add(user);

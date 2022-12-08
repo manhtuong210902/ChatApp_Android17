@@ -1,21 +1,33 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.EmojiCompatConfigurationView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.chatapp.db.DbReference;
+import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.models.ChatMessage;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ChatMessageAdapter;
+import com.example.chatapp.models.Group;
+import com.example.chatapp.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,18 +37,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiTextView;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain;
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImage;
@@ -47,6 +72,13 @@ public class ChatMessageActivity extends Activity {
     private FirebaseAuth mAuth;
     DatabaseReference databaseReference;
 
+    private StorageTask uploadTask;
+    private Uri fileUri;
+    private StorageReference mStorage;
+    private String idGroup;
+    private String uidChat;
+    private String didUserChat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +86,8 @@ public class ChatMessageActivity extends Activity {
 
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
+        btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
+        btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
         civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
@@ -64,9 +98,26 @@ public class ChatMessageActivity extends Activity {
         rcvListChat.setLayoutManager(linearLayoutManager);
 
         Bundle bundleRev = getIntent().getExtras();
-        String idGroup = bundleRev.getString("idGroup");
+        idGroup = bundleRev.getString("idGroup");
         String nameGroup = bundleRev.getString("nameGroup");
         String imageGroup = bundleRev.getString("imageGroup");
+        uidChat = bundleRev.getString("uidChat");
+
+        //render UI cho thanh tool barr
+        FirebaseDatabase.getInstance().getReference("Users").child(uidChat)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        didUserChat = user.getDid();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         FirebaseStorage.getInstance().getReference().child("images/"+ imageGroup)
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -83,10 +134,42 @@ public class ChatMessageActivity extends Activity {
         tvGroupName.setText(nameGroup);
 
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference();
 
+        //handle sent image
+        btnSentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, 200);
+            }
+        });
+
+        //handle sent icon
+        EmojiManager.install(new GoogleEmojiProvider());
+        EmojiPopup popup = EmojiPopup.Builder.fromRootView(findViewById(R.id.rlChatLayout)).build(etInputMessage);
+
+        btnSentEmoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!popup.isShowing()){
+                    btnSentEmoji.setImageResource(R.drawable.ic_text);
+                }else{
+                    btnSentEmoji.setImageResource(R.drawable.ic_emotion_happy_line);
+                }
+                popup.toggle();
+            }
+        });
+
+        //handle sent message
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                EmojiTextView emojiTextView = (EmojiTextView) LayoutInflater
+//                        .from(view.getContext())
+//                        .inflate(R.layout.emoji_text_view, linerLayout, false);
                 String message = etInputMessage.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
@@ -99,21 +182,10 @@ public class ChatMessageActivity extends Activity {
 
         listChat = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                readMessage(idGroup);
-            }
+        //read message to db
+        readMessage(idGroup);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
-        rcvListChat.setAdapter(adapter);
-
+        //handle when click back
         btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +193,56 @@ public class ChatMessageActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 200 && resultCode == RESULT_OK && data!=null){
+            fileUri = data.getData();
+            Bitmap bmp = null;
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            //here you can choose quality factor in third parameter(ex. i choosen 25)
+            bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+            byte[] fileInBytes = baos.toByteArray();
+            uploadImageToFirebase(fileInBytes);
+        }
+    }
+
+    private String uploadImageToFirebase(byte[] fileInBytes) {
+        final String imageId = UUID.randomUUID().toString() + ".jpg";
+        StorageReference imgRef = mStorage.child("images/" + imageId);
+        UploadTask uploadTask = imgRef.putBytes(fileInBytes);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(ChatMessageActivity.this, "Upload image failed!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(ChatMessageActivity.this, "Upload image successes!", Toast.LENGTH_SHORT).show();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                String currentTime = sdf.format(new Date());
+                ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image");
+
+                sendMessage(chat, idGroup);
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d("TAG", "Upload is " + progress + "% done");
+            }
+        });
+        return imageId;
     }
 
     private void sendMessage(ChatMessage chat, String idGroup){
@@ -136,8 +258,45 @@ public class ChatMessageActivity extends Activity {
         messUpdates.put("/ChatMessage/" + idGroup + "/" + messageId, messValues);
         ref.updateChildren(messUpdates);
 
+
         DatabaseReference refGroups = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup).child("lastMessage");
-        refGroups.setValue(chat.getMessage());
+        if(chat.getTypeMessage().equals("image")){
+            refGroups.setValue("image");
+
+            // :(
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "Đã gửi hình ảnh");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+        else{
+            refGroups.setValue(chat.getMessage());
+
+            // :(
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), chat.getMessage());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+
     }
 
     private void readMessage(String idGroup){
@@ -150,7 +309,8 @@ public class ChatMessageActivity extends Activity {
                     ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
                     listChat.add(chat);
                 }
-                adapter.notifyDataSetChanged();
+                adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
+                rcvListChat.setAdapter(adapter);
             }
 
             @Override

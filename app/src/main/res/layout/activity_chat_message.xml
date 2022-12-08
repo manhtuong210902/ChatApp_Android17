@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
+    android:id="@+id/rlChatLayout"
     tools:context=".activities.ChatMessageActivity"
+    android:orientation="vertical"
    >
 
     <LinearLayout
@@ -58,20 +60,28 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvListChat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="60dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingHorizontal="16dp"
         app:layoutManager="LinearLayoutManager"/>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rcvListChat"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="55dp"-->
+<!--        android:layout_marginBottom="60dp"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        app:layoutManager="LinearLayoutManager"/>-->
+
 
 
     <LinearLayout
         android:id="@+id/llOptionsSent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
         android:background="@color/white"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
@@ -88,19 +98,21 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:id="@+id/btnSentFile"
+            android:id="@+id/btnSentEmoji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:src="@drawable/ic_emotion_happy_line" />
 
         <ImageView
+            android:id="@+id/btnSentFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:src="@drawable/ic_attachment_line" />
 
         <ImageView
+            android:id="@+id/btnSentImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -115,5 +127,4 @@
             android:padding="8dp"
             android:src="@drawable/ic_send_plane_2_fill" />
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.example.chatapp.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,12 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         });
         holder.tv_name.setText(name);
         holder.tv_message.setText(listUser.get(position).getLastMessage());
+
+        if(!user.isOnline()) {
+            holder.im_online.setImageResource(R.color.yellow_circle);
+        } else {
+            holder.im_online.setImageResource(R.color.green_circle);
+        }
     }
 
     @Override
@@ -72,11 +79,13 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView im_item;
+        CircleImageView im_online;
         TextView tv_name;
         TextView tv_message;
         public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             im_item = (CircleImageView)itemView.findViewById(R.id.civImage);
+            im_online = (CircleImageView) itemView.findViewById(R.id.civOnlineCircle);
             tv_name = (TextView) itemView.findViewById(R.id.tvName);
             tv_message = (TextView) itemView.findViewById(R.id.tvMessage);
             itemView.setOnClickListener(new View.OnClickListener() {
