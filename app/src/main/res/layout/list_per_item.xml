@@ -2,10 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="60dp"
+    android:paddingVertical="8dp"
+    android:background="@color/nav_background"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp"
     android:paddingHorizontal="?android:attr/expandableListPreferredChildPaddingLeft"
-    android:paddingVertical="8dp">
+    >
     <TextView
         android:id="@+id/expandedListItemTitle"
         android:layout_width="wrap_content"
@@ -24,7 +27,5 @@
         android:textColor="@color/primary_text"
         android:fontFamily="@font/public_sans_semi_bold"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginBottom="8dp"
        />
 </LinearLayout>

@@ -12,39 +12,39 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentEnd="true"
             android:background="@drawable/background_right_message_item"
-            android:paddingVertical="12dp"
-            android:paddingHorizontal="20dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp">
+
             <TextView
+                android:id="@+id/tvShowMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello xin chao tat ca moi nguòi"
-                android:id="@+id/tvShowMessage"
-                android:textSize="15sp"
                 android:fontFamily="@font/public_sans_regular"
+                android:text="Hello xin chao tat ca moi nguòi"
                 android:textColor="@color/primary_text"
-                 />
+                android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/ivShowMessage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:src="@drawable/cute1"
-                android:id="@+id/ivShowMessage"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
+                android:id="@+id/tvShowTimeMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textSize="10sp"
-                android:textColor="@color/secondary_text"
                 android:drawableLeft="@drawable/ic_time_line"
                 android:drawablePadding="4dp"
-                android:id="@+id/tvShowTimeMessage"
                 android:drawableTint="@color/secondary_text"
-                android:text="2:05"/>
+                android:text="2:05"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView

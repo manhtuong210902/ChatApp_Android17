@@ -12,6 +12,8 @@
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_background_bottom_nav.xml" value="0.1695" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_button.xml" value="0.1345" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_check_box.xml" value="0.1335" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_thumb_switch.xml" value="0.1315" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/custom_track_switch.xml" value="0.1315" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_arrow_left_s_line.xml" value="0.1635" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_arrow_right_s_line.xml" value="0.1635" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/drawable/ic_attachment_line.xml" value="0.1595" />
@@ -42,27 +44,29 @@
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_add_group.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_callhistory.xml" value="0.25" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_chat.xml" value="0.13269927536231885" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_chat_message.xml" value="0.176" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_chat_message.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_login.xml" value="0.264" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_main.xml" value="0.136" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_profile.xml" value="0.25" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_register.xml" value="0.16197916666666667" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_register.xml" value="0.176" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/activity_search_users.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/add_group_member_item.xml" value="0.4" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/drop_down_item.xml" value="0.1546875" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_callhistory.xml" value="0.1" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_group.xml" value="0.13958333333333334" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_home_chat.xml" value="0.264" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_profile.xml" value="0.1358695652173913" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_home_chat.xml" value="0.176" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/fragment_profile.xml" value="0.4" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/group_item.xml" value="0.16927083333333334" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_callhistory.xml" value="0.25" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_chatuser.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_group_selected.xml" value="0.264" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_onlineuser.xml" value="0.1046875" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/item_onlineuser.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/left_message_item.xml" value="0.4101068999028183" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_group.xml" value="0.4" />
-        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_item.xml" value="0.536" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_item.xml" value="0.4913494809688581" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_per_item.xml" value="0.536" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_spinner_item.xml" value="0.12083333333333333" />
+        <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/list_switch_btn_item.xml" value="0.264" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/right_message_item.xml" value="0.4" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/search_users_item.xml" value="0.18385416666666668" />
         <entry key="..\:/Android17/ChatApp_Android17/app/src/main/res/layout/splash_screen.xml" value="0.13958333333333334" />

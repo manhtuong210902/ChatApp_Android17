@@ -3,5 +3,5 @@
     <corners
         android:radius="8dp"
         android:bottomRightRadius="0dp"/>
-    <solid android:color="@color/message"/>
+    <solid android:color="@color/secondary_background"/>
 </shape>

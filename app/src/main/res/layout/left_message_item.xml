@@ -55,10 +55,10 @@
                     android:layout_marginTop="4dp"
                     android:drawableLeft="@drawable/ic_time_line"
                     android:drawablePadding="4dp"
-                    android:drawableTint="@color/gray_border"
+                    android:drawableTint="@color/white"
                     android:text="2:05"
                     android:id="@+id/tvShowTimeMessage"
-                    android:textColor="@color/gray_border"
+                    android:textColor="@color/white"
                     android:textSize="10sp" />
             </LinearLayout>
 

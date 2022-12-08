@@ -93,16 +93,18 @@
             android:id="@+id/expandablePersonalListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/nav_background"
             android:layout_marginBottom="16dp"
-            android:divider="@color/white"
+            android:divider="@color/nav_background"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
         <ExpandableListView
             android:id="@+id/expandableListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/nav_background"
             android:layout_marginBottom="16dp"
-            android:divider="@color/white"
+            android:divider="@color/nav_background"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
         <Button
             android:id="@+id/btn_logout"
