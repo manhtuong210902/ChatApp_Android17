@@ -5,14 +5,20 @@ import androidx.appcompat.widget.EmojiCompatConfigurationView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +34,10 @@ import com.example.chatapp.R;
 import com.example.chatapp.adapters.ChatMessageAdapter;
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,7 +69,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji;
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImg;
@@ -78,6 +86,7 @@ public class ChatMessageActivity extends Activity {
     private String idGroup;
     private String uidChat;
     private String didUserChat;
+    DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +96,7 @@ public class ChatMessageActivity extends Activity {
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
+        btnSentFile = (ImageView) findViewById(R.id.btnSentFile);
         btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
@@ -144,6 +154,25 @@ public class ChatMessageActivity extends Activity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, 200);
+            }
+        });
+
+        //handle sent file pdf
+        btnSentFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("application/pdf");
+                startActivityForResult(intent, 201);
+//                ContentValues contentValues = new ContentValues();
+//                contentValues.put(MediaStore.Images.Media.TITLE, "New Picture");
+//                contentValues.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+//                fileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+//                startActivityForResult(intent, 200);
+
             }
         });
 
@@ -211,20 +240,28 @@ public class ChatMessageActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 200 && resultCode == RESULT_OK && data!=null){
-            fileUri = data.getData();
-            Bitmap bmp = null;
-            try {
-                bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        if(requestCode == 200){
+            if(resultCode == RESULT_OK && data != null){
+                fileUri = data.getData();
+                Bitmap bmp = null;
+                try {
+                    bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            //here you can choose quality factor in third parameter(ex. i choosen 25)
-            bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
-            byte[] fileInBytes = baos.toByteArray();
-            uploadImageToFirebase(fileInBytes);
+                //here you can choose quality factor in third parameter(ex. i choosen 25)
+                bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                byte[] fileInBytes = baos.toByteArray();
+                uploadImageToFirebase(fileInBytes);
+            }
+        }
+        else if(requestCode == 201){
+            if(resultCode == RESULT_OK && data != null){
+                fileUri = data.getData();
+                uploadFilePDF(fileUri);
+            }
         }
     }
 
@@ -258,6 +295,22 @@ public class ChatMessageActivity extends Activity {
         return imageId;
     }
 
+    private void uploadFilePDF(Uri fileURI){
+        final String filePath = UUID.randomUUID().toString() + "|" + getFileName(fileURI);
+        StorageReference fileRef = mStorage.child("files/" + filePath);
+        fileRef.putFile(fileURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if(task.isSuccessful()){
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                    String currentTime = sdf.format(new Date());
+                    ChatMessage chat = new ChatMessage(currentTime.toString(), filePath, mAuth.getCurrentUser().getUid(), "file");
+                    sendMessage(chat, idGroup);
+                }
+            }
+        });
+    }
+
     private void sendMessage(ChatMessage chat, String idGroup){
         //path: ChatMessage
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -282,7 +335,23 @@ public class ChatMessageActivity extends Activity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user = snapshot.getValue(User.class);
-                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "Đã gửi hình ảnh");
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "sent a picture");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+        else if(chat.getTypeMessage().equals("file")){
+            refGroups.setValue("file pdf");
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "sent a file");
                         }
 
                         @Override
@@ -331,5 +400,28 @@ public class ChatMessageActivity extends Activity {
 
             }
         });
+    }
+
+    @SuppressLint("Range")
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }
