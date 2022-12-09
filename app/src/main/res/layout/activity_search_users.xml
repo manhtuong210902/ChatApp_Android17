@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white"
+        android:background="@color/nav_background"
         android:layout_alignParentTop="true"
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
@@ -28,7 +28,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/nav_background"
                 android:id="@+id/etSearchUser"
                 android:fontFamily="@font/public_sans_regular"
                 android:textSize="14dp"
