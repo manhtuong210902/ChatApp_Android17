@@ -6,16 +6,16 @@ import java.util.Map;
 public class User {
     private String uid;
     private String name;
+    private String email;
     private String image;
     public boolean isOnline;
     private String did;
 
-    public User(){
+    public User(){};
 
-    }
-
-    public User(String uid, String name, String image, boolean isOnline, String did) {
+    public User(String uid, String email, String name, String image, boolean isOnline, String did) {
         this.uid = uid;
+        this.email = email;
         this.name = name;
         this.image = image;
         this.isOnline = isOnline;
@@ -25,6 +25,7 @@ public class User {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
+        result.put("email", email);
         result.put("name", name);
         result.put("image", image);
         result.put("isOnline", isOnline);
@@ -76,6 +77,14 @@ public class User {
         isOnline = online;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setOnline(boolean online) {
         isOnline = online;
     }
@@ -84,6 +93,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "uid='" + uid + '\'' +
+                ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
                 ", isOnline=" + isOnline +

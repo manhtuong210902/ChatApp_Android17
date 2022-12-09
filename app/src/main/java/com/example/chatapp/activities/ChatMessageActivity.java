@@ -64,7 +64,7 @@ public class ChatMessageActivity extends Activity {
     private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
-    private CircleImageView civGroupImage;
+    private CircleImageView civGroupImg;
     private TextView tvGroupName;
 
     private ArrayList<ChatMessage> listChat;
@@ -90,7 +90,7 @@ public class ChatMessageActivity extends Activity {
         btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
-        civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
+        civGroupImg = (CircleImageView) findViewById(R.id.civGroupImg);
         tvGroupName = (TextView) findViewById(R.id.tvGroupName);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -122,7 +122,7 @@ public class ChatMessageActivity extends Activity {
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(civGroupImage);
+                        Picasso.get().load(uri).into(civGroupImg);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -190,6 +190,19 @@ public class ChatMessageActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChatMessageActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        civGroupImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatMessageActivity.this, ProfileUserActivity.class);
+                Bundle bundleSent = new Bundle();
+                bundleSent.putString("idGroup", idGroup);
+                bundleSent.putString("nameGroup", nameGroup);
+                bundleSent.putString("imageGroup", imageGroup);
+                intent.putExtras(bundleSent);
                 startActivity(intent);
             }
         });
