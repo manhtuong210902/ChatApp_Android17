@@ -1,7 +1,5 @@
 package com.example.chatapp.db;
 
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -31,8 +29,9 @@ public class DbReference {
         return mDatabase;
     }
 
-    static public void writeNewUser(String uid, String name, String image, boolean isOnline, String did) {
-        User user = new User(uid, name, image, isOnline, did);
+    static public void writeNewUser(String uid, String email, String name, String image, boolean isOnline, String did) {
+        mDatabase = getInstance();
+        User user = new User(uid,email, name, image, isOnline, did);
 
         Map<String, Object> userValues = user.toMap();
 
