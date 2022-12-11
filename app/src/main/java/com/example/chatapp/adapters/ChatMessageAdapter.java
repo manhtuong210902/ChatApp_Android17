@@ -1,20 +1,15 @@
 package com.example.chatapp.adapters;
 
-import android.annotation.SuppressLint;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,11 +44,17 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     private StorageReference mStorage;
+    private final OnItemLongClickListener listener;
 
-    public ChatMessageAdapter(Context context, ArrayList<ChatMessage> listMessage) {
+    public ChatMessageAdapter(Context context, ArrayList<ChatMessage> listMessage, OnItemLongClickListener listener) {
         this.context = context;
         this.listMessage = listMessage;
+        this.listener = listener;
     }
+    public interface OnItemLongClickListener {
+        void onItemLongClick(ChatMessage item);
+    }
+
 
     @NonNull
     @Override
@@ -72,7 +73,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     @Override
     public void onBindViewHolder(@NonNull ChatMessageAdapter.ViewHolder holder, int position) {
         ChatMessage chatItem = listMessage.get(position);
-
+        holder.bind(listMessage.get(position), listener);
         if(chatItem.getTypeMessage().equals("text")){
             holder.tvShowMessage.setVisibility(View.VISIBLE);
             holder.ivShowMessage.setVisibility(View.GONE);
@@ -143,6 +144,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         return listMessage.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView civShowAvatar;
         public TextView tvShowMessage, tvShowTimeMessage, tvShowUsername;
@@ -154,6 +157,15 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             ivShowMessage = (ImageView) itemView.findViewById(R.id.ivShowMessage);
             tvShowTimeMessage = (TextView) itemView.findViewById(R.id.tvShowTimeMessage);
             tvShowUsername = (TextView) itemView.findViewById(R.id.tvShowUsername);
+        }
+
+        public void bind(ChatMessage chatMessage, OnItemLongClickListener listener) {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override public boolean onLongClick(View v) {
+                    listener.onItemLongClick(chatMessage);
+                    return false;
+                }
+            });
         }
     }
 
