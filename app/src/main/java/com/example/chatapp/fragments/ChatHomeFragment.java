@@ -122,7 +122,7 @@ public class ChatHomeFragment extends Fragment {
                     Group group = dataSnapshot.getValue(Group.class);
 
                     //get uid of user other than the current user
-                    if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid())) {
+                    if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid()) && !group.getLastMessage().isEmpty()) {
                         if(group.getListUidMember().size() == 2){
                             if(group.getListUidMember().get(0).equals(mAuth.getCurrentUser().getUid())) {
                                 userAnother = group.getListUidMember().get(1);

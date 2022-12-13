@@ -113,7 +113,6 @@ public class SearchUsersActivity extends Activity {
                     Intent intent = new Intent(SearchUsersActivity.this, ChatMessageActivity.class);
                     Bundle bundleSent = new Bundle();
                     if(check){
-                        Toast.makeText(SearchUsersActivity.this, "true", Toast.LENGTH_SHORT).show();
                         bundleSent.putString("idGroup", idGroup);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());
@@ -121,8 +120,7 @@ public class SearchUsersActivity extends Activity {
                         intent.putExtras(bundleSent);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(SearchUsersActivity.this, "false", Toast.LENGTH_SHORT).show();
-                        String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "welcome to chat app");
+                        String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "");
                         bundleSent.putString("idGroup", gid);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());

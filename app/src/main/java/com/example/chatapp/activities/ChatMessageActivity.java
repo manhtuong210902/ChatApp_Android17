@@ -1,6 +1,7 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.EmojiCompatConfigurationView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +69,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 
-public class ChatMessageActivity extends Activity {
+public class ChatMessageActivity extends AppCompatActivity {
     private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
@@ -92,6 +93,7 @@ public class ChatMessageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_message);
+        getSupportActionBar().hide();
 
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);

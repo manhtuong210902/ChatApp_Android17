@@ -1,8 +1,11 @@
 package com.example.chatapp.fragments;
 
 
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.example.chatapp.R;
@@ -58,6 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     LinearLayout llProfile;
+    TextView tvProfile;
 
 
     ExpandableListView expandableListView;
@@ -81,6 +86,7 @@ public class ProfileFragment extends Fragment {
     HashMap<String,String> per=new HashMap<>();
     CircleImageView civImage;
     TextView tvUserName;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         llProfile = (LinearLayout) inflater.inflate(R.layout.fragment_profile, container, false);
@@ -96,6 +102,14 @@ public class ProfileFragment extends Fragment {
         //UI
         civImage = llProfile.findViewById(R.id.civImage);
         tvUserName = llProfile.findViewById(R.id.tvUserName);
+        tvProfile = llProfile.findViewById(R.id.c_tvProfile);
+
+        tvProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        });
 
         //get data
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -148,6 +162,7 @@ public class ProfileFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
+        //set avatar
         avt = (CircleImageView) llProfile.findViewById(R.id.civImage);
         avt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +175,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //btn logout
         btn_logout = llProfile.findViewById(R.id.btn_logout);
         Intent intent = new Intent(this.getActivity(), LoginActivity.class);
         btn_logout.setOnClickListener(new View.OnClickListener() {

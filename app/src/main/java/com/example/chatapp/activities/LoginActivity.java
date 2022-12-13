@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
     TextView btnSignup;
     EditText editText_emailLogin, editText_passwordLogin;
     CheckBox checkbox_login;
@@ -35,9 +36,10 @@ public class LoginActivity extends Activity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
+
         initPreferences();
         mAuth = FirebaseAuth.getInstance();
         editText_emailLogin = findViewById(R.id.editText_emailLogin);
