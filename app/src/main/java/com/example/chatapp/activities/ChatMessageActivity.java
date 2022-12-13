@@ -3,37 +3,32 @@ package com.example.chatapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.EmojiCompatConfigurationView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chatapp.db.DbReference;
 import com.example.chatapp.db.FCMSend;
 import com.example.chatapp.models.ChatMessage;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ChatMessageAdapter;
-import com.example.chatapp.models.Group;
 import com.example.chatapp.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,7 +48,6 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.EmojiTextView;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import java.io.ByteArrayOutputStream;
@@ -71,11 +65,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMessageActivity extends AppCompatActivity {
     private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
+    private TextView btnDeleteMessage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
-    private CircleImageView civGroupImage;
+    private CircleImageView civGroupImg;
     private TextView tvGroupName;
-
+    private LinearLayout llChatOption;
+    private  LinearLayout llSendOption;
     private ArrayList<ChatMessage> listChat;
     private ChatMessageAdapter adapter;
     private FirebaseAuth mAuth;
@@ -87,6 +83,7 @@ public class ChatMessageActivity extends AppCompatActivity {
     private String idGroup;
     private String uidChat;
     private String didUserChat;
+
     DownloadManager manager;
 
     @Override
@@ -100,11 +97,13 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
         btnSentFile = (ImageView) findViewById(R.id.btnSentFile);
         btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
+        btnDeleteMessage = (TextView) findViewById(R.id.btnDeleteMessage);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
-        civGroupImage = (CircleImageView) findViewById(R.id.civGroupImage);
+        civGroupImg = (CircleImageView) findViewById(R.id.civGroupImg);
         tvGroupName = (TextView) findViewById(R.id.tvGroupName);
-
+        llChatOption = (LinearLayout) findViewById(R.id.llChatOption);
+        llSendOption = (LinearLayout) findViewById(R.id.llOptionsSent);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         rcvListChat.setLayoutManager(linearLayoutManager);
@@ -134,7 +133,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(civGroupImage);
+                        Picasso.get().load(uri).into(civGroupImg);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -143,12 +142,16 @@ public class ChatMessageActivity extends AppCompatActivity {
                     }
                 });
 
+
         tvGroupName.setText(nameGroup);
 
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
 
+
+
         //handle sent image
+
         btnSentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,7 +208,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
 
-                ChatMessage chat = new ChatMessage(currentTime.toString(), message, mAuth.getCurrentUser().getUid(), "text");
+                ChatMessage chat = new ChatMessage(currentTime.toString(), message, mAuth.getCurrentUser().getUid(), "text","");
                 sendMessage(chat, idGroup);
                 etInputMessage.setText("");
             }
@@ -221,6 +224,19 @@ public class ChatMessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChatMessageActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        civGroupImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatMessageActivity.this, ProfileUserActivity.class);
+                Bundle bundleSent = new Bundle();
+                bundleSent.putString("idGroup", idGroup);
+                bundleSent.putString("nameGroup", nameGroup);
+                bundleSent.putString("imageGroup", imageGroup);
+                intent.putExtras(bundleSent);
                 startActivity(intent);
             }
         });
@@ -270,7 +286,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 Toast.makeText(ChatMessageActivity.this, "Upload image successes!", Toast.LENGTH_SHORT).show();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String currentTime = sdf.format(new Date());
-                ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image");
+                ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image","");
 
                 sendMessage(chat, idGroup);
             }
@@ -293,7 +309,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                     String currentTime = sdf.format(new Date());
-                    ChatMessage chat = new ChatMessage(currentTime.toString(), filePath, mAuth.getCurrentUser().getUid(), "file");
+                    ChatMessage chat = new ChatMessage(currentTime.toString(), filePath, mAuth.getCurrentUser().getUid(), "file","");
                     sendMessage(chat, idGroup);
                 }
             }
@@ -304,11 +320,10 @@ public class ChatMessageActivity extends AppCompatActivity {
         //path: ChatMessage
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         String messageId = ref.child("ChatMessage").child(idGroup).push().getKey();
-
+        chat.setMessageId(messageId);
         Map<String, Object> messUpdates = new HashMap<>();
 
         Map<String, Object> messValues = chat.toMap();
-
         //path/ChatMessage/idGroup/messageId
         messUpdates.put("/ChatMessage/" + idGroup + "/" + messageId, messValues);
         ref.updateChildren(messUpdates);
@@ -380,8 +395,21 @@ public class ChatMessageActivity extends AppCompatActivity {
                     ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
                     listChat.add(chat);
                 }
-                adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat);
+                adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat, new ChatMessageAdapter.OnItemLongClickListener() {
+                    @Override public void onItemLongClick(ChatMessage item) {
+                        llSendOption.setVisibility(View.GONE);
+                        llChatOption.setVisibility(View.VISIBLE);
+                        btnDeleteMessage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                snapshot.child(item.getMessageId()).getRef().removeValue();
+                                llSendOption.setVisibility(View.VISIBLE);
+                                llChatOption.setVisibility(View.GONE);
+                            }
+                        });
+                    }});
                 rcvListChat.setAdapter(adapter);
+
             }
 
             @Override

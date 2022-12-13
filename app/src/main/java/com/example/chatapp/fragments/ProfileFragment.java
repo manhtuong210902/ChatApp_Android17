@@ -132,15 +132,11 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Picasso.get().load(uri).into(civImage);
-                                Log.i("uri", uri.toString());
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
+                            public void onFailure(@NonNull Exception exception) {}
                         });
-                //end set info
             }
 
             @Override

@@ -60,6 +60,7 @@
                     android:id="@+id/tvShowTimeMessage"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
+
             </LinearLayout>
 
             <TextView

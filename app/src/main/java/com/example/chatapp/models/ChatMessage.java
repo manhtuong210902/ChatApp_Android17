@@ -6,13 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatMessage {
-    private String messageTime, message, sendBy, typeMessage;
+    private String messageTime, message, sendBy, typeMessage,messageId;
 
-    public ChatMessage(String messageTime, String message, String sendBy, String typeMessage) {
+    public ChatMessage(String messageTime, String message, String sendBy, String typeMessage,String messageId) {
         this.messageTime = messageTime;
         this.message = message;
         this.sendBy = sendBy;
         this.typeMessage = typeMessage;
+        this.messageId=messageId;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public String getMessageTime() {
@@ -58,6 +67,7 @@ public class ChatMessage {
         result.put("message", message);
         result.put("sendBy", sendBy);
         result.put("typeMessage", typeMessage);
+        result.put("messageId",messageId);
         return result;
     }
 }

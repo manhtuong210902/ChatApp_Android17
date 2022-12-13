@@ -92,17 +92,6 @@
             android:text="Group members"
             android:textSize="15sp" />
 
-<!--        <EditText-->
-<!--            android:id="@+id/searchView_SearchGroupMember"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:background="@drawable/input_boder"-->
-<!--            android:fontFamily="@font/public_sans_regular"-->
-<!--            android:hint="Search name or phone..."-->
-<!--            android:paddingHorizontal="16dp"-->
-<!--            android:paddingVertical="8dp"-->
-<!--            android:textSize="14sp" />-->
         <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="34dp"
