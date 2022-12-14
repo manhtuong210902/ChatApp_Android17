@@ -10,69 +10,95 @@
     android:orientation="vertical"
    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/chat_background"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:id="@+id/llShowProfile"
-        android:paddingVertical="8dp">
+        <LinearLayout
+            android:id="@+id/llSearch"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:paddingLeft="20dp"
+                android:hint="Search ..."
+                android:id="@+id/edSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_arrow_left_s_line"
-            android:id="@+id/btnBackMain"/>
+            </EditText>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivSearch"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_search_line" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/chat_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:paddingHorizontal="16dp"
+            android:id="@+id/llShowProfile"
+            android:paddingVertical="8dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginRight="16dp"
-            android:id="@+id/civGroupImg"
-            android:src="@drawable/cute1" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_arrow_left_s_line"
+                android:id="@+id/btnBackMain"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="16dp"
+                android:id="@+id/civGroupImg"
+                android:src="@drawable/cute1" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:text="Designer"
+                android:id="@+id/tvGroupName"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivSearchBtn"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_search_line" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/llShowProfile"
+            android:background="@color/secondary_background"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvListChat"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
             android:layout_weight="1"
-            android:fontFamily="@font/public_sans_semi_bold"
-            android:text="Designer"
-            android:id="@+id/tvGroupName"
-            android:textSize="16sp" />
+            android:paddingHorizontal="16dp"
+            app:layoutManager="LinearLayoutManager"
+            />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_search_line" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/llShowProfile"
-        android:background="@color/secondary_background"/>
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+        <!--        android:id="@+id/rcvListChat"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        android:layout_marginTop="55dp"-->
+        <!--        android:layout_marginBottom="60dp"-->
+        <!--        android:paddingHorizontal="16dp"-->
+        <!--        app:layoutManager="LinearLayoutManager"/>-->
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvListChat"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingHorizontal="16dp"
-        app:layoutManager="LinearLayoutManager"/>
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rcvListChat"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="55dp"-->
-<!--        android:layout_marginBottom="60dp"-->
-<!--        android:paddingHorizontal="16dp"-->
-<!--        app:layoutManager="LinearLayoutManager"/>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,6 +117,15 @@
             android:layout_height="match_parent"
             android:text="Gỡ tin nhắn"
         ></TextView>
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Hủy"
+            >
+
+        </TextView>
 
     </LinearLayout>
 
