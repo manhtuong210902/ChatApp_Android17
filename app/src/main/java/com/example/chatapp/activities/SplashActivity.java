@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,12 +27,22 @@ public class SplashActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
     }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
         getSupportActionBar().hide();
 
         initPreferences();
+
+        boolean nightMode = sharedPreferences.getBoolean("night", false); //light mode default false
+        if(nightMode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
         mAuth = FirebaseAuth.getInstance();
 //        AutoLogin();
         handler.postDelayed(new Runnable() {

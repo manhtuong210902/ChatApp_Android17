@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.GroupFragment"
+    android:clickable="true"
     android:background="@color/primary_background"
     android:id="@+id/llGroups"
     >

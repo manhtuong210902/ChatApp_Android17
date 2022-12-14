@@ -12,14 +12,15 @@
         android:id="@+id/profileToolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/primary_background"
+        android:background="@color/nav_background"
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="16dp"
             android:gravity="center"
             android:src="@drawable/ic_arrow_left_s_line" />
 
@@ -32,6 +33,7 @@
         android:gravity="center_horizontal"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
+        android:layout_marginTop="48dp"
         android:layout_marginBottom="24dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
@@ -81,72 +83,89 @@
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+
         <LinearLayout
             android:id="@+id/llUserInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:padding="20dp"
-            android:paddingStart="40dp"
-            android:background="#ffffff"
+            android:background="@color/nav_background"
+            android:orientation="vertical"
+            android:visibility="gone"
             >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Personal information"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                />
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:text="About"
+                android:textSize="14sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textColor="@color/primary_text"
+                android:drawableLeft="@drawable/ic_user_2_line"
+                android:drawablePadding="16dp"
+                android:drawableTint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/primary_background"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="vertical"
-                android:layout_marginBottom="20dp"
-                >
+                android:paddingHorizontal="20dp"
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name:"
-                    android:textSize="16sp"
                     android:layout_marginBottom="4dp"
-                    />
+                    android:text="Name"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/public_sans_regular"
+                    android:textColor="@color/secondary_text"/>
+
                 <TextView
                     android:id="@+id/textview_UserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phan Nhi"
-                    android:layout_marginBottom="4dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    />
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/public_sans_semi_bold"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Email:"
-                    android:textSize="16sp"
                     android:layout_marginBottom="4dp"
-                    />
+                    android:text="Email"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/public_sans_regular"
+                    android:textColor="@color/secondary_text"/>
+
                 <TextView
                     android:id="@+id/textview_EmailUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="nhiyenphan99@gmail.com"
-                    android:layout_marginBottom="4dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/public_sans_semi_bold"/>
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -154,33 +173,48 @@
             android:id="@+id/llGroupMember"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:padding="20dp"
-            android:paddingStart="40dp"
+            android:background="@color/nav_background"
+            android:orientation="vertical"
             >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Group member"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                />
-            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerView_GroupMember" />
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:text="Group member"
+                android:textSize="14sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textColor="@color/primary_text"
+                android:drawableLeft="@drawable/ic_group_line"
+                android:drawablePadding="16dp"
+                android:drawableTint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/primary_background"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="1dp"
+                android:id="@+id/recyclerView_GroupMember"
+                android:background="@drawable/border_list_member"
+                />
+
             <Button
                 android:id="@+id/btn_leaveGroup"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="Leave group"
                 android:textColor="@color/white"
-                android:padding="4dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textAllCaps="false"
                 android:background="@drawable/btn_red"
-                android:layout_marginTop="10dp"
                 />
         </LinearLayout>
     </RelativeLayout>

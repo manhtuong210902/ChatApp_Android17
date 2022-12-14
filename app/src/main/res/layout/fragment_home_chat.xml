@@ -8,6 +8,7 @@
     android:background="@color/primary_background"
     android:orientation="vertical"
     android:id="@+id/llHomeChats"
+    android:clickable="true"
     >
 
     <LinearLayout
