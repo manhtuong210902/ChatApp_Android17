@@ -61,13 +61,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile,btnSearch;
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
     private TextView btnDeleteMessage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
-    private LinearLayout llProfile;
-    private  LinearLayout llSearch;
-    private TextView btnCancel;
     private CircleImageView civGroupImg;
     private TextView tvGroupName;
     private LinearLayout llChatOption;
@@ -91,10 +88,6 @@ public class ChatMessageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_message);
 
-        llProfile=(LinearLayout) findViewById(R.id.llShowProfile);
-        llSearch= (LinearLayout) findViewById(R.id.llSearch);
-        btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
-        btnCancel = (TextView) findViewById(R.id.btnCancel);
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
@@ -197,18 +190,6 @@ public class ChatMessageActivity extends Activity {
                     btnSentEmoji.setImageResource(R.drawable.ic_emotion_happy_line);
                 }
                 popup.toggle();
-            }
-        });
-
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "aaa", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ChatMessageActivity.this, SearchMessActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString("idGroup", idGroup);
-                intent.putExtras(mBundle);
-                startActivity(intent);
             }
         });
 
@@ -418,13 +399,6 @@ public class ChatMessageActivity extends Activity {
                             @Override
                             public void onClick(View view) {
                                 snapshot.child(item.getMessageId()).getRef().removeValue();
-                                llSendOption.setVisibility(View.VISIBLE);
-                                llChatOption.setVisibility(View.GONE);
-                            }
-                        });
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
                                 llSendOption.setVisibility(View.VISIBLE);
                                 llChatOption.setVisibility(View.GONE);
                             }

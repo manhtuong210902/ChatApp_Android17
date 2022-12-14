@@ -4,6 +4,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,7 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     FragmentTransaction ft;
     BottomNavigationView bottomNavigation;
 
@@ -35,6 +37,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
         createFragment(chatHomeFragment);
         createFragment(profileFragment);
@@ -93,12 +96,6 @@ public class MainActivity extends FragmentActivity {
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DbReference.writeIsOnlineUserAndGroup(uid, false);
-    }
-
-    private void replaceFragment(Fragment fragment){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flTabContent, fragment);
-        ft.commit();
     }
 
     private void createFragment(Fragment fragment){

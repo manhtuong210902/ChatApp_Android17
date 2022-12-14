@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatapp.R;
 import com.example.chatapp.db.DbReference;
@@ -19,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends AppCompatActivity {
     EditText editText_emailRegister, editText_userNameRegister, editText_passwordRegister;
     TextView btn_login;
     Button btn_signup;
@@ -30,6 +31,7 @@ public class RegisterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getSupportActionBar().hide();
 
         editText_emailRegister = findViewById(R.id.editText_emailRegister);
         editText_userNameRegister = findViewById(R.id.editText_userNameRegister);

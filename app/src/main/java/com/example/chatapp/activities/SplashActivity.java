@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
     Handler handler=new Handler();
     private FirebaseAuth mAuth;
     SharedPreferences sharedPreferences;
@@ -28,6 +29,8 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
+        getSupportActionBar().hide();
+
         initPreferences();
         mAuth = FirebaseAuth.getInstance();
 //        AutoLogin();

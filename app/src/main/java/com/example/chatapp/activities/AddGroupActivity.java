@@ -1,6 +1,7 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AddGroupActivity extends Activity {
+public class AddGroupActivity extends AppCompatActivity {
     private EditText editText_groupName;
     private RecyclerView recyclerView_listFriend, recyclerView_listSelected;
     private List<AddGroupUser> listFriend, listSelected;
@@ -64,6 +65,8 @@ public class AddGroupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
+        getSupportActionBar().hide();
+
         listFriend = new ArrayList<>();
         listSelected = new ArrayList<>();
         mDatabase = DbReference.getInstance();
