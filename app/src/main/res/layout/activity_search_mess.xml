@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primary_background"
+    tools:context=".activities.SearchUsersActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/nav_background"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/btn_close_"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:src="@drawable/ic_arrow_left_s_line" />
+
+        <EditText
+            android:id="@+id/etSearchMess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/nav_background"
+            android:fontFamily="@font/public_sans_regular"
+            android:hint="Search here..."
+            android:minHeight="48dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/primary_text"
+            android:textSize="14dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearchMess"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_search_line" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/public_sans_semi_bold"
+        android:text="Results"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvSearchMess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"/>
+</LinearLayout>

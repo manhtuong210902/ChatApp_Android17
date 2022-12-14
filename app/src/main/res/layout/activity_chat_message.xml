@@ -7,8 +7,32 @@
     android:layout_height="match_parent"
     android:id="@+id/rlChatLayout"
     tools:context=".activities.ChatMessageActivity"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llSearch"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:paddingLeft="20dp"
+            android:hint="Search ..."
+            android:id="@+id/edSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </EditText>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearch"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_search_line" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,15 +42,14 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:id="@+id/llShowProfile"
-        >
+        android:id="@+id/llShowProfile">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingRight="16dp"
             android:src="@drawable/ic_arrow_left_s_line"
-            android:id="@+id/btnBackMain"/>
+            android:id="@+id/btnBackMain" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="36dp"
@@ -47,32 +70,35 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/ivSearchBtn"
             android:layout_marginLeft="16dp"
             android:src="@drawable/ic_search_line" />
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/llShowProfile"
-        android:background="@color/secondary_background"/>
+        android:background="@color/secondary_background" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvListChat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="500dp"
         android:layout_weight="1"
         android:paddingHorizontal="16dp"
-        app:layoutManager="LinearLayoutManager"/>
+        app:layoutManager="LinearLayoutManager" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rcvListChat"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="55dp"-->
-<!--        android:layout_marginBottom="60dp"-->
-<!--        android:paddingHorizontal="16dp"-->
-<!--        app:layoutManager="LinearLayoutManager"/>-->
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/rcvListChat"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_marginTop="55dp"-->
+    <!--        android:layout_marginBottom="60dp"-->
+    <!--        android:paddingHorizontal="16dp"-->
+    <!--        app:layoutManager="LinearLayoutManager"/>-->
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,14 +109,22 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:visibility="gone"
-        android:background="@drawable/background_chat_option"
-        >
+        android:background="@drawable/background_chat_option">
+
         <TextView
             android:id="@+id/btnDeleteMessage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Gỡ tin nhắn"
-        ></TextView>
+            android:text="Gỡ tin nhắn"></TextView>
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Hủy">
+
+        </TextView>
 
     </LinearLayout>
 
@@ -103,8 +137,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/etInputMessage"
