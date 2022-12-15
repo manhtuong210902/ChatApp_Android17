@@ -113,7 +113,9 @@ public class ChatHomeFragment extends Fragment {
                 });
 
         listChatUser = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("Groups").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Groups")
+                .orderByChild("lastTime")
+                .addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -151,7 +153,7 @@ public class ChatHomeFragment extends Fragment {
                                         }
                                     });
                         }
-                        listChatUser.add(group);
+                        listChatUser.add(0, group);
                     }
 
                 }
