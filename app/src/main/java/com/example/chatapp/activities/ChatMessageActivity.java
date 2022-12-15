@@ -85,7 +85,7 @@ public class ChatMessageActivity extends AppCompatActivity {
     private LinearLayout llProfile;
     private  LinearLayout llSearch;
     private TextView btnCancel;
-
+    private int i;
     DownloadManager manager;
 
     @Override
@@ -96,7 +96,6 @@ public class ChatMessageActivity extends AppCompatActivity {
         llSearch= (LinearLayout) findViewById(R.id.llSearch);
         btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
         getSupportActionBar().hide();
-
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
@@ -417,11 +416,24 @@ public class ChatMessageActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                i=0;
                 listChat.clear();
+                Bundle bundleRev = getIntent().getExtras();
+                String id=bundleRev.getString("chatPos");
+                boolean lop=true;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
+                    if (id != null && chat.getMessageId()!=null){
+                        if(chat.getMessageId().equals(id)){
+                            lop=false;
+                        }
+                    }
+                    if(lop==true){
+                        i++;
+                    }
                     listChat.add(chat);
                 }
+
                 adapter = new ChatMessageAdapter(ChatMessageActivity.this, listChat, new ChatMessageAdapter.OnItemLongClickListener() {
                     @Override public void onItemLongClick(ChatMessage item) {
                         llSendOption.setVisibility(View.GONE);
@@ -440,24 +452,12 @@ public class ChatMessageActivity extends AppCompatActivity {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        // Call smooth scroll
-                        int i=0;
-                        if(chatPos!=null) {
-                        //    for (ChatMessage cm : listChat){
-    //                            if(cm.getMessageId().equals(chatPos)){
-                               //     Toast.makeText(ChatMessageActivity.this, cm.getMessageId(), Toast.LENGTH_SHORT).show();
-                          //          break;
-                               // }
-                               // i++;
-                            //    }
-  //                          Toast.makeText(ChatMessageActivity.this, "i", Toast.LENGTH_SHORT).show();
-//                            recyclerView.smoothScrollToPosition(i);
-                        }
-
-
+                                recyclerView.smoothScrollToPosition(i);
                     }
                 });
                 rcvListChat.setAdapter(adapter);
+
+
 
             }
 
