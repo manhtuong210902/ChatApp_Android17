@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatapp.adapters.ChatMessageAdapter;
 import com.example.chatapp.interfaces.RecyclerViewInterface;
 
 import android.app.Activity;
@@ -73,6 +74,7 @@ public class SearchMessActivity extends Activity {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        listMess.clear();
                         int i = 0;
                         for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                             if( dataSnapshot.getValue(ChatMessage.class).getMessage().contains(searchKey))
@@ -124,7 +126,9 @@ public class SearchMessActivity extends Activity {
                             bundleSent.putString("nameGroup", group.getName());
                             bundleSent.putString("imageGroup", group.getImageId());
                             bundleSent.putString("uidChat",listUid.get(0));
+                            bundleSent.putString("chatPos",cm.getMessageId());
                             intent.putExtras(bundleSent);
+
                             startActivity(intent);
                         }
 
