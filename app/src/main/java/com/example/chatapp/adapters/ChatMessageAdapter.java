@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,6 +52,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         this.listMessage = listMessage;
         this.listener = listener;
     }
+
     public interface OnItemLongClickListener {
         void onItemLongClick(ChatMessage item);
     }
@@ -136,7 +138,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         });
 //        holder.civShowAvatar.setImageResource(R.drawable.cute1);
 //        holder.tvShowUsername.setText("mạnh tường");
-        holder.tvShowTimeMessage.setText(chatItem.getMessageTime());
+        holder.tvShowTimeMessage.setText(getLastTime(chatItem.getMessageTime()));
     }
 
     @Override
@@ -199,5 +201,18 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                 context.startActivity(intent);
             }
         });
+    }
+
+    private String getLastTime(String time){
+        String lastTime = time;
+        if(time.length() < 8){
+            return lastTime;
+        }
+        int pos = time.lastIndexOf(' ');
+        if(pos != -1){
+            lastTime = time.substring(pos + 1, pos + 6);
+        }
+
+        return lastTime;
     }
 }
