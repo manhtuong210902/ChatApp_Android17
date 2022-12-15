@@ -62,8 +62,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 
+<<<<<<< HEAD
+public class ChatMessageActivity extends Activity {
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile,btnSearch;
+=======
 public class ChatMessageActivity extends AppCompatActivity {
     private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
+>>>>>>> 93101dc129e474bf30ddb35d8becb0188a07206d
     private TextView btnDeleteMessage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
@@ -80,8 +85,12 @@ public class ChatMessageActivity extends AppCompatActivity {
     private Uri fileUri;
     private StorageReference mStorage;
     private String idGroup;
+    private String chatPos;
     private String uidChat;
     private String didUserChat;
+    private LinearLayout llProfile;
+    private  LinearLayout llSearch;
+    private TextView btnCancel;
 
     DownloadManager manager;
 
@@ -89,8 +98,14 @@ public class ChatMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_message);
+<<<<<<< HEAD
+        llProfile=(LinearLayout) findViewById(R.id.llShowProfile);
+        llSearch= (LinearLayout) findViewById(R.id.llSearch);
+        btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
+=======
         getSupportActionBar().hide();
 
+>>>>>>> 93101dc129e474bf30ddb35d8becb0188a07206d
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
@@ -99,6 +114,7 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnDeleteMessage = (TextView) findViewById(R.id.btnDeleteMessage);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
+        btnCancel = (TextView) findViewById(R.id.btnCancel);
         civGroupImg = (CircleImageView) findViewById(R.id.civGroupImg);
         tvGroupName = (TextView) findViewById(R.id.tvGroupName);
         llChatOption = (LinearLayout) findViewById(R.id.llChatOption);
@@ -112,7 +128,18 @@ public class ChatMessageActivity extends AppCompatActivity {
         String nameGroup = bundleRev.getString("nameGroup");
         String imageGroup = bundleRev.getString("imageGroup");
         uidChat = bundleRev.getString("uidChat");
-
+        chatPos=bundleRev.getString("chatPos");
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "aaa", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChatMessageActivity.this, SearchMessActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("idGroup", idGroup);
+                intent.putExtras(mBundle);
+                startActivity(intent);
+            }
+        });
         //render UI cho thanh tool barr
         FirebaseDatabase.getInstance().getReference("Users").child(uidChat)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -158,6 +185,15 @@ public class ChatMessageActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, 200);
+
+            }
+
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llSendOption.setVisibility(View.VISIBLE);
+                llChatOption.setVisibility(View.GONE);
             }
         });
 
@@ -234,6 +270,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 bundleSent.putString("nameGroup", nameGroup);
                 bundleSent.putString("imageGroup", imageGroup);
                 intent.putExtras(bundleSent);
+
                 startActivity(intent);
             }
         });
@@ -411,6 +448,28 @@ public class ChatMessageActivity extends AppCompatActivity {
                             }
                         });
                     }});
+                RecyclerView recyclerView=(RecyclerView) findViewById(R.id.rcvListChat);
+
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Call smooth scroll
+                        int i=0;
+                        if(chatPos!=null) {
+                        //    for (ChatMessage cm : listChat){
+    //                            if(cm.getMessageId().equals(chatPos)){
+                               //     Toast.makeText(ChatMessageActivity.this, cm.getMessageId(), Toast.LENGTH_SHORT).show();
+                          //          break;
+                               // }
+                               // i++;
+                            //    }
+  //                          Toast.makeText(ChatMessageActivity.this, "i", Toast.LENGTH_SHORT).show();
+//                            recyclerView.smoothScrollToPosition(i);
+                        }
+
+
+                    }
+                });
                 rcvListChat.setAdapter(adapter);
 
             }

@@ -113,6 +113,7 @@ public class SearchMessAdapter extends RecyclerView.Adapter<SearchMessAdapter.Vi
                         if(pos != RecyclerView.NO_POSITION){
                             recyclerViewInterface.onItemClick(pos);
                         }
+
                     }
                 }
             });
