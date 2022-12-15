@@ -8,7 +8,9 @@
     android:background="@color/primary_background"
     android:id="@+id/llProfile"
     android:orientation="vertical"
+    android:clickable="true"
     android:padding="24dp">
+
     <TextView
         android:id="@+id/c_tvProfile"
         android:layout_width="match_parent"
@@ -17,7 +19,7 @@
         android:textColor="@color/primary_text"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginBottom="48dp"/>
+        android:layout_marginBottom="48dp" />
 
     <LinearLayout
         android:id="@+id/layout_Avatar"
@@ -25,15 +27,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
-        >
+        android:layout_marginBottom="24dp">
 
         <RelativeLayout
             android:id="@+id/rlParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            >
+            android:layout_marginBottom="24dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civImage"
@@ -54,6 +54,7 @@
                 app:civ_border_width="12dp"
                 app:civ_circle_background_color="@color/secondary_background" />
         </RelativeLayout>
+
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="match_parent"
@@ -63,13 +64,14 @@
             android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="16sp"
             android:textColor="@color/primary_text"
-            android:layout_marginBottom="4dp"
-            />
+            android:layout_marginBottom="4dp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civOnlineCircle"
                 android:layout_width="10dp"
@@ -78,33 +80,232 @@
                 android:src="@color/white"
                 app:civ_border_color="@color/green_circle"
                 app:civ_border_width="3dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Active"
                 android:textSize="14sp"
-                android:fontFamily="@font/public_sans_regular"
-                />
+                android:fontFamily="@font/public_sans_regular" />
         </LinearLayout>
     </LinearLayout>
 
-    <ExpandableListView
-        android:id="@+id/expandablePersonalListView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
         android:background="@color/nav_background"
-        android:layout_marginBottom="16dp"
-        android:divider="@color/nav_background"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+        android:gravity="center_vertical"
+        android:id="@+id/btnShowInfo">
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Personal Info"
+            android:textSize="14sp"
+            android:fontFamily="@font/public_sans_semi_bold"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right_s_line"
+            android:layout_gravity="right"
+            android:id="@+id/iconDropInfo" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/expandInfo"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingVertical="8dp"
+            android:background="@color/nav_background"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="15sp"
+                android:fontFamily="@font/public_sans_regular"
+                android:textColor="@color/secondary_text"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvProfileName"
+                android:layout_width="wrap_content"
+                android:text="Mạnh Tường"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingVertical="8dp"
+            android:background="@color/nav_background"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="15sp"
+                android:fontFamily="@font/public_sans_regular"
+                android:textColor="@color/secondary_text"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvProfileEmail"
+                android:layout_width="wrap_content"
+                android:text="mtuong669@gmail.com"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:gravity="center_vertical"
         android:background="@color/nav_background"
-        android:layout_marginBottom="16dp"
-        android:divider="@color/nav_background"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+        android:id="@+id/btnShowOptions"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Options"
+            android:textSize="14sp"
+            android:fontFamily="@font/public_sans_semi_bold"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right_s_line"
+            android:layout_gravity="right"
+            android:id="@+id/iconDropOptions" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/expandOptions"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/nav_background"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:id="@+id/expandedListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Dark mode"
+                android:textSize="13sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textColor="@color/primary_text"
+                android:layout_weight="1" />
+
+            <Switch
+                android:id="@+id/btnSwitchTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:switchMinWidth="30dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:track="@drawable/custom_track_switch"
+                android:thumb="@drawable/custom_thumb_switch" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/nav_background"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Show notification"
+                android:textSize="13sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textColor="@color/primary_text"
+                android:layout_weight="1" />
+
+            <Switch
+                android:id="@+id/btnSwitchNotify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:switchMinWidth="30dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:track="@drawable/custom_track_switch"
+                android:thumb="@drawable/custom_thumb_switch" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/nav_background"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="13sp"
+                android:fontFamily="@font/public_sans_semi_bold"
+                android:textColor="@color/primary_text"
+                android:layout_weight="1" />
+
+            <Switch
+                android:id="@+id/btnSwitchStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:switchMinWidth="30dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:track="@drawable/custom_track_switch"
+                android:thumb="@drawable/custom_thumb_switch" />
+        </LinearLayout>
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
@@ -112,11 +313,11 @@
         android:text="Logout"
         android:textColor="@color/white"
         android:textSize="15sp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/public_sans_semi_bold"
         android:textAllCaps="false"
         android:background="@drawable/custom_button"
-        android:padding="10dp"
-        />
+        android:padding="10dp" />
 
 
 </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         initPreferences();
+
+        boolean nightMode = sharedPreferences.getBoolean("night", false); //light mode default false
+        if(nightMode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        //
         mAuth = FirebaseAuth.getInstance();
         editText_emailLogin = findViewById(R.id.editText_emailLogin);
         editText_passwordLogin = findViewById(R.id.editText_passwordLogin);

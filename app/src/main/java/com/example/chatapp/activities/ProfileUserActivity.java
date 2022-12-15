@@ -43,7 +43,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileUserActivity extends Activity {
+public class ProfileUserActivity extends AppCompatActivity {
     ImageView btn_close;
     CircleImageView circleImageView_Avatar, civOnlineCircle;
     TextView textview_Name, textview_active, textview_UserName, textview_EmailUser;
@@ -60,6 +60,7 @@ public class ProfileUserActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
+        getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
         textview_UserName = findViewById(R.id.textview_UserName);
@@ -125,7 +126,9 @@ public class ProfileUserActivity extends Activity {
                         civOnlineCircle.setBorderColor(ProfileUserActivity.this.getResources().getColor(R.color.green_circle));
                         textview_active.setText("Active");
                     }
-                    for(int i=0;i< listUidMember.size();i++){
+
+                    //
+                    for(int i = 0; i < listUidMember.size();i++){
                         String idUser = listUidMember.get(i) ;
                         if(idUser == mAuth.getCurrentUser().getUid())
                             continue;
@@ -136,7 +139,7 @@ public class ProfileUserActivity extends Activity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 User user = snapshot.getValue(User.class);
                                 listMember.add(user);
-                                listMemberAdapter.notifyItemInserted(listMember.size()-1);
+                                listMemberAdapter.notifyItemInserted(listMember.size() - 1);
                             }
 
                             @Override
