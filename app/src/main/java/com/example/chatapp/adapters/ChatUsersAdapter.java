@@ -65,6 +65,11 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         holder.tv_name.setText(name);
         holder.tv_message.setText(listUser.get(position).getLastMessage());
 
+        //sau này bỏ cái if
+        if (listUser.get(position).getLastTime() != null) {
+            holder.tv_time.setText(getLastTime(listUser.get(position).getLastTime()));
+        }
+
         if(!user.isOnline()) {
             holder.im_online.setImageResource(R.color.yellow_circle);
         } else {
@@ -82,12 +87,14 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         CircleImageView im_online;
         TextView tv_name;
         TextView tv_message;
+        TextView tv_time;
         public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             im_item = (CircleImageView)itemView.findViewById(R.id.civImage);
             im_online = (CircleImageView) itemView.findViewById(R.id.civOnlineCircle);
             tv_name = (TextView) itemView.findViewById(R.id.tvName);
             tv_message = (TextView) itemView.findViewById(R.id.tvMessage);
+            tv_time = (TextView) itemView.findViewById(R.id.tvTime);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -100,5 +107,18 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
                 }
             });
         }
+    }
+
+    private String getLastTime(String time){
+        String lastTime = time;
+        if(time.length() < 8){
+            return lastTime;
+        }
+        int pos = time.lastIndexOf(' ');
+        if(pos != -1){
+            lastTime = time.substring(pos + 1, pos + 6);
+        }
+
+        return lastTime;
     }
 }

@@ -50,6 +50,7 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,9 +93,12 @@ public class ChatMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_message);
+
+
         llProfile=(LinearLayout) findViewById(R.id.llShowProfile);
         llSearch= (LinearLayout) findViewById(R.id.llSearch);
         btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
+
         getSupportActionBar().hide();
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
@@ -226,14 +230,12 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                EmojiTextView emojiTextView = (EmojiTextView) LayoutInflater
-//                        .from(view.getContext())
-//                        .inflate(R.layout.emoji_text_view, linerLayout, false);
                 String message = etInputMessage.getText().toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                String currentTime = sdf.format(new Date());
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
+                String currentTime = timestamp.toString();
 
-                ChatMessage chat = new ChatMessage(currentTime.toString(), message, mAuth.getCurrentUser().getUid(), "text","");
+                ChatMessage chat = new ChatMessage(currentTime, message, mAuth.getCurrentUser().getUid(), "text","");
                 sendMessage(chat, idGroup);
                 etInputMessage.setText("");
             }
@@ -310,9 +312,10 @@ public class ChatMessageActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(ChatMessageActivity.this, "Upload image successes!", Toast.LENGTH_SHORT).show();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                String currentTime = sdf.format(new Date());
-                ChatMessage chat = new ChatMessage(currentTime.toString(),imageId, mAuth.getCurrentUser().getUid(), "image","");
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
+                String currentTime = timestamp.toString();
+                ChatMessage chat = new ChatMessage(currentTime,imageId, mAuth.getCurrentUser().getUid(), "image","");
 
                 sendMessage(chat, idGroup);
             }
@@ -333,9 +336,10 @@ public class ChatMessageActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                    String currentTime = sdf.format(new Date());
-                    ChatMessage chat = new ChatMessage(currentTime.toString(), filePath, mAuth.getCurrentUser().getUid(), "file","");
+                    Date date = new Date();
+                    Timestamp timestamp = new Timestamp(date.getTime());
+                    String currentTime = timestamp.toString();
+                    ChatMessage chat = new ChatMessage(currentTime, filePath, mAuth.getCurrentUser().getUid(), "file","");
                     sendMessage(chat, idGroup);
                 }
             }
@@ -355,9 +359,12 @@ public class ChatMessageActivity extends AppCompatActivity {
         ref.updateChildren(messUpdates);
 
 
-        DatabaseReference refGroups = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup).child("lastMessage");
+        DatabaseReference refGroups = FirebaseDatabase.getInstance().getReference("Groups").child(idGroup);
+        DatabaseReference refMessageGroup = refGroups.child("lastMessage");
+        DatabaseReference refTimeGroup = refGroups.child("lastTime");
+        refTimeGroup.setValue(chat.getMessageTime());
         if(chat.getTypeMessage().equals("image")){
-            refGroups.setValue("image");
+            refMessageGroup.setValue("image");
 
             // :(
             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -375,7 +382,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                     });
         }
         else if(chat.getTypeMessage().equals("file")){
-            refGroups.setValue("file pdf");
+            refMessageGroup.setValue("file pdf");
             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -391,7 +398,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                     });
         }
         else{
-            refGroups.setValue(chat.getMessage());
+            refMessageGroup.setValue(chat.getMessage());
 
             // :(
             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -408,6 +415,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                         }
                     });
         }
+
 
     }
 

@@ -11,16 +11,18 @@ public class Group {
     private String imageId;
     private boolean isOnline;
     private String lastMessage;
+    private String lastTime;
     public Group() {
     }
 
-    public Group(String gid, String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
+    public Group(String gid, String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage, String lastTime) {
         this.gid = gid;
         this.name = name;
         this.listUidMember = listUidMember;
         this.imageId = imageId;
         this.isOnline = isOnline;
         this.lastMessage = lastMessage;
+        this.lastTime = lastTime;
     }
 
     public Map<String, Object> toMap() {
@@ -31,6 +33,7 @@ public class Group {
         result.put("imageId", imageId);
         result.put("isOnline", isOnline);
         result.put("lastMessage", lastMessage);
+        result.put("lastTime", lastTime);
         return result;
     }
 
@@ -43,6 +46,7 @@ public class Group {
                 ", imageId='" + imageId + '\'' +
                 ", isOnline=" + isOnline +
                 ", lastMessage='" + lastMessage + '\'' +
+                ", lastTime='" + lastTime + '\'' +
                 '}';
     }
 
@@ -95,4 +99,8 @@ public class Group {
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
     }
+
+    public String getLastTime() { return lastTime; }
+
+    public void setLastTime(String lastTime) {this.lastTime = lastTime;}
 }

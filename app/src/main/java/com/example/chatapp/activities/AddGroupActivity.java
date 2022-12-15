@@ -83,9 +83,9 @@ public class AddGroupActivity extends AppCompatActivity {
         String currID = mAuth.getCurrentUser().getUid();
 
         recyclerView_listFriend.setLayoutManager(new GridLayoutManager(AddGroupActivity.this, 1));
-//        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
-//        recyclerView_listFriend.setAdapter(addGroupAdapter);
-        readListUser(currID);
+        addGroupAdapter = new AddGroupAdapter(AddGroupActivity.this, listFriend, addSelectedListListener);
+        recyclerView_listFriend.setAdapter(addGroupAdapter);
+        searchFullUser();
 
         //search user
         searchView_SearchUser = findViewById(R.id.searchView_SearchUser);
@@ -132,7 +132,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     listUidMember.add(item.getInfo().getUid());
                 });
                 listUidMember.add(mAuth.getCurrentUser().getUid().toString());
-                String groupID = db.writeNewGroup(groupName, listUidMember, "avtdefault.jpg", true, "");
+                String groupID = db.writeNewGroup(groupName, listUidMember, "avtdefault.jpg", true, "", "");
                 Intent intent = new Intent(AddGroupActivity.this, ChatMessageActivity.class);
                 Bundle bundleSent = new Bundle();
                 bundleSent.putString("idGroup", groupID);
@@ -179,7 +179,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 int i = 0;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     i++;
-                    if(i == 20){
+                    if(i == 8){
                         break;
                     }
                     User user = dataSnapshot.getValue(User.class);
@@ -264,7 +264,7 @@ public class AddGroupActivity extends AppCompatActivity {
         }
     };
 
-    private void readListUser(String Uid){
+    private void readListUser(){
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

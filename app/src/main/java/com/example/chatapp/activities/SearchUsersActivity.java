@@ -122,7 +122,7 @@ public class SearchUsersActivity extends AppCompatActivity {
                         intent.putExtras(bundleSent);
                         startActivity(intent);
                     }else{
-                        String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "");
+                        String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "", "");
                         bundleSent.putString("idGroup", gid);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());

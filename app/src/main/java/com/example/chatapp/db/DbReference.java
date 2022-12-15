@@ -69,10 +69,10 @@ public class DbReference {
         });
     }
 
-    static public String writeNewGroup(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage) {
+    static public String writeNewGroup(String name, ArrayList<String> listUidMember, String imageId, boolean isOnline, String lastMessage, String lastTime) {
         String gid = mDatabase.child("Groups").push().getKey(); //groupId
 
-        Group group = new Group(gid, name, listUidMember, imageId, isOnline, lastMessage);
+        Group group = new Group(gid, name, listUidMember, imageId, isOnline, lastMessage, lastTime);
 
         Map<String, Object> groupValues = group.toMap();
 
