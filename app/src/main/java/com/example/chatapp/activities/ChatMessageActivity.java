@@ -61,13 +61,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 
-<<<<<<< HEAD
-public class ChatMessageActivity extends Activity {
-    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile,btnSearch;
-=======
 public class ChatMessageActivity extends AppCompatActivity {
-    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile;
->>>>>>> 93101dc129e474bf30ddb35d8becb0188a07206d
+    private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile,btnSearch;
     private TextView btnDeleteMessage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
@@ -97,14 +92,11 @@ public class ChatMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_message);
-<<<<<<< HEAD
         llProfile=(LinearLayout) findViewById(R.id.llShowProfile);
         llSearch= (LinearLayout) findViewById(R.id.llSearch);
         btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
-=======
         getSupportActionBar().hide();
 
->>>>>>> 93101dc129e474bf30ddb35d8becb0188a07206d
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
