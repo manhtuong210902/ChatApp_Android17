@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    TextView btnSignup;
+    TextView btnSignup, textView_forgotPw;
     EditText editText_emailLogin, editText_passwordLogin;
     CheckBox checkbox_login;
     Button btnSignin;
@@ -77,6 +77,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //forgot password
+        textView_forgotPw = findViewById(R.id.textView_forgotPw);
+        textView_forgotPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //sign in
         btnSignin = (Button) findViewById(R.id.btnSignin);
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override

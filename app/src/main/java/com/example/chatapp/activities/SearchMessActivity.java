@@ -133,7 +133,6 @@ public class SearchMessActivity extends Activity {
                             bundleSent.putString("uidChat",listUid.get(0));
                             bundleSent.putString("chatPos",cm.getMessageId());
                             intent.putExtras(bundleSent);
-
                             startActivity(intent);
                         }
 

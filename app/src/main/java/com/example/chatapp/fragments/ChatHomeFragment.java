@@ -2,6 +2,7 @@ package com.example.chatapp.fragments;
 
 import static com.example.chatapp.db.DbReference.writeNewGroup;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -112,7 +114,16 @@ public class ChatHomeFragment extends Fragment {
                     }
                 });
 
+        //render list user
         listChatUser = new ArrayList<>();
+
+        onlineUsersAdapter = new OnlineUsersAdapter(listChatUser, getContext());
+        recyclerViewOnlineUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        chatUsersAdapter = new ChatUsersAdapter(listChatUser, getContext(), recyclerViewInterface);
+        recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+
         FirebaseDatabase.getInstance().getReference("Groups")
                 .orderByChild("lastTime")
                 .addValueEventListener(new ValueEventListener() {
@@ -158,8 +169,8 @@ public class ChatHomeFragment extends Fragment {
 
                 }
 
-                chatUsersAdapter.notifyDataSetChanged();
-                onlineUsersAdapter.notifyDataSetChanged();
+                recyclerViewOnlineUser.setAdapter(onlineUsersAdapter);
+                recyclerViewChatUser.setAdapter(chatUsersAdapter);
             }
 
             @Override
@@ -168,88 +179,25 @@ public class ChatHomeFragment extends Fragment {
             }
         });
 
-
-        //change name & img ^^!
-
-
-        onlineUsersAdapter = new OnlineUsersAdapter(listChatUser, getContext());
-        recyclerViewOnlineUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewOnlineUser.setAdapter(onlineUsersAdapter);
-
-
-        chatUsersAdapter = new ChatUsersAdapter(listChatUser, getContext(), recyclerViewInterface);
-        recyclerViewChatUser.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerViewChatUser.setAdapter(chatUsersAdapter);
-
-//        tvChats = (TextView) llHomeChats.findViewById(R.id.c_tvChats);
-//        tvChats.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Intent galleryIntent = new Intent();
-////                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-////                galleryIntent.setType("image/*");
-////                Toast.makeText(getActivity(), "clicked!", Toast.LENGTH_SHORT).show();
-////                startActivityForResult(galleryIntent, 200);
-//
-//                String token = "dvd44vRuQPGWsA5lZkKcHt:APA91bG7NySuQaSobUNJNpiReHjw7PW7QFg24RyCiZ73sLgJL5kNkCjqSt740MBhPDObIAvJOeNzW1VdSNLxPMm8qceUj878kR2sqO7ECANVE0w1FQrfEuCmDh11wuAxAPuwy72BK8-q";
-//                FCMSend.pushNotification(getContext(), token, "titlee", "bodyy");
-//            }
-//        });
-
         return llHomeChats;
     }
 
-    private void getListUser(ArrayList<Group> listChatUser1) {
-        listUser = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listUser.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    for(int i=0; i<listChatUser.size(); i++) {
-                        if(listChatUser.get(i).getListUidMember().contains(user.getUid()) && !user.getUid().equals(mAuth.getCurrentUser().getUid())) {
-                            listUser.add(user);
-                        }
-                    }
-                }
-                chatUsersAdapter.notifyDataSetChanged();
-                onlineUsersAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-//        Log.i("size list user", Integer.toString(listUser.size()));
-//        for(int i=0; i<listChatUser.size(); i++) {
-//            for(int j=0; j<listUser.size(); j++) {
-//                if(listChatUser.get(i).getListUidMember().contains(listUser.get(j).getUid())) {
-//                    listChatUser.get(i).setName(listUser.get(j).getName());
-//                    listChatUser.get(i).setImageId(listUser.get(j).getImage());
-//                }
-//            }
-//        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-            //TEST HERE :D
-        // please call one times and comment function below :3
-//         TEST();
-//        ArrayList<String> listGid = new ArrayList<>();
-//        listGid.add("newGid");
-//        DbReference.updateListGroupForUserGroups(mAuth.getCurrentUser().getUid(), listGid);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        listChatUser.clear();
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        listChatUser.clear();
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -304,8 +252,6 @@ public class ChatHomeFragment extends Fragment {
     private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(getContext(), "ItemClick", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(getContext(), ChatMessageActivity.class);
             Bundle bundleSent = new Bundle();
             bundleSent.putString("idGroup", listChatUser.get(position).getGid());
@@ -318,4 +264,53 @@ public class ChatHomeFragment extends Fragment {
             startActivity(intent);
         }
     };
+
+    //khó quá
+    private void getGroup(String id){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Group group = snapshot.getValue(Group.class);
+//                get uid of user other than the current user
+                if (group.getListUidMember().size() == 2 && !group.getLastMessage().isEmpty()) {
+                    if (group.getListUidMember().get(0).equals(mAuth.getCurrentUser().getUid())) {
+                        userAnother = group.getListUidMember().get(1);
+                    } else {
+                        userAnother = group.getListUidMember().get(0);
+                    }
+
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(userAnother)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = snapshot.getValue(User.class);
+                                    group.setName(user.getName());
+                                    group.setImageId(user.getImage());
+                                    group.setOnline(user.getIsOnline());
+                                    chatUsersAdapter.notifyDataSetChanged();
+                                    onlineUsersAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                    listChatUser.add(group);
+                }
+                else{
+                    listChatUser.add(group);
+                    chatUsersAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

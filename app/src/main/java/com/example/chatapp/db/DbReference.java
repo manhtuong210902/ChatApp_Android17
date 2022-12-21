@@ -4,10 +4,7 @@ package com.example.chatapp.db;
 import androidx.annotation.NonNull;
 
 import com.example.chatapp.models.Group;
-import com.example.chatapp.models.Message;
 import com.example.chatapp.models.User;
-import com.example.chatapp.models.UserGroups;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -85,36 +82,32 @@ public class DbReference {
     }
 
     //a user have many groups.
-    static public void writeNewUserGroups(String uid, ArrayList<String> listGid) {
-        UserGroups group = new UserGroups(uid, listGid);
+    static public void updateUserGroups(String uid, String gid){
+        DatabaseReference databaseReference = mDatabase.child("UserGroups").child(uid);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> listGroup = new ArrayList<>();
+                if(snapshot.exists()){
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        if(dataSnapshot.exists()){
+                            String id = dataSnapshot.getValue(String.class);
+                            listGroup.add(id);
+                        }
+                    }
+                    listGroup.add(gid);
+                    databaseReference.setValue(listGroup);
+                }
+                else{
+                    listGroup.add(gid);
+                    databaseReference.setValue(listGroup);
+                }
+            }
 
-        Map<String, Object> userGroupsValues = group.toMap();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        Map<String, Object> userGroupsUpdates = new HashMap<>();
-
-        userGroupsUpdates.put("/UserGroups/" + uid, userGroupsValues);
-
-        mDatabase.updateChildren(userGroupsUpdates);
-
-    }
-
-    static public void updateListGroupForUserGroups(String uid, ArrayList<String> listGid) {
-        FirebaseDatabase.getInstance().getReference("UserGroups").child(uid).child("listGid").setValue(listGid);
-    }
-
-
-    static public void writeNewMessage(String uid, String gid, ArrayList<String> listMemberSeen, boolean isImage, String imageId) {
-        String mid = mDatabase.child("Messages").push().getKey(); //messageId
-
-        Message message = new Message(mid, uid, gid, listMemberSeen, isImage, imageId);
-
-        Map<String, Object> messageValues = message.toMap();
-
-        Map<String, Object> messageUpdates = new HashMap<>();
-
-        messageUpdates.put("/Messages/" + mid, messageValues);
-
-        mDatabase.updateChildren(messageUpdates);
-
+            }
+        });
     }
 }

@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DbReference.writeIsOnlineUserAndGroup(uid, true);
     }
@@ -106,18 +105,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DbReference.writeIsOnlineUserAndGroup(uid, false);
     }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DbReference.writeIsOnlineUserAndGroup(uid, false);
     }
+
 
     private void createFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
