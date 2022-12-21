@@ -63,18 +63,21 @@ public class SearchMessActivity extends Activity {
 
             Bundle bundleRev = getIntent().getExtras();
             String idGroup = bundleRev.getString("idGroup");
+            String nameGroup=bundleRev.getString("nmGroup");
+            String imageGroup=bundleRev.getString("imgGroup");
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ChatMessage").child(idGroup);
 
             @Override
             public void onClick(View view) {
                 String searchKey= String.valueOf(search.getText());
-                databaseReference = FirebaseDatabase.getInstance().getReference("ChatMessage").child(idGroup);
                 Toast.makeText(SearchMessActivity.this, "click", Toast.LENGTH_SHORT).show();
-
                 databaseReference.addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         listMess.clear();
+                        Toast.makeText(SearchMessActivity.this, "aaa", Toast.LENGTH_SHORT).show();
+
                         int i = 0;
                         for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                             if( dataSnapshot.getValue(ChatMessage.class).getMessage().contains(searchKey))
@@ -82,6 +85,9 @@ public class SearchMessActivity extends Activity {
                                 listMess.add(dataSnapshot.getValue(ChatMessage.class));
                             }
                         }
+                        searchMessAdapter=new SearchMessAdapter(listMess,SearchMessActivity.this,recyclerViewInterface);
+                        rvSearchMess.setLayoutManager(new LinearLayoutManager(SearchMessActivity.this,LinearLayoutManager.VERTICAL,false));
+                        rvSearchMess.setAdapter(searchMessAdapter);
 
                     }
                     @Override
@@ -90,9 +96,7 @@ public class SearchMessActivity extends Activity {
                     }
 
                 });
-                searchMessAdapter=new SearchMessAdapter(listMess,SearchMessActivity.this,recyclerViewInterface);
-                rvSearchMess.setLayoutManager(new LinearLayoutManager(SearchMessActivity.this,LinearLayoutManager.VERTICAL,false));
-                rvSearchMess.setAdapter(searchMessAdapter);
+
             }
             private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
                 @Override
@@ -122,9 +126,10 @@ public class SearchMessActivity extends Activity {
                             }
                             Intent intent = new Intent(SearchMessActivity.this, ChatMessageActivity.class);
                             Bundle bundleSent = new Bundle();
+
                             bundleSent.putString("idGroup", idGroup);
-                            bundleSent.putString("nameGroup", group.getName());
-                            bundleSent.putString("imageGroup", group.getImageId());
+                            bundleSent.putString("nameGroup", nameGroup);
+                            bundleSent.putString("imageGroup", imageGroup);
                             bundleSent.putString("uidChat",listUid.get(0));
                             bundleSent.putString("chatPos",cm.getMessageId());
                             intent.putExtras(bundleSent);

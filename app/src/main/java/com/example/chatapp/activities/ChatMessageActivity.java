@@ -130,6 +130,8 @@ public class ChatMessageActivity extends AppCompatActivity {
                 Intent intent = new Intent(ChatMessageActivity.this, SearchMessActivity.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("idGroup", idGroup);
+                mBundle.putString("nmGroup",nameGroup);
+                mBundle.putString("imgGroup",imageGroup);
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -460,7 +462,13 @@ public class ChatMessageActivity extends AppCompatActivity {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                                recyclerView.smoothScrollToPosition(i);
+                        if(i<=3){
+                        recyclerView.smoothScrollToPosition(i);
+                        }
+                        else {
+                            recyclerView.smoothScrollToPosition(i-3);
+                        }
+
                     }
                 });
                 rcvListChat.setAdapter(adapter);
