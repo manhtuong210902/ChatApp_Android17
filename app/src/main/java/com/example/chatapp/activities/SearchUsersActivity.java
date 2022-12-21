@@ -21,6 +21,7 @@ import com.example.chatapp.adapters.SearchUserAdapter;
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.Group;
 import com.example.chatapp.models.User;
+import com.example.chatapp.models.UserGroups;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +40,8 @@ public class SearchUsersActivity extends AppCompatActivity {
     private SearchUserAdapter searchUserAdapter;
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
+
+    ArrayList listGroup = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +126,9 @@ public class SearchUsersActivity extends AppCompatActivity {
                         startActivity(intent);
                     }else{
                         String gid = DbReference.writeNewGroup(user.getName() ,listUidMember, user.getImage(), false, "", "");
+                        for (int i = 0; i < listUidMember.size(); i++){
+                            DbReference.updateUserGroups(listUidMember.get(i), gid);
+                        }
                         bundleSent.putString("idGroup", gid);
                         bundleSent.putString("nameGroup", user.getName());
                         bundleSent.putString("imageGroup", user.getImage());

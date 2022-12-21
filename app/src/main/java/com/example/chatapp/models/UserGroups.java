@@ -8,6 +8,10 @@ public class UserGroups {
     private String uid;
     private ArrayList<String> listGid;
 
+    public  UserGroups(){
+
+    }
+
     public UserGroups(String uid, ArrayList<String> listGid) {
         this.uid = uid;
         this.listGid = listGid;
@@ -15,7 +19,7 @@ public class UserGroups {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("listGid", listGid);
+        result.put(uid, listGid);
         return result;
     }
 

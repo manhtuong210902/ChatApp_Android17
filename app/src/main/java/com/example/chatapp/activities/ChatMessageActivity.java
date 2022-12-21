@@ -84,7 +84,6 @@ public class ChatMessageActivity extends AppCompatActivity {
     private String uidChat;
     private String didUserChat;
     private LinearLayout llProfile;
-    private  LinearLayout llSearch;
     private TextView btnCancel;
     private int i;
     DownloadManager manager;
@@ -96,7 +95,6 @@ public class ChatMessageActivity extends AppCompatActivity {
 
 
         llProfile=(LinearLayout) findViewById(R.id.llShowProfile);
-        llSearch= (LinearLayout) findViewById(R.id.llSearch);
         btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
 
         getSupportActionBar().hide();
@@ -112,6 +110,8 @@ public class ChatMessageActivity extends AppCompatActivity {
         civGroupImg = (CircleImageView) findViewById(R.id.civGroupImg);
         tvGroupName = (TextView) findViewById(R.id.tvGroupName);
         llChatOption = (LinearLayout) findViewById(R.id.llChatOption);
+
+        llChatOption.setVisibility(View.GONE);
         llSendOption = (LinearLayout) findViewById(R.id.llOptionsSent);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
