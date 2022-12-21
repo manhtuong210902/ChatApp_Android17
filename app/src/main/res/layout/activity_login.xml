@@ -92,16 +92,34 @@
             android:drawableLeft="@drawable/ic_lock_2_line"
             android:drawablePadding="10dp"/>
 
-        <CheckBox
-            android:id="@+id/checkbox_login"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remember me"
-            android:fontFamily="@font/public_sans_medium"
-            android:textColor="@color/primary_text"
-            android:textSize="15sp"
-            android:padding="0dp"
-            android:layout_marginBottom="24dp"/>
+            android:id="@+id/rlt_Option"
+            android:layout_marginBottom="24dp"
+            >
+            <CheckBox
+                android:id="@+id/checkbox_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me"
+                android:fontFamily="@font/public_sans_medium"
+                android:textColor="@color/primary_text"
+                android:textSize="15sp"
+                android:padding="0dp"/>
+
+            <TextView
+                android:id="@+id/textView_forgotPw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Forgot password?"
+                android:textColor="@color/primary_text"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/btnSignin"
