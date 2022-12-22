@@ -57,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Email"
-            android:fontFamily="@font/public_sans_medium"
+            android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="15sp"
             android:layout_marginBottom="8dp"
-            android:textStyle="bold"/>
+           />
         <EditText
             android:id="@+id/editText_emailRegister"
             android:layout_width="match_parent"
@@ -78,10 +78,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Username"
-            android:fontFamily="@font/public_sans_medium"
+            android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="15sp"
             android:layout_marginBottom="8dp"
-            android:textStyle="bold"/>
+            />
         <EditText
             android:id="@+id/editText_userNameRegister"
             android:layout_width="match_parent"
@@ -99,10 +99,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Password"
-            android:fontFamily="@font/public_sans_medium"
+            android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="15sp"
             android:layout_marginBottom="8dp"
-            android:textStyle="bold"/>
+            />
         <EditText
             android:id="@+id/editText_passwordRegister"
             android:layout_width="match_parent"

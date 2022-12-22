@@ -3,6 +3,7 @@ package com.example.chatapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -96,11 +99,15 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editText_emailLogin.getText().toString();
                 String password = editText_passwordLogin.getText().toString();
                 if(password.isEmpty() && password.length() <6){
-                    editText_passwordLogin.setError("Invalid password");
+                    Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
+                    errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
+                    editText_passwordLogin.setError("Invalid password", errorIcon);
                     check = false;
                 }
                 if(email.isEmpty() ){
-                    editText_emailLogin.setError("Invalid email");
+                    Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
+                    errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
+                    editText_emailLogin.setError("Invalid email", errorIcon);
                     check = false;
                 }
                 if(check)

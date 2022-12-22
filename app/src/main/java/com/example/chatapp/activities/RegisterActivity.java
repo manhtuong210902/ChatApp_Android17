@@ -2,6 +2,7 @@ package com.example.chatapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.chatapp.R;
 import com.example.chatapp.db.DbReference;
@@ -57,17 +59,19 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = editText_emailRegister.getText().toString();
                 String username = editText_userNameRegister.getText().toString();
                 String password = editText_passwordRegister.getText().toString();
+                Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
+                errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                 boolean check = true;
                 if(password.isEmpty() && password.length() < 6){
-                    editText_passwordRegister.setError("Invalid password");
+                    editText_passwordRegister.setError("Invalid password", errorIcon);
                     check = false;
                 }
                 if(email.isEmpty() ){
-                    editText_emailRegister.setError("Invalid email");
+                    editText_emailRegister.setError("Invalid email", errorIcon);
                     check = false;
                 }
                 if(username.isEmpty()){
-                    editText_userNameRegister.setError("Invalid email");
+                    editText_userNameRegister.setError("Invalid email", errorIcon);
                     check = false;
                 }
                 if(check)

@@ -85,7 +85,7 @@ public class GroupFragment extends Fragment {
         recyclerView_GroupList = llGroups.findViewById(R.id.recyclerView_GroupList);
         recyclerView_GroupList.setHasFixedSize(true);
         recyclerView_GroupList.setLayoutManager(new GridLayoutManager(getContext(),1));
-        groupsAdapter = new GroupsAdapter(getContext(), groupsData);
+        groupsAdapter = new GroupsAdapter(getContext(), groupsData, recyclerViewInterface);
         recyclerView_GroupList.setAdapter(groupsAdapter);
 
         imageView_btnGroup.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +106,11 @@ public class GroupFragment extends Fragment {
             Intent intent = new Intent(getContext(), ChatMessageActivity.class);
             Bundle bundleSent = new Bundle();
             bundleSent.putString("idGroup", groupsData.get(position).getGid());
-//           bundleSent.putString("username", listChatUser.get(position).getName());
-//           bundleSent.putString("avatar", listChatUser.get(position).getImageId());
+            bundleSent.putString("nameGroup", groupsData.get(position).getName());
+            bundleSent.putString("imageGroup", groupsData.get(position).getImageId());
+            String uidChat = mAuth.getCurrentUser().getUid().equals(groupsData.get(position).getListUidMember().get(0))
+                    ? groupsData.get(position).getListUidMember().get(1) : groupsData.get(position).getListUidMember().get(0);
+            bundleSent.putString("uidChat", uidChat);
             intent.putExtras(bundleSent);
             startActivity(intent);
         }

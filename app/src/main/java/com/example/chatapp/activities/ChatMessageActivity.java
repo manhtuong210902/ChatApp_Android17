@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,7 @@ public class ChatMessageActivity extends AppCompatActivity {
     private TextView btnCancel;
     private int i;
     DownloadManager manager;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,7 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnSearch = (ImageView) findViewById(R.id.ivSearchBtn);
 
         getSupportActionBar().hide();
+        progressDialog = new ProgressDialog(this);
         btnSend = (ImageView) findViewById(R.id.btnSend);
         btnBackMain = (ImageView) findViewById(R.id.btnBackMain);
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
@@ -126,7 +130,6 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "aaa", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChatMessageActivity.this, SearchMessActivity.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("idGroup", idGroup);
@@ -231,13 +234,15 @@ public class ChatMessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String message = etInputMessage.getText().toString();
-                Date date = new Date();
-                Timestamp timestamp = new Timestamp(date.getTime());
-                String currentTime = timestamp.toString();
+                if(!message.trim().isEmpty()){
+                    Date date = new Date();
+                    Timestamp timestamp = new Timestamp(date.getTime());
+                    String currentTime = timestamp.toString();
 
-                ChatMessage chat = new ChatMessage(currentTime, message, mAuth.getCurrentUser().getUid(), "text","");
-                sendMessage(chat, idGroup);
-                etInputMessage.setText("");
+                    ChatMessage chat = new ChatMessage(currentTime, message.trim(), mAuth.getCurrentUser().getUid(), "text","");
+                    sendMessage(chat, idGroup);
+                    etInputMessage.setText("");
+                }
             }
         });
 
@@ -273,6 +278,7 @@ public class ChatMessageActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //sent image
         if(requestCode == 200){
             if(resultCode == RESULT_OK && data != null){
                 fileUri = data.getData();
@@ -311,7 +317,7 @@ public class ChatMessageActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(ChatMessageActivity.this, "Upload image successes!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
                 String currentTime = timestamp.toString();
@@ -323,7 +329,9 @@ public class ChatMessageActivity extends AppCompatActivity {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d("TAG", "Upload is " + progress + "% done");
+                progressDialog.setTitle("Sent a image");
+                progressDialog.setMessage("Uploading image");
+                progressDialog.show();
             }
         });
         return imageId;
@@ -363,60 +371,37 @@ public class ChatMessageActivity extends AppCompatActivity {
         DatabaseReference refMessageGroup = refGroups.child("lastMessage");
         DatabaseReference refTimeGroup = refGroups.child("lastTime");
         refTimeGroup.setValue(chat.getMessageTime());
+        String notification = "";
+
         if(chat.getTypeMessage().equals("image")){
             refMessageGroup.setValue("image");
-
+            notification = "sent a picture";
             // :(
-            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = snapshot.getValue(User.class);
-                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "sent a picture");
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
         }
         else if(chat.getTypeMessage().equals("file")){
             refMessageGroup.setValue("file pdf");
-            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = snapshot.getValue(User.class);
-                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), "sent a file");
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+            notification = "sent a file";
         }
         else{
             refMessageGroup.setValue(chat.getMessage());
-
+            notification = chat.getMessage();
             // :(
-            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = snapshot.getValue(User.class);
-                            FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), chat.getMessage());
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
         }
 
+        String finalNotification = notification;
+        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        FCMSend.pushNotification(getApplicationContext(), didUserChat, user.getName(), finalNotification);
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void readMessage(String idGroup){

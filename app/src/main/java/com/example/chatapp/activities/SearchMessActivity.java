@@ -1,6 +1,7 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SearchMessActivity extends Activity {
+public class SearchMessActivity extends AppCompatActivity {
     private ImageView btnSearch;
     private EditText search;
     private RecyclerView rvSearchMess;
@@ -41,6 +42,8 @@ public class SearchMessActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_mess);
+        getSupportActionBar().hide();
+
         rvSearchMess=(RecyclerView) findViewById(R.id.rcvSearchMess);
         btnSearch =(ImageView) findViewById(R.id.ivSearchMess);
         search= (EditText) findViewById(R.id.etSearchMess);

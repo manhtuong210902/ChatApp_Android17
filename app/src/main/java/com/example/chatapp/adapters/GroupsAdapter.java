@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
+import com.example.chatapp.interfaces.RecyclerViewInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -24,16 +25,18 @@ import com.example.chatapp.models.Group;
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsViewHolder>{
     Context context;
     List<Group> list;
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public GroupsAdapter(Context context, List<Group> list) {
+    public GroupsAdapter(Context context, List<Group> list, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.list = list;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
     @Override
     public GroupsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GroupsViewHolder(LayoutInflater.from(context).inflate(R.layout.group_item,parent, false));
+        return new GroupsViewHolder(LayoutInflater.from(context).inflate(R.layout.group_item,parent, false), recyclerViewInterface);
     }
 
     @Override
@@ -66,10 +69,23 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsViewHolder>{
 class GroupsViewHolder extends RecyclerView.ViewHolder{
     TextView textView_GroupName,  textView_GroupStatus;
     CircleImageView image_GroupAvatar;
-    public GroupsViewHolder(@NonNull View itemView) {
+    private final RecyclerViewInterface recyclerViewInterface;
+    public GroupsViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
         super(itemView);
         textView_GroupName = itemView.findViewById(R.id.textView_GroupName);
         textView_GroupStatus = itemView.findViewById(R.id.textView_GroupStatus);
         image_GroupAvatar = itemView.findViewById(R.id.image_GroupAvatar);
+        this.recyclerViewInterface = recyclerViewInterface;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(GroupsViewHolder.this.recyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        GroupsViewHolder.this.recyclerViewInterface.onItemClick(pos);
+                    }
+                }
+            }
+        });
     }
 }

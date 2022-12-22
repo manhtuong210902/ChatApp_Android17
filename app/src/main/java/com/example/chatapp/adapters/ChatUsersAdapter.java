@@ -66,14 +66,21 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         holder.tv_message.setText(listUser.get(position).getLastMessage());
 
         //sau này bỏ cái if
-        if (listUser.get(position).getLastTime() != null) {
-            holder.tv_time.setText(getLastTime(listUser.get(position).getLastTime()));
-        }
-
+        holder.tv_time.setText(getLastTime(listUser.get(position).getLastTime()));
         if(!user.isOnline()) {
             holder.im_online.setImageResource(R.color.yellow_circle);
         } else {
             holder.im_online.setImageResource(R.color.green_circle);
+        }
+
+        if(listUser.get(position).getLastMessage().equals("file pdf")){
+            holder.tv_message.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_attachment_line, 0, 0, 0);
+            holder.tv_message.setCompoundDrawablePadding(5);
+        }
+
+        if(listUser.get(position).getLastMessage().equals("image")){
+            holder.tv_message.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_image_fill, 0, 0, 0);
+            holder.tv_message.setCompoundDrawablePadding(5);
         }
     }
 

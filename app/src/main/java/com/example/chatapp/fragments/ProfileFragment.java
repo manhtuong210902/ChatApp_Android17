@@ -1,6 +1,7 @@
 package com.example.chatapp.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -71,6 +72,7 @@ public class ProfileFragment extends Fragment {
     CircleImageView civImage;
     TextView tvUserName, tvProfileName, tvProfileEmail;
     boolean nighMode;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class ProfileFragment extends Fragment {
         mStorage = FirebaseStorage.getInstance().getReference();
 
         //UI
+        progressDialog = new ProgressDialog(getContext());
         civImage = llProfile.findViewById(R.id.civImage);
         tvUserName = llProfile.findViewById(R.id.tvUserName);
         tvProfile = llProfile.findViewById(R.id.c_tvProfile);
@@ -193,9 +196,6 @@ public class ProfileFragment extends Fragment {
 
         //logout
 
-
-        mAuth = FirebaseAuth.getInstance();
-
         //set avatar
         avt = (CircleImageView) llProfile.findViewById(R.id.civImage);
         avt.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +215,7 @@ public class ProfileFragment extends Fragment {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), false);
+//                DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), false);
                 editor.putString("EmailLogin", "");
                 editor.putString("PasswordLogin", "");
                 editor.commit();
@@ -261,7 +261,7 @@ public class ProfileFragment extends Fragment {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getActivity(), "Upload image successes!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DbReference.writeImageUser(uid, imageId);
                 avt.setImageBitmap(BitmapFactory.decodeByteArray(fileInBytes, 0, fileInBytes.length));
@@ -270,7 +270,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d("TAG", "Upload is " + progress + "% done");
+                progressDialog.setTitle("Change avatar");
+                progressDialog.setMessage("Uploading image");
+                progressDialog.show();
             }
         });
         return imageId;

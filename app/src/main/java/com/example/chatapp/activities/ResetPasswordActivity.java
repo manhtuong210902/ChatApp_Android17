@@ -10,13 +10,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ResetPasswordActivity extends Activity {
+public class ResetPasswordActivity extends AppCompatActivity {
     ImageView btn_close;
     EditText editText_emailResetPw;
     Button btn_Done;
@@ -25,6 +26,7 @@ public class ResetPasswordActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+        getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
 
