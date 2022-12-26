@@ -57,7 +57,7 @@ public class SearchMessAdapter extends RecyclerView.Adapter<SearchMessAdapter.Vi
         ChatMessage cm = listMess.get(position);
         String mess = cm.getMessage();
         holder.tvMess.setText(mess);
-        ArrayList<String> img=new ArrayList<>();
+        ArrayList<User> listUser=new ArrayList<>();
         DatabaseReference databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -66,11 +66,12 @@ public class SearchMessAdapter extends RecyclerView.Adapter<SearchMessAdapter.Vi
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User u=dataSnapshot.getValue(User.class);
                     if(u.getUid().equals(cm.getSendBy())) {
-                        img.add(u.getImage());
+                        listUser.add(u);
                         break;
                     }
                 }
-                FirebaseStorage.getInstance().getReference().child("images/"+img.get(0))
+                holder.tvNameMess.setText(listUser.get(0).getName());
+                FirebaseStorage.getInstance().getReference().child("images/"+ listUser.get(0).getImage())
                         .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -101,10 +102,12 @@ public class SearchMessAdapter extends RecyclerView.Adapter<SearchMessAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView civAvatar;
         TextView tvMess;
+        TextView tvNameMess;
         public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             civAvatar = (CircleImageView)itemView.findViewById(R.id.civSearchAvt);
             tvMess = (TextView) itemView.findViewById(R.id.tvSearchMess);
+            tvNameMess = (TextView) itemView.findViewById(R.id.tvSearchName);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

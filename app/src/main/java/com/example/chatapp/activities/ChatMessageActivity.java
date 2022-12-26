@@ -275,6 +275,20 @@ public class ChatMessageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //handle scroll
+        rcvListChat.post(new Runnable() {
+            @Override
+            public void run() {
+                if(i<=3){
+                    rcvListChat.smoothScrollToPosition(i);
+                }
+                else {
+                    rcvListChat.smoothScrollToPosition(i-3);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -442,24 +456,8 @@ public class ChatMessageActivity extends AppCompatActivity {
                             }
                         });
                     }});
-                RecyclerView recyclerView=(RecyclerView) findViewById(R.id.rcvListChat);
 
-                recyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(i<=3){
-                        recyclerView.smoothScrollToPosition(i);
-                        }
-                        else {
-                            recyclerView.smoothScrollToPosition(i-3);
-                        }
-
-                    }
-                });
                 rcvListChat.setAdapter(adapter);
-
-
-
             }
 
             @Override

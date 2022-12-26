@@ -18,15 +18,33 @@
             android:layout_height="35dp"
             android:src="@drawable/cute1"
             android:layout_marginRight="16dp"/>
-        <TextView
-            android:id="@+id/tvSearchMess"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="#Genaral"
-            android:fontFamily="@font/public_sans_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/primary_text"
-            android:gravity="center"
-            />
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvSearchName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#Genaral"
+                    android:fontFamily="@font/public_sans_semi_bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/primary_text"
+                    android:gravity="center"
+                    android:layout_marginBottom="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvSearchMess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hello"
+                    android:fontFamily="@font/public_sans_regular"
+                    android:textSize="14sp"
+                    android:textColor="@color/secondary_text"
+                    android:gravity="center"
+                    />
+        </LinearLayout>
 
 </LinearLayout>
