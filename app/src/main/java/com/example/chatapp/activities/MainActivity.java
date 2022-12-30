@@ -98,8 +98,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean status = sharedPreferences.getBoolean("status", true);
+
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DbReference.writeIsOnlineUserAndGroup(uid, true);
+        if(status) {
+            DbReference.writeIsOnlineUserAndGroup(uid, true);
+        }
     }
 
     @Override

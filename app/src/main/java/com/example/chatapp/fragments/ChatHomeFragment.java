@@ -4,9 +4,11 @@ import static com.example.chatapp.db.DbReference.writeNewGroup;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,7 +97,17 @@ public class ChatHomeFragment extends Fragment {
             }
         });
 
-        DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), true);
+//        ShareReferen
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        boolean showNotification = sharedPreferences.getBoolean("notification", true);
+        boolean status = sharedPreferences.getBoolean("status", true);
+
+        if(status) {
+            DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), true);
+        } else {
+            DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), false);
+        }
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -107,7 +119,9 @@ public class ChatHomeFragment extends Fragment {
 
                         // Get new FCM registration token
                         String token = task.getResult();
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(token);
+                        if(showNotification) {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(token);
+                        }
                         // Log and toast
                         Log.i("TokenDevice", token);
 //                        Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();

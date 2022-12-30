@@ -17,14 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
@@ -32,8 +30,10 @@ import com.example.chatapp.R;
 import com.example.chatapp.activities.LoginActivity;
 import com.example.chatapp.db.DbReference;
 import com.example.chatapp.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,8 +48,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -58,7 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
     LinearLayout llProfile, btnShowInfo, btnShowOptions, expandInfo, expandOptions;
     ImageView iconDropInfo, iconDropOptions;
-    Switch btnSwitchTheme;
+    Switch btnSwitchTheme, btnSwitchNotification, btnSwitchStatus;
     TextView tvProfile;
     Button btn_logout;
 
@@ -69,9 +67,11 @@ public class ProfileFragment extends Fragment {
     private Uri imageUri;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    CircleImageView civImage;
-    TextView tvUserName, tvProfileName, tvProfileEmail;
+    CircleImageView civImage, civOnlineUser;
+    TextView tvUserName, tvProfileName, tvProfileEmail, tvStatus;
     boolean nighMode;
+    boolean showNotification;
+    boolean status;
     private ProgressDialog progressDialog;
 
     @Override
@@ -85,6 +85,7 @@ public class ProfileFragment extends Fragment {
         //UI
         progressDialog = new ProgressDialog(getContext());
         civImage = llProfile.findViewById(R.id.civImage);
+        civOnlineUser = llProfile.findViewById(R.id.civOnlineCircle);
         tvUserName = llProfile.findViewById(R.id.tvUserName);
         tvProfile = llProfile.findViewById(R.id.c_tvProfile);
         btnShowInfo = llProfile.findViewById(R.id.btnShowInfo);
@@ -99,8 +100,11 @@ public class ProfileFragment extends Fragment {
         iconDropOptions = llProfile.findViewById(R.id.iconDropOptions);
         tvProfileName = llProfile.findViewById(R.id.tvProfileName);
         tvProfileEmail = llProfile.findViewById(R.id.tvProfileEmail);
+        tvStatus = llProfile.findViewById(R.id.tvStatus);
 
         btnSwitchTheme = llProfile.findViewById(R.id.btnSwitchTheme);
+        btnSwitchNotification = llProfile.findViewById(R.id.btnSwitchNotify);
+        btnSwitchStatus = llProfile.findViewById(R.id.btnSwitchStatus);
 
         //set expandlist
         btnShowInfo.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +130,8 @@ public class ProfileFragment extends Fragment {
         //config sharedPreferences
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = sharedPreferences.edit();
+        showNotification = sharedPreferences.getBoolean("notification", true);
+        status = sharedPreferences.getBoolean("status", true);
         nighMode = sharedPreferences.getBoolean("night", false); //light mode default false
         boolean reRender = sharedPreferences.getBoolean("render", false);
 
@@ -137,6 +143,16 @@ public class ProfileFragment extends Fragment {
 
         if(nighMode){
             btnSwitchTheme.setChecked(true);
+        }
+        if(showNotification) {
+            btnSwitchNotification.setChecked(true);
+        }
+        if(status) {
+            btnSwitchStatus.setChecked(true);
+//            FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("isOnline").setValue(true);
+        } else {
+            tvStatus.setText("Offline");
+            civOnlineUser.setBorderColor(getResources().getColor(R.color.yellow_circle));
         }
         //set darkmode
         btnSwitchTheme.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +167,59 @@ public class ProfileFragment extends Fragment {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     editor.putBoolean("night", true);
                     editor.putBoolean("render", true);
+                }
+                editor.commit();
+            }
+        });
+
+        //click notification
+        btnSwitchNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sharedPreferences.getBoolean("notification", true) == true){
+                    editor.putBoolean("notification", false);
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("notification").setValue(false);
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("did").get()
+                            .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    String did = String.valueOf(task.getResult().getValue()) + "OFF";
+                                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(did);
+                                }
+                            });
+                }
+                else{
+                    editor.putBoolean("notification", true);
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("notification").setValue(true);
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("did").get()
+                            .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    String did = String.valueOf(task.getResult().getValue());
+                                    String validDid = did.substring(0, did.length() - 3);
+                                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("did").setValue(validDid);
+                                }
+                            });
+                }
+                editor.commit();
+            }
+        });
+
+        //click status
+        btnSwitchStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sharedPreferences.getBoolean("status", true) == true){
+                    editor.putBoolean("status", false);
+                    tvStatus.setText("Offline");
+                    civOnlineUser.setBorderColor(getResources().getColor(R.color.yellow_circle));
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("isOnline").setValue(false);
+                }
+                else{
+                    editor.putBoolean("status", true);
+                    tvStatus.setText("Active");
+                    civOnlineUser.setBorderColor(getResources().getColor(R.color.green_circle));
+                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid()).child("isOnline").setValue(true);
                 }
                 editor.commit();
             }
