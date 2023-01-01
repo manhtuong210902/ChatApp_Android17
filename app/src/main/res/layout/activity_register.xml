@@ -69,9 +69,17 @@
             android:fontFamily="@font/public_sans_regular"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
-            android:layout_marginBottom="16dp"
             android:drawableLeft="@drawable/ic_mail_line"
             android:drawablePadding="10dp"
+            />
+        <TextView
+            android:id="@+id/textView_errEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/red_text"
+            android:textStyle="italic"
+            android:layout_marginStart="10dp"
             />
 
         <TextView
@@ -90,11 +98,18 @@
             android:fontFamily="@font/public_sans_regular"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
-            android:layout_marginBottom="16dp"
             android:drawableLeft="@drawable/ic_user_2_line"
             android:drawablePadding="10dp"
             />
-
+        <TextView
+            android:id="@+id/textView_errUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/red_text"
+            android:textStyle="italic"
+            android:layout_marginStart="10dp"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -111,9 +126,17 @@
             android:textSize="15sp"
             android:fontFamily="@font/public_sans_regular"
             android:inputType="textPassword"
-            android:layout_marginBottom="24dp"
             android:drawableLeft="@drawable/ic_lock_2_line"
             android:drawablePadding="10dp"/>
+        <TextView
+            android:id="@+id/textView_errPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/red_text"
+            android:textStyle="italic"
+            android:layout_marginStart="10dp"
+            />
 
         <Button
             android:layout_width="match_parent"

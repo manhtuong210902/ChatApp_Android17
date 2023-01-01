@@ -68,10 +68,18 @@
             android:hint="admin@gmail.com"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
-            android:layout_marginBottom="16dp"
             android:fontFamily="@font/public_sans_regular"
             android:drawableLeft="@drawable/ic_user_2_line"
             android:drawablePadding="10dp"
+            />
+        <TextView
+            android:id="@+id/textView_errEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/red_text"
+            android:textStyle="italic"
+            android:layout_marginStart="10dp"
             />
 
 
@@ -111,10 +119,17 @@
             android:fontFamily="@font/public_sans_regular"
             android:textSize="15sp"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp"
             android:drawableLeft="@drawable/ic_lock_2_line"
             android:drawablePadding="10dp"/>
-
+        <TextView
+            android:id="@+id/textView_errPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/red_text"
+            android:textStyle="italic"
+            android:layout_marginStart="10dp"
+            />
 
         <CheckBox
             android:id="@+id/checkbox_login"

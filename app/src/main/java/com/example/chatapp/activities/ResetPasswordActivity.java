@@ -2,15 +2,18 @@ package com.example.chatapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.chatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +24,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     ImageView btn_close;
     EditText editText_emailResetPw;
     Button btn_Done;
+    TextView textView_errEmail;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
-
+        textView_errEmail = findViewById(R.id.textView_errEmail);
         //back screen
         btn_close = findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +51,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = editText_emailResetPw.getText().toString();
                 if (email.isEmpty()) {
-                    editText_emailResetPw.setError("Required");
+                    Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
+                    errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
+                    editText_emailResetPw.setError("Invalid email", errorIcon);
+                    textView_errEmail.setText("Invalid email");
                 } else {
+                    textView_errEmail.setText("");
                     forgetPass(email);
                 }
             }

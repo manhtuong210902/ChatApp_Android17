@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText editText_emailRegister, editText_userNameRegister, editText_passwordRegister;
-    TextView btn_login;
+    TextView btn_login, textView_errEmail, textView_errUsername, textView_errPw;
     Button btn_signup;
 
     private FirebaseAuth mAuth;
@@ -40,6 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         editText_passwordRegister = findViewById(R.id.editText_passwordRegister);
         btn_login = findViewById(R.id.btn_login);
         btn_signup = findViewById(R.id.btn_signup);
+        textView_errEmail = findViewById(R.id.textView_errEmail);
+        textView_errUsername = findViewById(R.id.textView_errUsername);
+        textView_errPw = findViewById(R.id.textView_errPw);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -62,17 +65,29 @@ public class RegisterActivity extends AppCompatActivity {
                 Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
                 errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                 boolean check = true;
-                if(password.isEmpty() && password.length() < 6){
+                if(password.isEmpty() || password.length() < 6){
                     editText_passwordRegister.setError("Invalid password", errorIcon);
+                    textView_errPw.setText("Invalid password");
                     check = false;
+                }
+                else {
+                    textView_errPw.setText("");
                 }
                 if(email.isEmpty() ){
                     editText_emailRegister.setError("Invalid email", errorIcon);
+                    textView_errEmail.setText("Invalid email");
                     check = false;
                 }
+                else {
+                    textView_errEmail.setText("");
+                }
                 if(username.isEmpty()){
-                    editText_userNameRegister.setError("Invalid email", errorIcon);
+                    editText_userNameRegister.setError("Invalid username", errorIcon);
                     check = false;
+                    textView_errUsername.setText("Invalid username");
+                }
+                else {
+                    textView_errUsername.setText("");
                 }
                 if(check)
                     createUserWithEmailPass( );

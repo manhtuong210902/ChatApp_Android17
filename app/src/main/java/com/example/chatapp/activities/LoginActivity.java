@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    TextView btnSignup, textView_forgotPw;
+    TextView btnSignup, textView_forgotPw, textView_errPw, textView_errEmail;
     EditText editText_emailLogin, editText_passwordLogin;
     CheckBox checkbox_login;
     Button btnSignin;
@@ -58,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         editText_passwordLogin = findViewById(R.id.editText_passwordLogin);
         checkbox_login = findViewById(R.id.checkbox_login);
         btnSignin = findViewById(R.id.btnSignin);
+        textView_errPw = findViewById(R.id.textView_errPw);
+        textView_errEmail = findViewById(R.id.textView_errEmail);
 
         String savedData = sharedPreferences.getString("Email", "");
         if(!savedData.isEmpty()){
@@ -98,17 +100,25 @@ public class LoginActivity extends AppCompatActivity {
                 boolean check = true;
                 String email = editText_emailLogin.getText().toString();
                 String password = editText_passwordLogin.getText().toString();
-                if(password.isEmpty() && password.length() <6){
+                if(password.isEmpty() || password.length() <6){
                     Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
                     errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                     editText_passwordLogin.setError("Invalid password", errorIcon);
+                    textView_errPw.setText("Invalid password");
                     check = false;
+                }
+                else {
+                    textView_errPw.setText("");
                 }
                 if(email.isEmpty() ){
                     Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
                     errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                     editText_emailLogin.setError("Invalid email", errorIcon);
+                    textView_errEmail.setText("Invalid email");
                     check = false;
+                }
+                else {
+                    textView_errEmail.setText("");
                 }
                 if(check)
                     logInWithEmailAndPassword( );
