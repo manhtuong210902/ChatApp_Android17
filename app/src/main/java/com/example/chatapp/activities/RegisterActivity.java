@@ -44,6 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
         textView_errUsername = findViewById(R.id.textView_errUsername);
         textView_errPw = findViewById(R.id.textView_errPw);
 
+        textView_errEmail.setVisibility(View.GONE);
+        textView_errUsername.setVisibility(View.GONE);
+        textView_errPw.setVisibility(View.GONE);
+
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -67,26 +71,32 @@ public class RegisterActivity extends AppCompatActivity {
                 boolean check = true;
                 if(password.isEmpty() || password.length() < 6){
                     editText_passwordRegister.setError("Invalid password", errorIcon);
+                    textView_errPw.setVisibility(View.VISIBLE);
                     textView_errPw.setText("Invalid password");
                     check = false;
                 }
                 else {
+                    textView_errPw.setVisibility(View.GONE);
                     textView_errPw.setText("");
                 }
                 if(email.isEmpty() ){
                     editText_emailRegister.setError("Invalid email", errorIcon);
+                    textView_errEmail.setVisibility(View.VISIBLE);
                     textView_errEmail.setText("Invalid email");
                     check = false;
                 }
                 else {
+                    textView_errEmail.setVisibility(View.GONE);
                     textView_errEmail.setText("");
                 }
                 if(username.isEmpty()){
                     editText_userNameRegister.setError("Invalid username", errorIcon);
                     check = false;
+                    textView_errUsername.setVisibility(View.VISIBLE);
                     textView_errUsername.setText("Invalid username");
                 }
                 else {
+                    textView_errUsername.setVisibility(View.GONE);
                     textView_errUsername.setText("");
                 }
                 if(check)

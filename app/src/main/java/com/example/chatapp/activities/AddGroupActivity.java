@@ -132,7 +132,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     listUidMember.add(item.getInfo().getUid());
                 });
                 listUidMember.add(mAuth.getCurrentUser().getUid().toString());
-                String groupID = db.writeNewGroup(groupName, listUidMember, "avtdefault.jpg", true, "", "");
+                String groupID = db.writeNewGroup(groupName, listUidMember, "avtgroup.jpg", true, "", "");
                 Intent intent = new Intent(AddGroupActivity.this, ChatMessageActivity.class);
                 Bundle bundleSent = new Bundle();
                 bundleSent.putString("idGroup", groupID);

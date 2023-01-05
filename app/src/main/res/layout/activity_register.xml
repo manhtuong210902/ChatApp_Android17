@@ -76,13 +76,13 @@
             android:id="@+id/textView_errEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:textColor="@color/red_text"
             android:textStyle="italic"
             android:layout_marginStart="10dp"
             />
 
         <TextView
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Username"
@@ -105,7 +105,6 @@
             android:id="@+id/textView_errUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:textColor="@color/red_text"
             android:textStyle="italic"
             android:layout_marginStart="10dp"
@@ -116,6 +115,7 @@
             android:text="Password"
             android:fontFamily="@font/public_sans_semi_bold"
             android:textSize="15sp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             />
         <EditText
@@ -132,7 +132,6 @@
             android:id="@+id/textView_errPw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:textColor="@color/red_text"
             android:textStyle="italic"
             android:layout_marginStart="10dp"
@@ -142,6 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign up"
+            android:layout_marginTop="24dp"
             android:id="@+id/btn_signup"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/public_sans_medium"

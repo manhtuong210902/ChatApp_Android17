@@ -60,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSignin = findViewById(R.id.btnSignin);
         textView_errPw = findViewById(R.id.textView_errPw);
         textView_errEmail = findViewById(R.id.textView_errEmail);
+        textView_errEmail.setVisibility(View.GONE);
+        textView_errPw.setVisibility(View.GONE);
 
         String savedData = sharedPreferences.getString("Email", "");
         if(!savedData.isEmpty()){
@@ -104,20 +106,24 @@ public class LoginActivity extends AppCompatActivity {
                     Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
                     errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                     editText_passwordLogin.setError("Invalid password", errorIcon);
+                    textView_errPw.setVisibility(View.VISIBLE);
                     textView_errPw.setText("Invalid password");
                     check = false;
                 }
                 else {
+                    textView_errPw.setVisibility(View.GONE);
                     textView_errPw.setText("");
                 }
                 if(email.isEmpty() ){
                     Drawable errorIcon = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_error_warning_line);
                     errorIcon.setBounds(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight());
                     editText_emailLogin.setError("Invalid email", errorIcon);
+                    textView_errEmail.setVisibility(View.VISIBLE);
                     textView_errEmail.setText("Invalid email");
                     check = false;
                 }
                 else {
+                    textView_errEmail.setVisibility(View.GONE);
                     textView_errEmail.setText("");
                 }
                 if(check)
