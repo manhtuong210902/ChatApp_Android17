@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,9 @@ import com.example.chatapp.activities.AddGroupActivity;
 import com.example.chatapp.activities.ChatMessageActivity;
 import com.example.chatapp.adapters.ChatUsersAdapter;
 import com.example.chatapp.db.DbReference;
+import com.example.chatapp.models.AddGroupUser;
 import com.example.chatapp.models.Group;
+import com.example.chatapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GroupFragment extends Fragment {
     private LinearLayout llGroups;
@@ -42,6 +46,7 @@ public class GroupFragment extends Fragment {
     private GroupsAdapter groupsAdapter;
     private ChatUsersAdapter chatUsersAdapter;
     private ImageView imageView_btnGroup;
+    private SearchView searchView_Search;
     //
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
@@ -52,6 +57,7 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         llGroups = (LinearLayout) inflater.inflate(R.layout.fragment_group, container, false);
         imageView_btnGroup= llGroups.findViewById(R.id.imageView_btnGroup);
+        searchView_Search = llGroups.findViewById(R.id.searchView_Search);
 
         //database
         mDatabase = DbReference.getInstance();
@@ -80,6 +86,27 @@ public class GroupFragment extends Fragment {
                 Toast.makeText(getActivity(), "Get groups failed!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //search group
+        searchView_Search.clearFocus();
+        searchView_Search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()) {
+                    searchGroupByName(newText);
+                } else {
+                    searchAllGroupOfUser();
+                }
+                return false;
+            }
+        });
+
+
 //        recyclerView_GroupList = findViewById(R.id.recyclerView_GroupList);
         chatUsersAdapter = new ChatUsersAdapter(groupsData , getContext(), recyclerViewInterface);
         recyclerView_GroupList = llGroups.findViewById(R.id.recyclerView_GroupList);
@@ -96,6 +123,52 @@ public class GroupFragment extends Fragment {
             }
         });
         return llGroups;
+    }
+
+    private void searchAllGroupOfUser(){
+        mDatabase = FirebaseDatabase.getInstance().getReference("Groups");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupsData.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Group group = dataSnapshot.getValue(Group.class);
+
+                    if(group.getListUidMember().size() > 2  && group.getListUidMember().toString().contains(mAuth.getCurrentUser().getUid()) ){
+                        groupsData.add(group);
+                    }
+                }
+                groupsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void searchGroupByName(String textSearch){
+        mDatabase = FirebaseDatabase.getInstance().getReference("Groups");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupsData.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Group group = dataSnapshot.getValue(Group.class);
+
+                    if(group.getName().toLowerCase(Locale.ROOT).contains(textSearch) && group.getListUidMember().size() > 2  && group.getListUidMember().toString().contains(mAuth.getCurrentUser().getUid()) ){
+                        groupsData.add(group);
+                    }
+                }
+                groupsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private final RecyclerViewInterface recyclerViewInterface = new RecyclerViewInterface() {
