@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.chatapp.activities.ChatMessageActivity;
+import com.example.chatapp.activities.ForwardingMessageActivity;
+import com.example.chatapp.activities.ImageClickActivity;
 import com.example.chatapp.models.ChatMessage;
 import com.example.chatapp.R;
 import com.example.chatapp.models.User;
@@ -55,6 +59,9 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     public interface OnItemLongClickListener {
         void onItemLongClick(ChatMessage item);
+    }
+    public interface OnItemClickListener{
+        void onItemClick(ChatMessage item);
     }
 
 
@@ -109,6 +116,16 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                             // Handle any errors
                         }
                     });
+            holder.ivShowMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ImageClickActivity.class);
+                    Bundle bundleSent = new Bundle();
+                    bundleSent.putString("imgSrc", chatItem.getMessage());
+                    intent.putExtras(bundleSent);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(chatItem.getSendBy());
