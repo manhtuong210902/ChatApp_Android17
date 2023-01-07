@@ -279,16 +279,17 @@ public class ProfileFragment extends Fragment {
         });
 
         //btn logout
+        String userId = mAuth.getCurrentUser().getUid();
         btn_logout = llProfile.findViewById(R.id.btn_logout);
         Intent intent = new Intent(this.getActivity(), LoginActivity.class);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                DbReference.writeIsOnlineUserAndGroup(mAuth.getCurrentUser().getUid(), false);
+                DbReference.writeIsOnlineUserAndGroup(userId, false);
                 editor.putString("EmailLogin", "");
                 editor.putString("PasswordLogin", "");
                 editor.commit();
-                mAuth.signOut();
+//                mAuth.signOut();
                 startActivity(intent);
             }
         });
