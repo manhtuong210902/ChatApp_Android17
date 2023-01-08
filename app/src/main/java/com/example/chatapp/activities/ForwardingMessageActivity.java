@@ -121,9 +121,9 @@ public class ForwardingMessageActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("Groups")
                 .orderByChild("lastTime")
                 .addValueEventListener(new ValueEventListener() {
-
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        listGroup.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Group group = dataSnapshot.getValue(Group.class);
                             if(group.getListUidMember().contains(mAuth.getCurrentUser().getUid()) && !group.getLastMessage().isEmpty()) {
@@ -259,7 +259,7 @@ public class ForwardingMessageActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
                     if(!mAuth.getCurrentUser().getUid().equals(user.getUid())){
                         for(int j=0;j<listGroup.size();j++) {
-                            if(listGroup.get(j).getListUidMember().contains(user.getUid()))
+                            if(listGroup.get(j).getListUidMember().contains(user.getUid()) && listGroup.get(j).getListUidMember().size()==2)
                                 listFriend.add(new AddGroupUser(user, false));
                         }
                     }
