@@ -19,11 +19,25 @@
         android:theme="@style/Theme.ChatApp"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ImageClickActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.ForwardingMessageActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.ResetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".activities.SearchMessActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activities.ProfileUserActivity"
             android:exported="false" />
@@ -41,8 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true" />

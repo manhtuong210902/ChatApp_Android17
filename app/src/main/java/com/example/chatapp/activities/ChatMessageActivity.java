@@ -66,7 +66,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMessageActivity extends AppCompatActivity {
     private ImageView btnSend, btnBackMain, btnSentImage, btnSentEmoji, btnSentFile,btnSearch;
-    private TextView btnDeleteMessage;
+    private TextView btnDeleteMessage,btnForwardingMessage;
     private EditText etInputMessage;
     private RecyclerView rcvListChat;
     private CircleImageView civGroupImg;
@@ -91,6 +91,7 @@ public class ChatMessageActivity extends AppCompatActivity {
     DownloadManager manager;
     private ProgressDialog progressDialog;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +108,7 @@ public class ChatMessageActivity extends AppCompatActivity {
         btnSentImage = (ImageView) findViewById(R.id.btnSentImage);
         btnSentFile = (ImageView) findViewById(R.id.btnSentFile);
         btnSentEmoji = (ImageView) findViewById(R.id.btnSentEmoji);
+        btnForwardingMessage = (TextView) findViewById(R.id.btnForwardingMessage);
         btnDeleteMessage = (TextView) findViewById(R.id.btnDeleteMessage);
         etInputMessage = (EditText) findViewById(R.id.etInputMessage);
         rcvListChat = (RecyclerView) findViewById(R.id.rcvListChat);
@@ -233,6 +235,7 @@ public class ChatMessageActivity extends AppCompatActivity {
 
         //handle sent message
         btnSend.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 String message = etInputMessage.getText().toString();
@@ -261,6 +264,7 @@ public class ChatMessageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         civGroupImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -453,6 +457,18 @@ public class ChatMessageActivity extends AppCompatActivity {
                                 snapshot.child(item.getMessageId()).getRef().removeValue();
                                 llSendOption.setVisibility(View.VISIBLE);
                                 llChatOption.setVisibility(View.GONE);
+                            }
+                        });
+                        btnForwardingMessage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(ChatMessageActivity.this, ForwardingMessageActivity.class);
+                                Bundle bundleSent = new Bundle();
+                                bundleSent.putString("didUserChat", didUserChat);
+                                bundleSent.putString("chatMessage",item.getMessage());
+                                bundleSent.putString("typeMessage",item.getTypeMessage());
+                                intent.putExtras(bundleSent);
+                                startActivity(intent);
                             }
                         });
                     }});
