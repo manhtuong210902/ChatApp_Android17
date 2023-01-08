@@ -159,7 +159,7 @@ public class SearchUsersActivity extends AppCompatActivity {
                         break;
                     }
                     User user = dataSnapshot.getValue(User.class);
-                    if(!mAuth.getCurrentUser().getUid().equals(user.getUid()) && user.getName().toLowerCase(Locale.ROOT).contains(textSearch)){
+                    if(!mAuth.getCurrentUser().getUid().equals(user.getUid()) && (user.getName().toLowerCase(Locale.ROOT).contains(textSearch) || user.getEmail().toLowerCase(Locale.ROOT).contains(textSearch))){
                         listUser.add(user);
                     }
                 }

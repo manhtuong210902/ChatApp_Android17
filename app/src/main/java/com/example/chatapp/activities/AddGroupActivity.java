@@ -212,7 +212,6 @@ public class AddGroupActivity extends AppCompatActivity {
         @Override
         public void onMemberClicked(int pos, boolean isCheck) {
             if(isCheck){
-                Toast.makeText(AddGroupActivity.this, "True", Toast.LENGTH_SHORT).show();
                 listFriend.get(pos).setChecked(true);
 //                addGroupAdapter.notifyDataSetChanged();
                 addGroupAdapter.notifyItemChanged(pos);
